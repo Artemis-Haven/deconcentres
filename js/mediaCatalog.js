@@ -7,7 +7,17 @@ export const MEDIA_CATALOG = {
             { name: "Europe 1", img: "europe1.png", logo: { style: "plain", wide: true} },
             { name: "Capital", img: "capital.png", logo: { style: "plain", wide: true} },
             { name: "Voici", img: "voici.png", logo: { style: "white", wide: true} },
-            { name: "Journal du dimanche", img: "jdd.png", logo: { style: "white", showName: true} }
+            { name: "Journal du dimanche", img: "jdd.png", logo: { style: "white", showName: true} },
+            { name: "CStar", img: "cstar.png" },
+            { name: "Europe 2", img: "europe2.png" },
+            { name: "RFM", img: "rfm.png" },
+            { name: "Femme Actuelle", img: "femmeactuelle.png" },
+            { name: "GEO", img: "geo.png" },
+            { name: "Télé-Loisirs", img: "teleloisirs.png" },
+            { name: "Ça m'intéresse", img: "caminteresse.png" },
+            { name: "Télé Z", img: "telez.png" },
+            { name: "Ici Paris", img: "iciparis.png" },
+            { name: "France Dimanche", img: "francedimanche.png" }
         ]
     },
 
@@ -18,7 +28,8 @@ export const MEDIA_CATALOG = {
             { name: "BFM TV", img: "bfmtv.png", logo: { style: "plain", wide: true} },
             { name: "La Provence", img: "laprovence.png", logo: { style: "white", showName: true} },
             { name: "Brut", img: "brut.png", logo: { style: "plain", wide: true} },
-            { name: "La Tribune", img: "latribune.jpg", logo: { style: "plain", wide: true} }
+            { name: "La Tribune", img: "latribune.jpg", logo: { style: "plain", wide: true} },
+            { name: "Corse-Matin", img: "corsematin.png" }
         ]
     },
 
@@ -27,22 +38,27 @@ export const MEDIA_CATALOG = {
         items: [
             { name: "Le Parisien", img: "leparisien.png", logo: { style: "plain", wide: true} },
             { name: "Les Echos", img: "lesechos.png", logo: { style: "plain", wide: true} },
-            { name: "Science et Avenir", img: "scienceavenir.jpg", logo: { style: "plain", wide: true} },
+            { name: "Sciences et Avenir", img: "scienceavenir.jpg", logo: { style: "plain", wide: true} },
             { name: "Paris Match", img: "parismatch.png", logo: { style: "plain", wide: true} },
-            { name: "Aujourd'hui en France", img: "aujourdhui.png", logo: { style: "plain", wide: true} }
+            { name: "Aujourd'hui en France", img: "aujourdhui.png", logo: { style: "plain", wide: true} },
+            { name: "Radio Classique", img: "radioclassique.png" },
+            { name: "Challenges", img: "challenges.png" },
+            { name: "L'Opinion", img: "lopinion.png" },
+            { name: "L'Agefi", img: "lagefi.png" },
+            { name: "Investir", img: "investir.png" }
         ]
     },
 
     yellow: {
-        owner: "Daniel Krétinsky",
+        owner: "Martin Bouygues",
         items: [
             { name: "TF1", img: "tf1.png" },
             { name: "LCI", img: "lci.png" },
             { name: "TMC", img: "tmc.png" },
-            { name: "Marianne", img: "marianne.png" },
-            { name: "Elle", img: "elle.png" },
-            { name: "Franc Tireur", img: "franctireur.png" },
-            { name: "Loopsider", img: "loopsider.png" }
+            { name: "TFX", img: "tfx.png" },
+            { name: "TV Breizh", img: "tvbreizh.png" },
+            { name: "Ushuaïa TV", img: "ushuaiatv.png" },
+            { name: "Histoire TV", img: "histoiretv.png" }
         ]
     },
 
