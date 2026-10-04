@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon Jeu Match-3</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <header class="header">
+            <h1 class="header-title">Le Monopoly des Médias</h1>
+
+            <div class="scoreboard">
+                <div class="scoreboard-item">
+                    <span class="scoreboard-label">Score</span>
+                    <span id="score" class="scoreboard-value">0</span>
+                </div>
+                <div class="scoreboard-item">
+                    <span class="scoreboard-label">Record</span>
+                    <span id="best-score" class="scoreboard-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+
+            <aside class="sidebar">
+
+                <section class="sidebar-section">
+                    <h2>Indice de pluralisme</h2>
+                    <p id="pluralism" class="pluralism" data-tier="0">×2</p>
+                    <p class="sidebar-note">
+                        <span id="owner-count">0</span> propriétaire(s) sur la grille
+                    </p>
+                </section>
+
+                <section class="sidebar-section">
+                    <h2>Série indépendante</h2>
+                    <p id="series" class="series">Aucune série en cours</p>
+                </section>
+
+                <section class="sidebar-section">
+                    <h2>Médias indépendants</h2>
+                    <ul id="independents" class="independents"></ul>
+                </section>
+
+                <button id="rules-button" class="rules-button" type="button">
+                    Voir toutes les règles
+                </button>
+
+            </aside>
+
+            <section class="game-area">
+
+                <div id="board" class="board">
+                    <!-- cases générées en JS -->
+                </div>
+
+                <div id="start-overlay" class="overlay">
+                    <div class="overlay-box">
+                        <h2>Le Monopoly des Médias</h2>
+
+                        <button id="start-button">
+                            Lancer la partie
+                        </button>
+                    </div>
+                </div>
+
+                <div id="gameover-overlay" class="overlay hidden">
+                    <div class="overlay-box">
+
+                        <h2>Partie terminée</h2>
+
+                        <p>
+                            Il n'y a plus aucun coup possible.
+                        </p>
+
+                        <div id="gameover-stats" class="gameover-stats"></div>
+
+                        <button id="restart-button">
+                            Relancer une partie
+                        </button>
+
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <!-- contenu futur -->
+        </footer>
+
+    </div>
+    
+    <dialog id="rules-dialog" class="rules-dialog" aria-labelledby="rules-title">
+        <div class="rules-header">
+            <h2 id="rules-title">Règles du jeu</h2>
+            <button id="rules-close" class="rules-close" type="button" aria-label="Fermer">×</button>
+        </div>
+        <div id="rules-content" class="rules-content">
+            <!-- généré en JS à partir des constantes -->
+        </div>
+    </dialog>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

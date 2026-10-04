@@ -1,0 +1,55 @@
+export const BOARD_SIZE = 8;
+
+export const COLORS = [
+    "red",
+    "blue",
+    "yellow",
+    "purple",
+    "green"
+];
+
+export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
+
+// Effets des médias indépendants : chaque partie en tire un média par effet,
+// affichés dans cet ordre
+export const INDEPENDENT_EFFECTS = ["cross", "square", "dismantle"];
+
+export const TILE_TYPE = {
+    MEDIA: "media",
+    OWNER: "owner"
+};
+
+export const GAME_STATE = {
+    READY: "ready",
+    PLAYING: "playing",
+    GAME_OVER: "game_over"
+};
+
+
+export const SCORE = {
+    // Points de base selon la taille de l'alignement (5 et plus : 100)
+    MATCH_POINTS: { 3: 30, 4: 60, 5: 100 },
+    SHAPE_BONUS: 50, // forme en L ou en T
+
+    INDEPENDENT_ACTIVATION: 100,
+    OWNER_REMOVED_STEP: 50, // 50, puis 100, 150... par propriétaire retiré
+    MEDIA_DESTROYED: 10,
+
+    // Série indépendante : deux activations rapprochées
+    SERIES_WINDOW: 5, // en nombre de coups
+    SERIES_MULTIPLIER: 1.5,
+
+    // Indice de pluralisme, selon le nombre de propriétaires en début de coup
+    PLURALISM: [
+        { maxOwners: 2, multiplier: 2 },
+        { maxOwners: 5, multiplier: 1.5 },
+        { maxOwners: 9, multiplier: 1 },
+        { maxOwners: Infinity, multiplier: 0.5 }
+    ]
+};
+
+export const EFFECT_DESCRIPTIONS = {
+    cross: "Retire les propriétaires de la ligne et de la colonne",
+    square: "Fait exploser une zone de 3×3",
+    dismantle: "Démantèle le groupe le plus présent : retire tous ses propriétaires"
+};

@@ -1,0 +1,118 @@
+import { EFFECT_DESCRIPTIONS, SCORE } from "../constants.js";
+import { MEDIA_CATALOG } from "../mediaCatalog.js";
+import { Score } from "../systems/Score.js";
+
+export class Hud {
+
+    constructor(game) {
+        this.game = game;
+
+        this.scoreElement = document.getElementById("score");
+        this.bestElement = document.getElementById("best-score");
+        this.pluralismElement = document.getElementById("pluralism");
+        this.ownerCountElement = document.getElementById("owner-count");
+        this.seriesElement = document.getElementById("series");
+        this.independentsElement = document.getElementById("independents");
+        this.statsElement = document.getElementById("gameover-stats");
+    }
+
+    update() {
+        const score = this.game.score;
+        const ownerCount = this.game.board.countOwners();
+        const multiplier = Score.getPluralismMultiplier(ownerCount);
+        const tierIndex = SCORE.PLURALISM.findIndex(tier => tier.multiplier === multiplier);
+
+        this.scoreElement.textContent = this.formatNumber(score.total);
+        this.bestElement.textContent = this.formatNumber(score.best);
+
+        this.pluralismElement.textContent = `×${this.formatNumber(multiplier)}`;
+        this.pluralismElement.dataset.tier = tierIndex;
+        this.ownerCountElement.textContent = ownerCount;
+
+        const movesLeft = score.seriesMovesLeft();
+        this.seriesElement.textContent = movesLeft > 0
+            ? `Active : ${movesLeft} coup${movesLeft > 1 ? "s" : ""} pour enchaîner (×${this.formatNumber(SCORE.SERIES_MULTIPLIER)})`
+            : "Aucune série en cours";
+        this.seriesElement.classList.toggle("is-active", movesLeft > 0);
+    }
+
+    renderIndependents() {
+        this.independentsElement.innerHTML = "";
+
+        for (const item of this.game.independentPool) {
+            const li = document.createElement("li");
+
+            const name = document.createElement("strong");
+            name.textContent = item.name;
+
+            const description = document.createElement("span");
+            description.textContent = EFFECT_DESCRIPTIONS[item.effect];
+
+            li.append(name, description);
+            this.independentsElement.appendChild(li);
+        }
+    }
+
+    // Affiche « +N » au-dessus d'une case
+    showPoints(cell, points) {
+        const cellElement = this.game.getCellElement(cell.x, cell.y);
+
+        if (!cellElement || points <= 0) return;
+
+        const rect = cellElement.getBoundingClientRect();
+        const float = document.createElement("div");
+
+        float.className = "score-float";
+        float.textContent = `+${this.formatNumber(points)}`;
+        float.style.left = `${rect.left + rect.width / 2}px`;
+        float.style.top = `${rect.top + rect.height / 2}px`;
+
+        document.body.appendChild(float);
+        float.addEventListener("animationend", () => float.remove());
+    }
+
+    renderGameOver() {
+        const score = this.game.score;
+
+        this.statsElement.innerHTML = "";
+
+        const total = document.createElement("p");
+        total.className = "gameover-score";
+        total.textContent = `Score : ${this.formatNumber(score.total)}`;
+        this.statsElement.appendChild(total);
+
+        if (score.isNewBest) {
+            const best = document.createElement("p");
+            best.className = "gameover-best";
+            best.textContent = "Nouveau record !";
+            this.statsElement.appendChild(best);
+        }
+
+        const intro = document.createElement("p");
+        intro.textContent = "Pendant ta partie :";
+        this.statsElement.appendChild(intro);
+
+        const list = document.createElement("ul");
+
+        for (const { owner } of Object.values(MEDIA_CATALOG)) {
+            if (!owner) continue;
+
+            const count = score.ownersCreated[owner] || 0;
+            const li = document.createElement("li");
+            li.textContent = `${owner} a racheté ${count} média${count > 1 ? "s" : ""}`;
+            list.appendChild(li);
+        }
+
+        this.statsElement.appendChild(list);
+
+        const freed = document.createElement("p");
+        freed.textContent = score.ownersRemoved > 0
+            ? `Les médias indépendants ont libéré ${score.ownersRemoved} rédaction${score.ownersRemoved > 1 ? "s" : ""}.`
+            : "Aucune rédaction n'a été libérée par les médias indépendants.";
+        this.statsElement.appendChild(freed);
+    }
+
+    formatNumber(value) {
+        return value.toLocaleString("fr-FR");
+    }
+}
