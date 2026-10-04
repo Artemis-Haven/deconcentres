@@ -64,7 +64,7 @@ export class Score {
                 ownerIndex++;
                 points += SCORE.OWNER_REMOVED_STEP * ownerIndex;
             } else if (!tile.isIndependent()) {
-                points += SCORE.MEDIA_DESTROYED;
+                points += SCORE.MEDIA_FREED;
             }
         }
 

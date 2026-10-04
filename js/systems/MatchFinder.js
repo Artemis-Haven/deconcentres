@@ -36,13 +36,14 @@ export class MatchFinder {
         return false;
     }
 
+    // Deux médias indépendants voisins s'activent s'ils ont le même effet
     static isActivatableIndependentPair(cellA, cellB) {
         const tileA = cellA.tile;
         const tileB = cellB.tile;
 
         return tileA?.isIndependent?.() &&
             tileB?.isIndependent?.() &&
-            tileA.name === tileB.name;
+            tileA.effect === tileB.effect;
     }
 
     static scan(board, mainAxis) {

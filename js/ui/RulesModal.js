@@ -1,5 +1,6 @@
-import { EFFECT_DESCRIPTIONS, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
+import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
+import { EFFECT_ICONS } from "./icons.js";
 
 export class RulesModal {
 
@@ -96,9 +97,13 @@ export class RulesModal {
                 const media = MEDIA_CATALOG.green.items
                     .filter(item => item.effect === effect)
                     .map(item => item.name)
-                    .join(" et ");
+                    .join(", ");
 
-                return `<li><strong>${media}</strong> : ${description.toLowerCase()}.</li>`;
+                return `
+                    <li>
+                        <span class="independent-icon indep-${effect}">${EFFECT_ICONS[effect]}</span>
+                        <span><strong>${EFFECT_NAMES[effect]}</strong> (${media}) : ${description.toLowerCase()}.</span>
+                    </li>`;
             })
             .join("");
 
@@ -109,18 +114,18 @@ export class RulesModal {
                 <h3>Les médias indépendants</h3>
                 <p>
                     Les <span class="rules-green">pastilles rondes vertes</span> sont des médias indépendants.
-                    À chaque partie, 3 d'entre eux sont tirés au sort, un pour chaque effet
-                    (ils sont listés dans le bloc de gauche). Environ ${spawnRate} % des nouvelles tuiles sont des indépendants,
-                    et un indépendant a plus de chances d'apparaître s'il y en a déjà un identique
-                    dans les colonnes voisines.
+                    Leur nuance de vert et leur icône indiquent leur effet.
+                    Environ ${spawnRate} % des nouvelles tuiles sont des indépendants, et chacun des
+                    trois effets a la même chance d'apparaître. Un indépendant a plus de chances
+                    d'apparaître s'il y en a déjà un de même effet dans les colonnes voisines.
                 </p>
                 <p>
                     Les indépendants ne s'alignent jamais. Pour en activer un, fais-le glisser sur
-                    <strong>un indépendant identique</strong> juste à côté : les deux tuiles
-                    disparaissent et déclenchent leur effet. Deux indépendants différents ne
-                    peuvent pas être échangés.
+                    <strong>un indépendant de même effet</strong> (même icône) juste à côté, même
+                    s'il s'agit d'un autre média : les deux tuiles disparaissent et déclenchent leur
+                    effet. Deux indépendants d'effets différents ne peuvent pas être échangés.
                 </p>
-                <ul class="rules-list">${effects}</ul>
+                <ul class="rules-effects">${effects}</ul>
                 <p>
                     Le démantèlement vise le milliardaire qui a le plus de blocs sur la grille.
                     En cas d'égalité, c'est celui dont un bloc est le plus proche de la paire activée.
@@ -144,7 +149,7 @@ export class RulesModal {
                     <tr><td>Bonus forme en L ou en T</td><td>+${SCORE.SHAPE_BONUS}</td></tr>
                     <tr><td>Activation d'une paire d'indépendants</td><td>${SCORE.INDEPENDENT_ACTIVATION}</td></tr>
                     <tr><td>Chaque propriétaire retiré</td><td>${ownerSteps}…</td></tr>
-                    <tr><td>Chaque média détruit par une explosion</td><td>${SCORE.MEDIA_DESTROYED}</td></tr>
+                    <tr><td>Chaque média libéré par une enquête</td><td>${SCORE.MEDIA_FREED}</td></tr>
                 </table>
                 <p>
                     Les points par propriétaire retiré augmentent à chaque propriétaire retiré

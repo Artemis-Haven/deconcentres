@@ -1,4 +1,4 @@
-import { BOARD_SIZE, GAME_STATE, INDEPENDENT_EFFECTS } from "../constants.js";
+import { BOARD_SIZE, GAME_STATE } from "../constants.js";
 import { Board } from "../board/Board.js";
 import { Factory } from "./Factory.js";
 import { Animation } from "../systems/Animation.js";
@@ -9,6 +9,7 @@ import { MatchFinder } from "../systems/MatchFinder.js";
 import { Resolver } from "../systems/Resolver.js";
 import { Score } from "../systems/Score.js";
 import { Hud } from "../ui/Hud.js";
+import { createEffectBadge } from "../ui/icons.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 
 export class Game {
@@ -18,13 +19,47 @@ export class Game {
         this.input = new Input(this);
         this.boardElement = document.getElementById("board");
         this.resolver = new Resolver(this);
-        this.independentPool = this.initIndependentPool();
         this.isBusy = false;
         this.state = GAME_STATE.READY;
         this.startOverlay = document.getElementById("start-overlay");
         this.gameOverOverlay = document.getElementById("gameover-overlay");
         this.score = new Score();
         this.hud = new Hud(this);
+
+        // Un élément par tuile, réutilisé d'un rendu à l'autre : recréer toutes les cases
+        // à chaque étape d'animation faisait clignoter les logos sur mobile et tablette
+        this.tileElements = new WeakMap();
+        this.preloadedImages = this.preloadImages();
+        this.listenToBoard();
+    }
+
+    // Précharge tous les logos : une tuile qui apparaît s'affiche sans délai
+    preloadImages() {
+        return Object.values(MEDIA_CATALOG)
+            .flatMap(catalog => catalog.items)
+            .map(item => {
+                const image = new Image();
+                image.src = `./assets/${item.img}`;
+                return image;
+            });
+    }
+
+    // Écouteurs posés une seule fois sur la grille : les cases, elles, sont déplacées
+    listenToBoard() {
+        this.boardElement.addEventListener("pointerdown", event => {
+            const element = event.target.closest(".cell");
+
+            if (!element) return;
+
+            const cell = this.board.get(Number(element.dataset.x), Number(element.dataset.y));
+            this.input.handlePointerDown(cell, event);
+        });
+        this.boardElement.addEventListener("pointerup", event => {
+            this.input.handlePointerUp(event);
+        });
+        this.boardElement.addEventListener("pointercancel", () => {
+            this.input.handlePointerCancel();
+        });
     }
 
     start() {
@@ -45,7 +80,7 @@ export class Game {
                 if (cell.tile?.isOwner?.()) continue;
 
                 cell.tile =
-                    Factory.randomMediaSafe(this.board, x, y, this);
+                    Factory.randomMediaSafe(this.board, x, y);
             }
         }
     }
@@ -78,7 +113,7 @@ export class Game {
                 this.score.startMove(this.board.countOwners());
                 await this._activateIndependentPair(cellA, cellB);
             } else if (a?.isIndependent?.() && b?.isIndependent?.()) {
-                // Deux indépendants différents : l'échange est refusé
+                // Deux indépendants d'effets différents : l'échange est refusé
                 this.board.swap(cellA, cellB);
                 await Animation.swap(elA, elB);
             } else {
@@ -129,58 +164,125 @@ export class Game {
     }
 
     render({ hideEmpty = false } = {}) {
-        this.boardElement.innerHTML = "";
+        const elements = [];
+        const reused = [];
+
         for (let y = 0; y < this.board.size; y++) {
             for (let x = 0; x < this.board.size; x++) {
-                const cell = this.board.get(x, y);
-                const div = document.createElement("div");
-                div.className = "cell";
-                div.dataset.x = x;
-                div.dataset.y = y;
-                const tile = cell.tile;
-                const inner = document.createElement("div");
-                inner.className = "cell-inner";
-                if (tile && tile.isMedia()) {
-                    const logo = document.createElement("div");
-                    logo.className = "cell-logo";
-                    logo.style.backgroundImage = `url('./assets/${tile.img}')`;
-                    const label = document.createElement("div");
-                    label.className = "cell-label";
-                    label.textContent = tile.name;
-                    inner.appendChild(logo);
-                    inner.appendChild(label);
-                    div.classList.add(
-                        tile.isIndependent() ? "cell--independent" : "cell--media",
-                        `tile-${tile.color}`
-                    );
-                } else if (tile && tile.isOwner()) {
-                    const owner = document.createElement("div");
-                    owner.className = "cell-owner";
-                    owner.textContent = tile.name;
-                    inner.appendChild(owner);
-                    div.classList.add("cell--owner", `tile-${tile.color}`);
-                } else {
-                    div.classList.add("empty-cell");
+                const tile = this.board.get(x, y).tile;
+                let element;
 
-                    if (hideEmpty) {
-                        div.classList.add("empty-cell-hidden");
-                    }
+                if (!tile) {
+                    element = this.createEmptyElement(hideEmpty);
+                } else if (this.tileElements.has(tile)) {
+                    element = this.tileElements.get(tile);
+                    this.resetTileElement(element);
+                    reused.push(element);
+                } else {
+                    element = this.createTileElement(tile);
+                    this.tileElements.set(tile, element);
                 }
-                div.appendChild(inner);
-                div.addEventListener("pointerdown", event => {
-                    this.input.handlePointerDown(cell, event);
-                });
-                div.addEventListener("pointerup", event => {
-                    this.input.handlePointerUp(event);
-                });
-                div.addEventListener("pointercancel", () => {
-                    this.input.handlePointerCancel();
-                });
-                this.boardElement.appendChild(div);
+
+                element.dataset.x = x;
+                element.dataset.y = y;
+                elements.push(element);
+            }
+        }
+
+        this.boardElement.replaceChildren(...elements);
+
+        // Rétablit les transitions une fois les cases réutilisées remises en place
+        if (reused.length > 0) {
+            void this.boardElement.offsetWidth;
+
+            for (const element of reused) {
+                element.style.transition = "";
             }
         }
 
         this.hud.update();
+    }
+
+    createEmptyElement(hideEmpty) {
+        const div = document.createElement("div");
+        div.className = "cell empty-cell";
+
+        if (hideEmpty) {
+            div.classList.add("empty-cell-hidden");
+        }
+
+        const inner = document.createElement("div");
+        inner.className = "cell-inner";
+        div.appendChild(inner);
+
+        return div;
+    }
+
+    createTileElement(tile) {
+        const div = document.createElement("div");
+        div.className = "cell";
+        const inner = document.createElement("div");
+        inner.className = "cell-inner";
+
+        if (tile.isMedia()) {
+            const logo = document.createElement("div");
+            logo.className = "cell-logo";
+            logo.style.backgroundImage = `url('./assets/${tile.img}')`;
+            inner.appendChild(logo);
+            div.classList.add(
+                tile.isIndependent() ? "cell--independent" : "cell--media",
+                `tile-${tile.color}`
+            );
+
+            // Vrai logo : affiché selon ses options, sans le nom sauf si demandé.
+            // Image provisoire : le nom est toujours affiché en dessous
+            if (tile.logo) {
+                div.classList.add("has-logo", `logo--${tile.logo.style ?? "plain"}`);
+                div.classList.toggle("logo--wide", Boolean(tile.logo.wide));
+                div.classList.toggle("logo--named", Boolean(tile.logo.showName));
+
+                if (tile.logo.size) {
+                    div.style.setProperty("--logo-size", `${tile.logo.size}%`);
+                }
+
+                logo.setAttribute("role", "img");
+                logo.setAttribute("aria-label", tile.name);
+            }
+
+            if (!tile.logo || tile.logo.showName) {
+                const label = document.createElement("div");
+                label.className = "cell-label";
+                label.textContent = tile.shortName ?? tile.name;
+                inner.appendChild(label);
+            }
+
+            // Indépendants : nuance et icône selon leur effet
+            if (tile.isIndependent()) {
+                div.classList.add(`indep-${tile.effect}`);
+                div.appendChild(createEffectBadge(tile.effect, "cell-badge"));
+            }
+        } else if (tile.isOwner()) {
+            const owner = document.createElement("div");
+            owner.className = "cell-owner";
+            owner.textContent = tile.name;
+            inner.appendChild(owner);
+            div.classList.add("cell--owner", `tile-${tile.color}`);
+        }
+
+        div.appendChild(inner);
+
+        // Classes d'origine, rétablies à chaque réutilisation
+        div.baseClassName = div.className;
+
+        return div;
+    }
+
+    // Efface les états laissés par les animations (classes, déplacements),
+    // sans transition pour que la case ne glisse pas vers sa nouvelle place
+    resetTileElement(element) {
+        element.className = element.baseClassName;
+        element.style.transition = "none";
+        element.style.transform = "";
     }
 
     getCellElement(x, y) {
@@ -189,24 +291,11 @@ export class Game {
         );
     }
 
-    // Un média indépendant tiré au hasard pour chaque effet, dans l'ordre des effets
-    initIndependentPool() {
-        const greens = MEDIA_CATALOG.green.items;
-
-        return INDEPENDENT_EFFECTS.map(effect => {
-            const candidates = greens.filter(item => item.effect === effect);
-
-            return candidates[Math.floor(Math.random() * candidates.length)];
-        });
-    }
-
     startGame() {
         this.state = GAME_STATE.PLAYING;
         this.startOverlay.classList.add("hidden");
         this.board = new Board(BOARD_SIZE);
-        this.independentPool = this.initIndependentPool();
         this.score.reset();
-        this.hud.renderIndependents();
         this.fillBoard();
         this.checkGameOver();
         this.render();

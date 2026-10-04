@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="38.788975mm"
+   height="38.789574mm"
+   viewBox="0 0 38.788975 38.789574"
+   version="1.1"
+   id="svg5044"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="Logo Revue dessinée.svg">
+  <defs
+     id="defs5038">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath206">
+      <path
+         d="M 171.933,613.729 H 281.886 V 723.684 H 171.933 Z"
+         id="path204"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-218.12657"
+     inkscape:cy="-189.55399"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="680"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5041">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-38.813846,-59.890932)">
+    <g
+       transform="matrix(0.35277777,0,0,-0.35277777,-21.840294,315.19056)"
+       id="g200"
+       inkscape:export-xdpi="325"
+       inkscape:export-ydpi="325">
+      <g
+         id="g202"
+         clip-path="url(#clipPath206)">
+        <g
+           id="g208"
+           transform="translate(281.8866,668.7063)">
+          <path
+             d="m 0,0 c 0,30.364 -24.613,54.978 -54.977,54.978 -30.362,0 -54.977,-24.614 -54.977,-54.978 0,-30.363 24.615,-54.977 54.977,-54.977 C -24.613,-54.977 0,-30.363 0,0"
+             style="fill:#c92327;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path210"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           id="g212"
+           transform="translate(254.4686,690.3878)">
+          <path
+             d="m 0,0 c 0.006,4.303 -1.428,8.288 -4.073,11.219 -3.22,3.57 -8.134,5.459 -14.209,5.464 H -33.381 V -17.99 h 10.569 l 4.507,0.01 h 0.002 c 13.497,0 18.295,8.966 18.303,16.645 z"
+             style="fill:#231f20;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path214"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           id="g216"
+           transform="translate(236.1474,695.8522)">
+          <path
+             d="M 0,0 -4.064,0.003 V -12.24 h 4.076 c 5.427,0 7.101,3.781 7.101,6.113 C 7.116,-3.778 5.884,-0.007 0,0"
+             style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path218"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           id="g220"
+           transform="translate(256.3342,638.0322)">
+          <path
+             d="M 0,0 -27.652,30.35 V 15.348 L -7.455,-6.796 Z"
+             style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path222"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           id="g224"
+           transform="translate(221.6453,642.3299)">
+          <path
+             d="m 0,0 h -11.337 v 64.735 l -9.1,-9.996 V -9.102 L -8.283,-9.1 Z"
+             style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path226"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

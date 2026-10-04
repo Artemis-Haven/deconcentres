@@ -1,14 +1,14 @@
-import { COLORS, INDEPENDENT_MEDIA_SPAWN_RATE } from "../constants.js";
+import { COLORS, INDEPENDENT_MEDIA_SPAWN_RATE, INDEPENDENT_NEARBY_BOOST } from "../constants.js";
 import { Media } from "../tiles/Media.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 
 export class Factory {
 
-    static getRandomMedia(game, color = null, board = null, column = null) {
+    static getRandomMedia(color = null, board = null, column = null) {
         color = color ?? this.getRandomColor();
 
         if (color === 'green') {
-            return this.getIndependentMedia(game.independentPool, board, column);
+            return this.getIndependentMedia(board, column);
         }
         const catalog = MEDIA_CATALOG[color];
 
@@ -20,7 +20,7 @@ export class Factory {
         return new Media(color, item);
     }
 
-    static randomMediaSafe(board, x, y, game) {
+    static randomMediaSafe(board, x, y) {
 
         const cell = board.get(x, y);
 
@@ -30,7 +30,7 @@ export class Factory {
             // dans la pondération des médias indépendants
             cell.tile = null;
 
-            const media = this.getRandomMedia(game, null, board, x);
+            const media = this.getRandomMedia(null, board, x);
 
             // Les médias indépendants ne forment jamais d'alignement
             if (media.isIndependent() || !board.hasMatchAt(x, y, media.color)) {
@@ -45,46 +45,52 @@ export class Factory {
             .find(color => !board.hasMatchAt(x, y, color));
 
         return safeColor
-            ? this.getRandomMedia(game, safeColor)
-            : this.getIndependentMedia(game.independentPool, board, x);
+            ? this.getRandomMedia(safeColor)
+            : this.getIndependentMedia(board, x);
     }
 
     static getOwnerName(color) {
         return MEDIA_CATALOG[color]?.owner || null;
     }
 
-    static getIndependentMedia(pool, board = null, column = null) {
+    // Tire un média indépendant parmi tous ceux du catalogue.
+    // Chaque effet pèse autant au total, quel que soit son nombre de médias,
+    // et un effet déjà présent dans les colonnes voisines est favorisé
+    static getIndependentMedia(board = null, column = null) {
+        const items = MEDIA_CATALOG.green.items;
+        const nearbyEffectCounts = this.countNearbyIndependents(board, column);
 
-        if (!board || column === null) {
-            const item = pool[Math.floor(Math.random() * pool.length)];
-            return new Media("green", item);
-        }
+        const weights = items.map(item => {
+            const sameEffectCount = items.filter(other => other.effect === item.effect).length;
+            const nearbyCount = nearbyEffectCounts.get(item.effect) || 0;
 
-        const nearbyMediaCounts = new Map();
+            return (1 + nearbyCount * INDEPENDENT_NEARBY_BOOST) / sameEffectCount;
+        });
+
+        let draw = Math.random() * weights.reduce((sum, weight) => sum + weight, 0);
+        const index = weights.findIndex(weight => (draw -= weight) < 0);
+
+        // Repli sur le dernier en cas d'arrondi flottant
+        return new Media("green", items[index === -1 ? items.length - 1 : index]);
+    }
+
+    // Nombre de médias indépendants de chaque effet dans la colonne et ses voisines
+    static countNearbyIndependents(board, column) {
+        const counts = new Map();
+
+        if (!board || column === null) return counts;
 
         for (let x = Math.max(0, column - 1); x <= Math.min(board.size - 1, column + 1); x++) {
             for (let y = 0; y < board.size; y++) {
                 const tile = board.get(x, y).tile;
 
                 if (tile?.isIndependent?.()) {
-                    nearbyMediaCounts.set(
-                        tile.name,
-                        (nearbyMediaCounts.get(tile.name) || 0) + 1
-                    );
+                    counts.set(tile.effect, (counts.get(tile.effect) || 0) + 1);
                 }
             }
         }
 
-        const weightedPool = pool.flatMap(item => {
-            const nearbyCount = nearbyMediaCounts.get(item.name) || 0;
-            const weight = 1 + nearbyCount * 3;
-
-            return Array(weight).fill(item);
-        });
-
-        const item = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-
-        return new Media("green", item);
+        return counts;
     }
 
     static getRandomColor() {

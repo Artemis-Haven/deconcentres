@@ -50,8 +50,9 @@ export class IndependentEffects {
     }
 
     // -----------------------------
-    // 2. Square
-    // zone 3x3 centrée
+    // 2. Enquête (square)
+    // Libère une zone 3x3 centrée : propriétaires et médias des milliardaires,
+    // les médias indépendants sont épargnés
     // -----------------------------
     static square(cell, game) {
 
@@ -64,7 +65,7 @@ export class IndependentEffects {
 
                 if (!c) continue;
 
-                if (c.tile) {
+                if (c.tile && !c.tile.isIndependent?.()) {
                     affected.push(c);
                 }
             }

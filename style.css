@@ -20,6 +20,11 @@
     --media-yellow: #e3b529;
     --media-green: #4a9636;
 
+    /* Médias indépendants, nuance selon leur effet */
+    --indep-cross: #4a9636;
+    --indep-square: #2f7a45;
+    --indep-dismantle: #6b8e23;
+
     /* Propriétaires */
     --owner-bg: #0c0d10;
 
@@ -42,6 +47,10 @@
 .tile-purple { --tile: var(--media-purple); }
 .tile-yellow { --tile: var(--media-yellow); --tile-ink: #2b2212; }
 .tile-green  { --tile: var(--media-green); }
+
+.indep-cross     { --tile: var(--indep-cross); }
+.indep-square    { --tile: var(--indep-square); }
+.indep-dismantle { --tile: var(--indep-dismantle); }
 
 /* ------------------------------------------------ */
 /* RESET */
@@ -211,30 +220,43 @@ button {
     gap: 12px;
 }
 
-/* Une pastille ronde rappelle la forme des médias indépendants */
+/* L'icône de l'effet rappelle la pastille du média sur la grille */
 .independents li {
     display: grid;
-    grid-template-columns: 12px 1fr;
+    grid-template-columns: 24px 1fr;
     column-gap: 10px;
     font-size: 13px;
     line-height: 1.35;
 }
 
-.independents li::before {
-    content: "";
+.independents .independent-icon {
     grid-row: 1 / span 2;
-    width: 12px;
-    height: 12px;
-    margin-top: 3px;
+    margin-top: 1px;
+}
+
+.independent-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 5px;
     border-radius: 50%;
-    background: var(--media-green);
+    background: var(--tile);
+    color: #fff;
+}
+
+.independent-icon svg {
+    width: 100%;
+    height: 100%;
 }
 
 .independents strong {
     font-weight: 600;
 }
 
-.independents span {
+/* Description de l'effet (sans toucher à la pastille d'icône) */
+.independents strong + span {
     color: var(--text-muted);
 }
 
@@ -295,6 +317,7 @@ button {
     justify-content: center;
     align-items: center;
 
+    position: relative;
     border-radius: 18%;
     color: var(--tile-ink, #fff);
 
@@ -336,6 +359,31 @@ button {
         0 3px 8px rgba(0, 0, 0, .35);
 }
 
+/* Icône de l'effet, en haut à droite de la pastille */
+.cell-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 29cqi;
+    height: 29cqi;
+    padding: 3.5cqi;
+
+    border-radius: 50%;
+    background: #f4f1e8;
+    color: var(--tile);
+    box-shadow: 0 0 0 2px var(--surface);
+    pointer-events: none;
+}
+
+.cell-badge svg {
+    width: 100%;
+    height: 100%;
+}
+
 /* PROPRIÉTAIRES : bloc sombre, liseré de la couleur du groupe */
 .cell--owner {
     background: var(--owner-bg);
@@ -360,6 +408,44 @@ button {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
 }
 
+/* VRAIS LOGOS (option « logo » du catalogue), affichés sans le nom.
+   --logo-size : taille personnalisée (option « size ») */
+.has-logo .cell-logo {
+    width: var(--logo-size, 74%);
+    height: var(--logo-size, 74%);
+}
+
+/* Avec le nom en dessous (option « showName ») : logo plus petit par défaut */
+.has-logo.logo--named .cell-logo {
+    width: var(--logo-size, 58%);
+    height: var(--logo-size, 58%);
+}
+
+/* Logo allongé : toute la largeur, hauteur réduite (la taille porte sur la largeur) */
+.has-logo.logo--wide .cell-logo {
+    width: var(--logo-size, 100%);
+    height: 42%;
+}
+
+.has-logo.logo--wide.logo--named .cell-logo {
+    height: 34%;
+}
+
+/* Logo posé sur une étiquette blanche */
+.logo--plate .cell-logo {
+    padding: 3cqi 3cqi;
+    background-color: #fff;
+    background-origin: content-box;
+    border-radius: 5cqi;
+    filter: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+}
+
+/* Logo sombre sur fond transparent, passé en blanc */
+.logo--white .cell-logo {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
+}
+
 /* NOM DU MÉDIA */
 .cell-label {
     max-width: 100%;
@@ -371,11 +457,17 @@ button {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    /* Respecte les retours à la ligne du nom court */
+    white-space: pre-line;
 }
 
+/* Pas de retour à la ligne automatique : chaque ligne est coupée au caractère
+   (« Off Investi… » plutôt que « Off… »). Seuls les retours à la ligne
+   explicites du nom court sont respectés */
 .cell--independent .cell-label {
+    display: block;
     font-size: clamp(6px, 11cqi, 10px);
-    -webkit-line-clamp: 1;
+    white-space: pre;
     text-overflow: ellipsis;
 }
 
@@ -386,6 +478,32 @@ button {
     line-height: 1.15;
     text-align: center;
     color: var(--text);
+}
+
+/* ------------------------------------------------ */
+/* VERSION TÉLÉPHONE */
+/* ------------------------------------------------ */
+
+/* La grille occupe toute la largeur de l'écran, en bande d'un bord à l'autre ;
+   les autres blocs gardent leurs marges */
+@media (max-width: 599px) {
+
+    .main {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .sidebar {
+        margin: 0 16px;
+    }
+
+    .board {
+        gap: 3px;
+        padding: 3px;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
 }
 
 /* ------------------------------------------------ */
@@ -754,6 +872,28 @@ button {
 
 .rules-list li {
     margin-bottom: 4px;
+}
+
+.rules-effects {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+}
+
+.rules-effects li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.rules-effects .independent-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
 }
 
 .rules-swatch {

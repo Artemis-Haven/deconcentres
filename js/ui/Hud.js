@@ -1,6 +1,7 @@
-import { EFFECT_DESCRIPTIONS, SCORE } from "../constants.js";
+import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, INDEPENDENT_EFFECTS, SCORE } from "../constants.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 import { Score } from "../systems/Score.js";
+import { createEffectBadge } from "./icons.js";
 
 export class Hud {
 
@@ -14,6 +15,8 @@ export class Hud {
         this.seriesElement = document.getElementById("series");
         this.independentsElement = document.getElementById("independents");
         this.statsElement = document.getElementById("gameover-stats");
+
+        this.renderIndependents();
     }
 
     update() {
@@ -36,19 +39,21 @@ export class Hud {
         this.seriesElement.classList.toggle("is-active", movesLeft > 0);
     }
 
+    // Les 3 effets des médias indépendants
     renderIndependents() {
         this.independentsElement.innerHTML = "";
 
-        for (const item of this.game.independentPool) {
+        for (const effect of INDEPENDENT_EFFECTS) {
             const li = document.createElement("li");
+            const icon = createEffectBadge(effect, "independent-icon");
 
             const name = document.createElement("strong");
-            name.textContent = item.name;
+            name.textContent = EFFECT_NAMES[effect];
 
             const description = document.createElement("span");
-            description.textContent = EFFECT_DESCRIPTIONS[item.effect];
+            description.textContent = EFFECT_DESCRIPTIONS[effect];
 
-            li.append(name, description);
+            li.append(icon, name, description);
             this.independentsElement.appendChild(li);
         }
     }

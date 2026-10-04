@@ -31,7 +31,7 @@ export class Gravity {
                     continue;
                 }
 
-                const spawnedTile = Factory.getRandomMedia(game, null, board, cell.x);
+                const spawnedTile = Factory.getRandomMedia(null, board, cell.x);
                 const position = game
                     .getCellElement(cell.x, cell.y)
                     .getBoundingClientRect();
