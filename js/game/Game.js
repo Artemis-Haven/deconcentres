@@ -149,20 +149,21 @@ export class Game {
                     label.textContent = tile.name;
                     inner.appendChild(logo);
                     inner.appendChild(label);
-                    div.style.background = tile.color;
+                    div.classList.add(
+                        tile.isIndependent() ? "cell--independent" : "cell--media",
+                        `tile-${tile.color}`
+                    );
                 } else if (tile && tile.isOwner()) {
                     const owner = document.createElement("div");
                     owner.className = "cell-owner";
-                    owner.textContent = tile.name || "OWNER";
+                    owner.textContent = tile.name;
                     inner.appendChild(owner);
-                    div.style.background = "#111";
+                    div.classList.add("cell--owner", `tile-${tile.color}`);
                 } else {
                     div.classList.add("empty-cell");
 
                     if (hideEmpty) {
                         div.classList.add("empty-cell-hidden");
-                    } else {
-                        div.style.background = "#0a0a0a";
                     }
                 }
                 div.appendChild(inner);

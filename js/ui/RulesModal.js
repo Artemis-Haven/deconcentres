@@ -65,7 +65,7 @@ export class RulesModal {
             .filter(([, catalog]) => catalog.owner)
             .map(([color, catalog]) => `
                 <li>
-                    <span class="rules-swatch" style="background:${color}"></span>
+                    <span class="rules-swatch tile-${color}"></span>
                     <strong>${catalog.owner}</strong> :
                     ${catalog.items.map(item => item.name).join(", ")}
                 </li>`)
@@ -77,7 +77,7 @@ export class RulesModal {
                 <ul class="rules-list">${owners}</ul>
                 <p>
                     Quand un alignement se forme, ses médias disparaissent et sont remplacés par
-                    <strong>un bloc noir « propriétaire »</strong>, placé à l'endroit de l'échange
+                    <strong>un bloc sombre « propriétaire »</strong>, souligné de la couleur de son groupe et placé à l'endroit de l'échange
                     (ou au milieu du groupe pour les alignements qui se forment tout seuls).
                     Les propriétaires restent sur la grille et tombent avec les autres tuiles.
                     On peut les déplacer, mais ils ne forment jamais d'alignement.
@@ -108,7 +108,7 @@ export class RulesModal {
             <section>
                 <h3>Les médias indépendants</h3>
                 <p>
-                    Les tuiles <span class="rules-green">vertes</span> sont des médias indépendants.
+                    Les <span class="rules-green">pastilles rondes vertes</span> sont des médias indépendants.
                     À chaque partie, 3 d'entre eux sont tirés au sort, un pour chaque effet
                     (ils sont listés dans le bloc de gauche). Environ ${spawnRate} % des nouvelles tuiles sont des indépendants,
                     et un indépendant a plus de chances d'apparaître s'il y en a déjà un identique
