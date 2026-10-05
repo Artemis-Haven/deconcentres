@@ -16,6 +16,13 @@ export class Hud {
         this.independentsElement = document.getElementById("independents");
         this.statsElement = document.getElementById("gameover-stats");
 
+        // Mobile et tablette : résumé des bonus et détail à déplier
+        this.sidebarElement = document.getElementById("sidebar");
+        this.summaryButton = document.getElementById("bonus-summary");
+        this.pluralismSummary = document.getElementById("pluralism-summary");
+        this.seriesSummary = document.getElementById("series-summary");
+        this.listenToSummary();
+
         this.renderIndependents();
     }
 
@@ -37,6 +44,42 @@ export class Hud {
             ? `Active : ${movesLeft} coup${movesLeft > 1 ? "s" : ""} pour enchaîner (×${this.formatNumber(SCORE.SERIES_MULTIPLIER)})`
             : "Aucune série en cours";
         this.seriesElement.classList.toggle("is-active", movesLeft > 0);
+
+        this.pluralismSummary.textContent = this.pluralismElement.textContent;
+        this.pluralismSummary.dataset.tier = tierIndex;
+        this.seriesSummary.textContent = movesLeft > 0
+            ? `Série : ${movesLeft} coup${movesLeft > 1 ? "s" : ""}`
+            : "Aucune série";
+        this.seriesSummary.classList.toggle("is-active", movesLeft > 0);
+    }
+
+    // Le détail des bonus s'ouvre par-dessus la grille, et se ferme au toucher
+    // en dehors, avec Échap ou en touchant de nouveau le résumé
+    listenToSummary() {
+        this.summaryButton.addEventListener("click", () => {
+            this.setDetailsOpen(!this.sidebarElement.classList.contains("is-open"));
+        });
+
+        document.addEventListener("pointerdown", event => {
+            if (
+                this.sidebarElement.classList.contains("is-open") &&
+                !this.sidebarElement.contains(event.target) &&
+                !this.summaryButton.contains(event.target)
+            ) {
+                this.setDetailsOpen(false);
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                this.setDetailsOpen(false);
+            }
+        });
+    }
+
+    setDetailsOpen(open) {
+        this.sidebarElement.classList.toggle("is-open", open);
+        this.summaryButton.setAttribute("aria-expanded", String(open));
     }
 
     // Les 3 effets des médias indépendants

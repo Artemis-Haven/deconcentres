@@ -510,6 +510,144 @@ button {
 }
 
 /* ------------------------------------------------ */
+/* MOBILE ET TABLETTE (en dessous de la version desktop) */
+/* ------------------------------------------------ */
+
+/* Résumé des bonus : uniquement sur mobile et tablette */
+.bonus-summary {
+    display: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (max-width: 899px) {
+
+    /* Titre sur toute la largeur, puis score et bonus côte à côte */
+    .header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 14px 16px 0;
+    }
+
+    .header-title {
+        grid-column: 1 / -1;
+        font-size: 18px;
+    }
+
+    /* Score et record regroupés dans une seule carte, record en petit */
+    .scoreboard {
+        flex-direction: column;
+        justify-content: center;
+        gap: 2px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-small);
+    }
+
+    .scoreboard-item {
+        align-items: flex-start;
+        min-width: 0;
+        padding: 0;
+        background: none;
+        border: none;
+    }
+
+    .scoreboard-item + .scoreboard-item {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+    .scoreboard-item + .scoreboard-item .scoreboard-label {
+        font-size: 10px;
+    }
+
+    .scoreboard-item + .scoreboard-item .scoreboard-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    /* Résumé des bonus : toute la carte est cliquable */
+    .bonus-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        min-width: 0;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-small);
+        color: var(--text);
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .bonus-summary-values {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .bonus-summary-pluralism {
+        font-size: 22px;
+    }
+
+    .bonus-summary-series {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .bonus-summary-chevron {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        color: var(--text-muted);
+        transition: transform 200ms ease;
+    }
+
+    .bonus-summary[aria-expanded="true"] .bonus-summary-chevron {
+        transform: rotate(180deg);
+    }
+
+    /* Détail des bonus : masqué, il s'ouvre par-dessus la grille */
+    .main {
+        position: relative;
+        padding-top: 10px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .sidebar.is-open {
+        display: flex;
+        position: absolute;
+        top: 6px;
+        left: 16px;
+        right: 16px;
+        z-index: 30;
+        margin: 0;
+        max-height: calc(100dvh - 150px);
+        overflow-y: auto;
+        box-shadow: var(--shadow);
+    }
+}
+
+/* ------------------------------------------------ */
 /* VERSION DESKTOP */
 /* ------------------------------------------------ */
 
