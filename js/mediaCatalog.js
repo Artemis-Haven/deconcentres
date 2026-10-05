@@ -8,16 +8,16 @@ export const MEDIA_CATALOG = {
             { name: "Capital", img: "capital.png", logo: { style: "plain", wide: true} },
             { name: "Voici", img: "voici.png", logo: { style: "white", wide: true} },
             { name: "Journal du dimanche", img: "jdd.png", logo: { style: "white", showName: true} },
-            { name: "CStar", img: "cstar.png" },
-            { name: "Europe 2", img: "europe2.png" },
-            { name: "RFM", img: "rfm.png" },
-            { name: "Femme Actuelle", img: "femmeactuelle.png" },
-            { name: "GEO", img: "geo.png" },
-            { name: "Télé-Loisirs", img: "teleloisirs.png" },
-            { name: "Ça m'intéresse", img: "caminteresse.png" },
-            { name: "Télé Z", img: "telez.png" },
-            { name: "Ici Paris", img: "iciparis.png" },
-            { name: "France Dimanche", img: "francedimanche.png" }
+            { name: "CStar", img: "cstar.svg", logo: { style: "plain", wide: true} },
+            { name: "Europe 2", img: "europe2.png", logo: { style: "plain", size: 100} },
+            { name: "RFM", img: "rfm.svg", logo: { style: "plain"} },
+            { name: "Femme Actuelle", img: "femmeactuelle.png", logo: { style: "plain"} },
+            { name: "GEO", img: "geo.svg", logo: { style: "plain"} },
+            { name: "Télé-Loisirs", img: "teleloisirs.png", logo: { style: "white", size: 100} },
+            { name: "Ça m'intéresse", img: "caminteresse.png", logo: { style: "plain"} },
+            { name: "Télé Z", img: "telez.png", logo: { style: "plain"} },
+            { name: "Ici Paris", img: "iciparis.jpg", logo: { style: "plain"} },
+            { name: "France Dimanche", img: "francedimanche.jpg", logo: { style: "plain", wide: true} }
         ]
     },
 
@@ -29,7 +29,7 @@ export const MEDIA_CATALOG = {
             { name: "La Provence", img: "laprovence.png", logo: { style: "white", showName: true} },
             { name: "Brut", img: "brut.png", logo: { style: "plain", wide: true} },
             { name: "La Tribune", img: "latribune.jpg", logo: { style: "plain", wide: true} },
-            { name: "Corse-Matin", img: "corsematin.png" }
+            { name: "Corse-Matin", img: "corsematin.svg", logo: { style: "plain", size: 100} }
         ]
     },
 
@@ -41,24 +41,24 @@ export const MEDIA_CATALOG = {
             { name: "Sciences et Avenir", img: "scienceavenir.jpg", logo: { style: "plain", wide: true} },
             { name: "Paris Match", img: "parismatch.png", logo: { style: "plain", wide: true} },
             { name: "Aujourd'hui en France", img: "aujourdhui.png", logo: { style: "plain", wide: true} },
-            { name: "Radio Classique", img: "radioclassique.png" },
-            { name: "Challenges", img: "challenges.png" },
-            { name: "L'Opinion", img: "lopinion.png" },
-            { name: "L'Agefi", img: "lagefi.png" },
-            { name: "Investir", img: "investir.png" }
+            { name: "Radio Classique", img: "radioclassique.svg", logo: { style: "white"} },
+            { name: "Challenges", img: "challenges.png", logo: { style: "plain", wide: true} },
+            { name: "L'Opinion", img: "lopinion.svg", logo: { style: "plate", wide: true} },
+            { name: "L'Agefi", img: "lagefi.png", logo: { style: "plate", wide: true} },
+            { name: "Investir", img: "investir.jpg", logo: { style: "plain", wide: true} }
         ]
     },
 
     yellow: {
         owner: "Martin Bouygues",
         items: [
-            { name: "TF1", img: "tf1.png" },
-            { name: "LCI", img: "lci.png" },
-            { name: "TMC", img: "tmc.png" },
-            { name: "TFX", img: "tfx.png" },
-            { name: "TV Breizh", img: "tvbreizh.png" },
-            { name: "Ushuaïa TV", img: "ushuaiatv.png" },
-            { name: "Histoire TV", img: "histoiretv.png" }
+            { name: "TF1", img: "tf1.png", logo: { style: "plain", wide: true} },
+            { name: "LCI", img: "lci.png", logo: { style: "plain", wide: true} },
+            { name: "TMC", img: "tmc.png", logo: { style: "plain", wide: true} },
+            { name: "TFX", img: "tfx.png", logo: { style: "plain", wide: true} },
+            { name: "TV Breizh", img: "tvbreizh.svg", logo: { style: "plain", wide: true} },
+            { name: "Ushuaïa TV", img: "ushuaiatv.svg", logo: { style: "plate", wide: true} },
+            { name: "Histoire TV", img: "histoiretv.svg", logo: { style: "plain", wide: true} }
         ]
     },
 
