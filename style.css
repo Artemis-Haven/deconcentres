@@ -145,8 +145,55 @@ button {
     font-variant-numeric: tabular-nums;
 }
 
+/* Pied de page : une ligne discrète, éléments séparés par des points */
 .footer {
-    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 0;
+    padding: 24px 16px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.footer-links {
+    display: contents;
+}
+
+.footer > p + .footer-links a:first-child::before,
+.footer-links a + a::before {
+    content: "·";
+    display: inline-block;
+    padding: 0 10px;
+    color: var(--text-muted);
+}
+
+/* Téléphone : la date sur sa propre ligne, les liens en dessous */
+@media (max-width: 599px) {
+
+    .footer > p {
+        flex-basis: 100%;
+        text-align: center;
+    }
+
+    .footer > p + .footer-links a:first-child::before {
+        content: none;
+    }
+}
+
+.footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.footer a:hover,
+.footer a[aria-current="page"] {
+    color: var(--text);
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 /* ------------------------------------------------ */
@@ -1746,4 +1793,200 @@ button {
 
 .elections-sources a:hover {
     color: var(--text);
+}
+
+/* ------------------------------------------------ */
+/* PAGES ANNEXES (CONTACT, CRÉDITS, MENTIONS LÉGALES) */
+/* ------------------------------------------------ */
+
+.doc-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px 24px;
+    padding: 20px 16px 0;
+}
+
+.doc-header a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.doc-back {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.doc-header .doc-back {
+    color: var(--text-muted);
+}
+
+.doc-header .doc-back:hover {
+    color: var(--text);
+}
+
+.doc {
+    flex: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 16px 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.doc h1 {
+    margin-bottom: 16px;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.doc h2 {
+    margin: 32px 0 10px;
+    font-size: 18px;
+}
+
+.doc p,
+.doc li {
+    color: var(--text-muted);
+}
+
+.doc p {
+    margin-bottom: 12px;
+}
+
+.doc ul {
+    margin: 0 0 12px 20px;
+}
+
+.doc strong {
+    color: var(--text);
+}
+
+.doc a {
+    color: var(--text);
+    text-underline-offset: 3px;
+}
+
+/* Tableaux : défilement horizontal sur petit écran plutôt que débordement */
+.doc-table {
+    margin-bottom: 12px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+}
+
+.doc-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.doc-table th,
+.doc-table td {
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+}
+
+.doc-table th {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.doc-table td {
+    color: var(--text-muted);
+}
+
+.doc-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Formulaire de contact */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.contact-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contact-field label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.contact-optional {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.contact-field input,
+.contact-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: var(--radius-small);
+    color: var(--text);
+    font: inherit;
+}
+
+.contact-field textarea {
+    min-height: 160px;
+    resize: vertical;
+}
+
+.contact-field input:focus-visible,
+.contact-field textarea:focus-visible {
+    outline: 2px solid var(--media-green);
+    outline-offset: 1px;
+}
+
+/* Champ piège pour les robots, invisible pour les personnes */
+.contact-honeypot {
+    display: none;
+}
+
+.contact-submit {
+    align-self: flex-start;
+    padding: 12px 28px;
+    background: var(--text);
+    border: none;
+    border-radius: var(--radius-small);
+    color: var(--bg);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.contact-submit:hover {
+    background: #fff;
+}
+
+.contact-submit:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.contact-status {
+    min-height: 1.6em;
+}
+
+.contact-status[data-state="success"] {
+    color: var(--tier-0);
+}
+
+.contact-status[data-state="error"] {
+    color: var(--tier-3);
 }
