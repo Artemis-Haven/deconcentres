@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Le Monopoly des Médias</title>
+    <title>Déconcentrés</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +15,11 @@
     <div class="page">
 
         <header class="header">
-            <h1 class="header-title">Le Monopoly des Médias</h1>
+            <h1 class="header-title">
+                <span class="logo" role="img" aria-label="Déconcentrés">
+                    <span class="logo-de" aria-hidden="true">DÉ</span><span class="logo-word" aria-hidden="true">CONCENTRÉS</span>
+                </span>
+            </h1>
 
             <div class="scoreboard">
                 <div class="scoreboard-item">
@@ -46,6 +50,9 @@
 
         <main class="main">
 
+            <!-- Colonne de gauche sur desktop, sous la grille sur mobile -->
+            <div class="side-column">
+
             <aside id="sidebar" class="sidebar">
 
                 <section class="sidebar-section">
@@ -70,11 +77,33 @@
                     Voir toutes les règles
                 </button>
 
-                <button class="rules-button" type="button" data-open="guide-dialog">
-                    Qui possède nos médias ?
-                </button>
-
             </aside>
+
+            <!-- Accès au guide des médias, mis en avant -->
+            <section class="guide-entry" aria-labelledby="guide-entry-title">
+                <h2 id="guide-entry-title">Qui possède nos médias ?</h2>
+                <div class="guide-entry-buttons">
+                    <button type="button" class="guide-entry-button" data-open="guide-dialog" data-guide-tab="owners">
+                        <span class="guide-entry-icon guide-entry-icon--owners" aria-hidden="true"></span>
+                        Les milliardaires
+                    </button>
+                    <button type="button" class="guide-entry-button" data-open="guide-dialog" data-guide-tab="independents">
+                        <span class="guide-entry-icon guide-entry-icon--independents" aria-hidden="true"></span>
+                        Les médias indépendants
+                    </button>
+                </div>
+            </section>
+
+            <!-- Bloc temporaire, activé par ELECTIONS_BLOCK_ENABLED dans constants.js -->
+            <section id="elections-entry" class="guide-entry elections-entry" aria-labelledby="elections-entry-title" hidden>
+                <h2 id="elections-entry-title">Les élections approchent, que proposent les candidats ?</h2>
+                <button type="button" class="guide-entry-button" data-open="elections-dialog">
+                    <span class="guide-entry-icon elections-entry-icon" aria-hidden="true"></span>
+                    Les propositions des partis
+                </button>
+            </section>
+
+            </div>
 
             <section class="game-area">
 
@@ -84,7 +113,15 @@
 
                 <div id="start-overlay" class="overlay">
                     <div class="overlay-box">
-                        <h2>Le Monopoly des Médias</h2>
+                        <h2 class="start-title">
+                            <span class="logo logo--large" role="img" aria-label="Déconcentrés">
+                                <span class="logo-de" aria-hidden="true">DÉ</span><span class="logo-word" aria-hidden="true">CONCENTRÉS</span>
+                            </span>
+                        </h2>
+
+                        <p class="start-subtitle">
+                            Le seul jeu où perdre sa concentration est une victoire
+                        </p>
 
                         <p class="start-lead">
                             Une poignée de milliardaires possède une grande partie des médias français.
@@ -171,6 +208,16 @@
         </div>
         <div id="guide-independents" class="guide-panel" role="tabpanel" aria-labelledby="guide-tab-independents" hidden>
             <!-- généré en JS à partir du catalogue -->
+        </div>
+    </dialog>
+
+    <dialog id="elections-dialog" class="rules-dialog elections-dialog" aria-labelledby="elections-title">
+        <div class="rules-header">
+            <h2 id="elections-title">Que proposent les partis ?</h2>
+            <button id="elections-close" class="rules-close" type="button" aria-label="Fermer">×</button>
+        </div>
+        <div id="elections-content" class="rules-content">
+            <!-- généré en JS à partir de js/elections.js -->
         </div>
     </dialog>
 

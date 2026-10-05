@@ -1,6 +1,6 @@
 import { SCORE } from "../constants.js";
 
-const BEST_SCORE_KEY = "monopoly-medias-best-score";
+const BEST_SCORE_KEY = "deconcentres-best-score";
 
 export class Score {
 

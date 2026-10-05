@@ -10,6 +10,9 @@ export const COLORS = [
 
 export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
 
+// Bloc temporaire « Les élections approchent » (false pour le masquer)
+export const ELECTIONS_BLOCK_ENABLED = true;
+
 // Délai d'inactivité avant de montrer un coup jouable au joueur
 export const HINT_DELAY_MS = 15000;
 

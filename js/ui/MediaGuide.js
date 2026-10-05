@@ -15,6 +15,13 @@ export class MediaGuide {
             tab.addEventListener("click", () => this.selectTab(tab));
         }
 
+        // Boutons data-guide-tab : ouvrent la pop-in directement sur l'onglet voulu
+        for (const button of document.querySelectorAll("[data-guide-tab]")) {
+            button.addEventListener("click", () => {
+                this.selectTab(document.getElementById(`guide-tab-${button.dataset.guideTab}`));
+            });
+        }
+
         // Flèches gauche / droite pour passer d'un onglet à l'autre
         this.dialog.querySelector('[role="tablist"]').addEventListener("keydown", event => {
             if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;

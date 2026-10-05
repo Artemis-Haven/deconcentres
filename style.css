@@ -496,7 +496,7 @@ button {
         padding-right: 0;
     }
 
-    .sidebar {
+    .side-column {
         margin: 0 16px;
     }
 
@@ -633,6 +633,14 @@ button {
         display: none;
     }
 
+    .guide-entry-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .guide-entry-button {
+        font-size: 14px;
+    }
+
     .sidebar.is-open {
         display: flex;
         position: absolute;
@@ -661,6 +669,10 @@ button {
         font-size: 24px;
     }
 
+    .header-title .logo {
+        --brand-size: 26px;
+    }
+
     .main {
         flex-direction: row;
         align-items: flex-start;
@@ -668,7 +680,7 @@ button {
         padding: 24px;
     }
 
-    .sidebar {
+    .side-column {
         width: 280px;
         flex-shrink: 0;
     }
@@ -1109,14 +1121,170 @@ button {
     white-space: nowrap;
 }
 
-/* Deux boutons d'information à la suite dans le bloc de gauche */
-.rules-button + .rules-button {
-    margin-top: -10px;
+/* ------------------------------------------------ */
+/* ACCÈS AU GUIDE « QUI POSSÈDE NOS MÉDIAS ? » */
+/* ------------------------------------------------ */
+
+.side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.guide-entry {
+    padding: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.guide-entry h2 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+}
+
+.guide-entry-buttons {
+    display: grid;
+    gap: 8px;
+}
+
+.guide-entry-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.guide-entry-button:hover {
+    background: #2a2f38;
+    border-color: rgba(255, 255, 255, .14);
+}
+
+/* Rappels visuels du jeu : bloc propriétaire et pastille indépendante */
+.guide-entry-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+}
+
+.guide-entry-icon--owners {
+    border-radius: 5px;
+    background: var(--owner-bg);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .1),
+        inset 0 -4px 0 var(--media-red);
+}
+
+.guide-entry-icon--independents {
+    border-radius: 50%;
+    background: var(--media-green);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+}
+
+/* ------------------------------------------------ */
+/* LOGO « DÉCONCENTRÉS » */
+/* ------------------------------------------------ */
+
+/* « DÉ » : pastille verte d'un média indépendant ;
+   « CONCENTRÉS » : liseré aux couleurs des quatre milliardaires */
+.logo {
+    --brand-size: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--brand-size) * .3);
+    font-size: var(--brand-size);
+    font-weight: 800;
+    letter-spacing: .02em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.logo-de {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75em;
+    height: 1.75em;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0) 65%),
+        var(--media-green);
+    box-shadow:
+        0 0 0 .1em rgba(255, 255, 255, .25),
+        0 .12em .3em rgba(0, 0, 0, .35);
+    color: #fff;
+    font-size: .8em;
+    letter-spacing: 0;
+}
+
+.logo-word {
+    padding-bottom: .2em;
+    border-bottom: .14em solid;
+    border-image: linear-gradient(90deg,
+        var(--media-red) 0 25%,
+        var(--media-blue) 25% 50%,
+        var(--media-purple) 50% 75%,
+        var(--media-yellow) 75% 100%) 1;
+    color: var(--text);
+}
+
+/* Écran d'accueil : grand logo, la pastille « DÉ » tombe comme une tuile */
+.logo--large {
+    --brand-size: clamp(26px, 8vw, 40px);
+}
+
+.logo--large .logo-de {
+    animation: logo-drop 700ms cubic-bezier(.3, 1.4, .5, 1) 300ms both;
+}
+
+@keyframes logo-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-70%);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    to {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .logo--large .logo-de {
+        animation: none;
+    }
 }
 
 /* ------------------------------------------------ */
 /* ÉCRAN D'ACCUEIL */
 /* ------------------------------------------------ */
+
+.overlay-box .start-title {
+    margin-bottom: 10px;
+}
+
+.overlay-box .start-subtitle {
+    margin-bottom: 18px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-muted);
+}
 
 .overlay-box .start-lead {
     margin-bottom: 10px;
@@ -1424,4 +1592,158 @@ button {
         grid-template-columns: 1fr;
         gap: 2px;
     }
+}
+
+/* ------------------------------------------------ */
+/* ÉLECTIONS (bloc temporaire) */
+/* ------------------------------------------------ */
+
+.elections-entry h2 {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+/* Urne stylisée : rappel discret du thème */
+.elections-entry-icon {
+    border-radius: 4px;
+    background:
+        linear-gradient(var(--text) 0 0) center 5px / 10px 2px no-repeat,
+        var(--surface);
+    box-shadow: inset 0 0 0 2px var(--text-muted);
+}
+
+.elections-dialog {
+    width: min(880px, calc(100% - 32px));
+}
+
+.rules-content .elections-intro {
+    margin: 12px 0 20px;
+    color: var(--text-muted);
+}
+
+.elections-parties {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+    gap: 12px;
+}
+
+.elections-party {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.elections-party h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Orientation politique : puce devant le nom, et légende */
+.elections-party-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.elections-orientation {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .08);
+}
+
+.elections-orientations {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin: -8px 0 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.elections-orientations li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.elections-proposals {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+}
+
+.elections-proposals li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.elections-proposals li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .5em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Vert : contre la concentration des médias ; blanc : autres propositions ;
+   gris : aucune proposition identifiée */
+.elections-proposal {
+    color: var(--text);
+}
+
+.elections-proposal--concentration {
+    color: var(--tier-0);
+}
+
+.rules-content .elections-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: -8px 0 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.elections-legend-mark {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--tier-0);
+}
+
+.elections-none {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.rules-content .elections-sources {
+    margin: auto 0 0;
+    padding-top: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.elections-sources a {
+    color: var(--text-muted);
+    text-underline-offset: 2px;
+}
+
+.elections-sources a:hover {
+    color: var(--text);
 }

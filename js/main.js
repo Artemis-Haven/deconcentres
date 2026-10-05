@@ -1,6 +1,7 @@
 import { Game } from "./game/Game.js";
 import { RulesModal } from "./ui/RulesModal.js";
 import { MediaGuide } from "./ui/MediaGuide.js";
+import { ElectionsGuide } from "./ui/ElectionsGuide.js";
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -10,6 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     new RulesModal();
     new MediaGuide();
+    new ElectionsGuide();
 
     // Tout bouton data-open="<id>" ouvre la pop-in correspondante
     document.addEventListener("click", event => {
