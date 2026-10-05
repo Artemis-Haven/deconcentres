@@ -9,10 +9,6 @@ export class RulesModal {
 
         document.getElementById("rules-content").innerHTML = this.buildContent();
 
-        document.getElementById("rules-button").addEventListener("click", () => {
-            this.dialog.showModal();
-        });
-
         document.getElementById("rules-close").addEventListener("click", () => {
             this.dialog.close();
         });
@@ -29,7 +25,7 @@ export class RulesModal {
         return [
             this.goalSection(),
             this.moveSection(),
-            this.ownersSection(),
+            //this.ownersSection(),
             this.independentsSection(),
             this.pointsSection(),
             this.multipliersSection(),
@@ -54,9 +50,15 @@ export class RulesModal {
             <section>
                 <h3>Jouer un coup</h3>
                 <p>
-                    Fais glisser une tuile vers une case voisine (horizontalement ou verticalement)
-                    pour les échanger. L'échange n'est accepté que s'il crée un alignement de
-                    3 médias ou plus de la même couleur ; sinon, les tuiles reviennent à leur place.
+                    Fais glisser une tuile de média <span class="rules-swatch tile-red"></span>,
+                    <span class="rules-swatch tile-yellow"></span>, <span class="rules-swatch tile-blue"></span>
+                    ou <span class="rules-swatch tile-purple"></span> vers une case voisine (horizontalement ou verticalement)
+                    pour les échanger et former un alignement de 3 médias ou plus de la même couleur.
+                </p>
+                <p>
+                    Quand un alignement se forme, ses médias disparaissent et sont remplacés par
+                    <strong>un bloc sombre « propriétaire »</strong>. Les propriétaires peuvent être
+                    déplacés, mais ils ne forment jamais d'alignement.
                 </p>
             </section>`;
     }
@@ -78,14 +80,8 @@ export class RulesModal {
                 <ul class="rules-list">${owners}</ul>
                 <p>
                     Quand un alignement se forme, ses médias disparaissent et sont remplacés par
-                    <strong>un bloc sombre « propriétaire »</strong>, souligné de la couleur de son groupe et placé à l'endroit de l'échange
-                    (ou au milieu du groupe pour les alignements qui se forment tout seuls).
-                    Les propriétaires restent sur la grille et tombent avec les autres tuiles.
-                    On peut les déplacer, mais ils ne forment jamais d'alignement.
-                </p>
-                <p>
-                    Les cases vidées sont remplies par de nouvelles tuiles qui tombent du haut,
-                    ce qui peut provoquer de nouveaux alignements en cascade.
+                    <strong>un bloc sombre « propriétaire »</strong>. Les propriétaires peuvent être
+                    déplacés, mais ils ne forment jamais d'alignement.
                 </p>
             </section>`;
     }
@@ -114,22 +110,27 @@ export class RulesModal {
                 <h3>Les médias indépendants</h3>
                 <p>
                     Les <span class="rules-green">pastilles rondes vertes</span> sont des médias indépendants.
-                    Leur nuance de vert et leur icône indiquent leur effet.
-                    Environ ${spawnRate} % des nouvelles tuiles sont des indépendants, et chacun des
-                    trois effets a la même chance d'apparaître. Un indépendant a plus de chances
-                    d'apparaître s'il y en a déjà un de même effet dans les colonnes voisines.
                 </p>
                 <p>
                     Les indépendants ne s'alignent jamais. Pour en activer un, fais-le glisser sur
-                    <strong>un indépendant de même effet</strong> (même icône) juste à côté, même
-                    s'il s'agit d'un autre média : les deux tuiles disparaissent et déclenchent leur
-                    effet. Deux indépendants d'effets différents ne peuvent pas être échangés.
+                    <strong>un indépendant de même effet</strong> (même icône) juste à côté : les deux
+                    tuiles disparaissent et déclenchent leur effet. Deux indépendants d'effets différents
+                    ne peuvent pas être échangés.
                 </p>
-                <ul class="rules-effects">${effects}</ul>
-                <p>
-                    Le démantèlement vise le milliardaire qui a le plus de blocs sur la grille.
-                    En cas d'égalité, c'est celui dont un bloc est le plus proche de la paire activée.
-                </p>
+                <ul class="rules-effects">
+                    <li>
+                        <span class="independent-icon indep-cross">${EFFECT_ICONS['cross']}</span>
+                        <span><strong>${EFFECT_NAMES['cross']}</strong> → ${EFFECT_DESCRIPTIONS['cross']}.</span>
+                    </li>
+                    <li>
+                        <span class="independent-icon indep-square">${EFFECT_ICONS['square']}</span>
+                        <span><strong>${EFFECT_NAMES['square']}</strong> → ${EFFECT_DESCRIPTIONS['square']}.</span>
+                    </li>
+                    <li>
+                        <span class="independent-icon indep-dismantle">${EFFECT_ICONS['dismantle']}</span>
+                        <span><strong>${EFFECT_NAMES['dismantle']}</strong> → ${EFFECT_DESCRIPTIONS['dismantle']}.</span>
+                    </li>
+                </ul>
             </section>`;
     }
 
@@ -140,6 +141,8 @@ export class RulesModal {
             .join(", ");
 
         return `
+            <br/>
+            <hr/>
             <section>
                 <h3>Les points</h3>
                 <table class="rules-table">
@@ -195,13 +198,12 @@ export class RulesModal {
 
     endSection() {
         return `
+            <br/>
+            <hr/>
             <section>
                 <h3>Fin de partie</h3>
                 <p>
-                    La partie s'arrête quand plus aucun coup n'est possible. Un bilan affiche
-                    ton score, le nombre de médias rachetés par chaque milliardaire et le nombre
-                    de rédactions libérées par les médias indépendants. Ton meilleur score est
-                    conservé comme record.
+                    La partie s'arrête quand plus aucun coup n'est possible.
                 </p>
             </section>`;
     }

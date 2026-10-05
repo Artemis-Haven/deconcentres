@@ -51,8 +51,12 @@
                     <ul id="independents" class="independents"></ul>
                 </section>
 
-                <button id="rules-button" class="rules-button" type="button">
+                <button id="rules-button" class="rules-button" type="button" data-open="rules-dialog">
                     Voir toutes les règles
+                </button>
+
+                <button class="rules-button" type="button" data-open="guide-dialog">
+                    Qui possède nos médias ?
                 </button>
 
             </aside>
@@ -67,9 +71,28 @@
                     <div class="overlay-box">
                         <h2>Le Monopoly des Médias</h2>
 
-                        <button id="start-button">
+                        <p class="start-lead">
+                            Une poignée de milliardaires possède une grande partie des médias français.
+                        </p>
+
+                        <p>
+                            Ici, chaque alignement de médias fait grandir l'empire de l'un d'eux.
+                            Les médias indépendants sont tes alliés : garde la grille plurielle
+                            le plus longtemps possible !
+                        </p>
+
+                        <button id="start-button" type="button">
                             Lancer la partie
                         </button>
+
+                        <div class="start-links">
+                            <button type="button" class="link-button" data-open="rules-dialog">
+                                Les règles
+                            </button>
+                            <button type="button" class="link-button" data-open="guide-dialog">
+                                Qui possède nos médias ?
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -108,6 +131,31 @@
         </div>
         <div id="rules-content" class="rules-content">
             <!-- généré en JS à partir des constantes -->
+        </div>
+    </dialog>
+
+    <dialog id="guide-dialog" class="rules-dialog guide-dialog" aria-labelledby="guide-title">
+        <div class="guide-top">
+            <div class="rules-header">
+                <h2 id="guide-title">Qui possède nos médias ?</h2>
+                <button id="guide-close" class="rules-close" type="button" aria-label="Fermer">×</button>
+            </div>
+            <div class="guide-tabs" role="tablist">
+                <button id="guide-tab-owners" class="guide-tab" type="button" role="tab"
+                        aria-controls="guide-owners" aria-selected="true">
+                    Les milliardaires
+                </button>
+                <button id="guide-tab-independents" class="guide-tab" type="button" role="tab"
+                        aria-controls="guide-independents" aria-selected="false" tabindex="-1">
+                    Les médias indépendants
+                </button>
+            </div>
+        </div>
+        <div id="guide-owners" class="guide-panel" role="tabpanel" aria-labelledby="guide-tab-owners">
+            <!-- généré en JS à partir du catalogue -->
+        </div>
+        <div id="guide-independents" class="guide-panel" role="tabpanel" aria-labelledby="guide-tab-independents" hidden>
+            <!-- généré en JS à partir du catalogue -->
         </div>
     </dialog>
 

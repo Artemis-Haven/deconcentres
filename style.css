@@ -3,6 +3,9 @@
 /* ------------------------------------------------ */
 
 :root {
+    /* Interface sombre : barres de défilement et contrôles natifs assortis */
+    color-scheme: dark;
+
     /* Fond et surfaces */
     --bg: #121418;
     --surface: #1b1e24;
@@ -824,6 +827,7 @@ button {
 .rules-dialog {
     width: min(640px, calc(100% - 32px));
     max-height: 85vh;
+    overflow-x: hidden;
     overflow-y: auto;
     margin: auto;
     padding: 0;
@@ -965,4 +969,321 @@ button {
     font-variant-numeric: tabular-nums;
     color: var(--text);
     white-space: nowrap;
+}
+
+/* Deux boutons d'information à la suite dans le bloc de gauche */
+.rules-button + .rules-button {
+    margin-top: -10px;
+}
+
+/* ------------------------------------------------ */
+/* ÉCRAN D'ACCUEIL */
+/* ------------------------------------------------ */
+
+.overlay-box .start-lead {
+    margin-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.start-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 16px;
+    margin-top: 16px;
+}
+
+/* Liens secondaires (règles, propriétaires) : discrets à côté du bouton principal */
+.overlay-box .link-button {
+    margin: 0;
+    padding: 6px 4px;
+    background: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.overlay-box .link-button:hover {
+    background: none;
+    color: var(--text);
+}
+
+/* ------------------------------------------------ */
+/* QUI POSSÈDE NOS MÉDIAS ? */
+/* ------------------------------------------------ */
+
+.guide-dialog {
+    width: min(880px, calc(100% - 32px));
+}
+
+/* En-tête et onglets restent visibles pendant le défilement */
+.guide-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.guide-top .rules-header {
+    position: static;
+    border-bottom: none;
+    padding-bottom: 12px;
+}
+
+.guide-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 24px 16px;
+}
+
+.guide-tab {
+    padding: 14px 12px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.guide-tab:hover {
+    color: var(--text);
+}
+
+.guide-tab[aria-selected="true"] {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
+}
+
+.guide-panel {
+    padding: 8px 24px 24px;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+/* Milliardaires */
+.guide-owner {
+    padding: 20px 0;
+}
+
+.guide-owner + .guide-owner {
+    border-top: 1px solid var(--border);
+}
+
+.guide-owner-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+/* Rappel du bloc « propriétaire » de la grille, avec le liseré de son groupe */
+.guide-owner-mark {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--owner-bg);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .08),
+        inset 0 -5px 0 var(--tile);
+}
+
+.guide-owner h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.guide-owner-group {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.guide-owner > p {
+    margin-bottom: 12px;
+    color: var(--text-muted);
+}
+
+.guide-empire {
+    display: grid;
+    gap: 8px;
+}
+
+.guide-empire > div {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--surface-raised);
+    border-radius: var(--radius-small);
+}
+
+.guide-empire dt {
+    font-weight: 600;
+    color: var(--tile);
+}
+
+.guide-empire dd {
+    color: var(--text);
+}
+
+/* Autres milliardaires propriétaires de médias */
+.guide-others {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+}
+
+.guide-others h3 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.guide-others ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: 8px;
+}
+
+.guide-others li {
+    padding: 10px 12px;
+    background: var(--surface-raised);
+    border-radius: var(--radius-small);
+}
+
+.guide-others-group {
+    margin-left: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.guide-others li p {
+    margin-top: 2px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.guide-note {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Médias indépendants */
+.guide-intro {
+    margin: 12px 0 20px;
+    color: var(--text-muted);
+}
+
+.guide-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+    gap: 12px;
+}
+
+.guide-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+/* Zone du logo : même rendu que la pastille sur la grille */
+.guide-logo {
+    container-type: inline-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 84px;
+    margin-bottom: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius-small);
+    background:
+        radial-gradient(circle at 50% 30%, rgba(255, 255, 255, .14), rgba(255, 255, 255, 0) 70%),
+        var(--tile);
+    color: #fff;
+}
+
+.guide-logo .cell-logo {
+    max-height: 100%;
+}
+
+/* La taille des logos est calculée sur la largeur : on la plafonne en hauteur */
+.guide-logo.logo--plate .cell-logo {
+    padding: 4cqi 5cqi;
+    border-radius: 3cqi;
+}
+
+.guide-logo-name {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.guide-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.guide-card-description {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Fait d'armes : en évidence, avec le vert des indépendants */
+.guide-card-highlight {
+    padding: 8px 10px;
+    border-left: 3px solid var(--media-green);
+    border-radius: 0;
+    background: rgba(255, 255, 255, .04);
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text);
+}
+
+/* Le lien reste en bas de la carte, quelle que soit la longueur du texte */
+.guide-card-link {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 4px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-underline-offset: 3px;
+}
+
+/* Sur téléphone : catégorie au-dessus des médias, onglets plus compacts */
+@media (max-width: 599px) {
+
+    .guide-tabs {
+        padding: 0 16px 12px;
+    }
+
+    .guide-tab {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+
+    .guide-panel {
+        padding: 4px 16px 20px;
+    }
+
+    .guide-empire > div {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
 }
