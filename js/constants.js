@@ -10,6 +10,9 @@ export const COLORS = [
 
 export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
 
+// Délai d'inactivité avant de montrer un coup jouable au joueur
+export const HINT_DELAY_MS = 15000;
+
 // Bonus de probabilité d'un effet par média indépendant de même effet
 // déjà présent dans les colonnes voisines (facilite la formation de paires)
 export const INDEPENDENT_NEARBY_BOOST = 3;
@@ -45,9 +48,9 @@ export const SCORE = {
 
     // Indice de pluralisme, selon le nombre de propriétaires en début de coup
     PLURALISM: [
-        { maxOwners: 2, multiplier: 2 },
-        { maxOwners: 5, multiplier: 1.5 },
-        { maxOwners: 9, multiplier: 1 },
+        { maxOwners: 3, multiplier: 2 },
+        { maxOwners: 6, multiplier: 1.5 },
+        { maxOwners: 10, multiplier: 1 },
         { maxOwners: Infinity, multiplier: 0.5 }
     ]
 };

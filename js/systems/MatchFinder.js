@@ -10,6 +10,14 @@ export class MatchFinder {
     }
 
     static hasPossibleMove(board) {
+        return this.findPossibleMove(board) !== null;
+    }
+
+    // Coup jouable : [case, case voisine], ou null s'il n'y en a aucun.
+    // Un alignement classique est privilégié ; une paire d'indépendants
+    // n'est proposée que s'il n'existe aucun autre coup
+    static findPossibleMove(board) {
+        let independentPair = null;
 
         for (let y = 0; y < board.size; y++) {
             for (let x = 0; x < board.size; x++) {
@@ -21,22 +29,22 @@ export class MatchFinder {
                     if (!neighbour) continue;
 
                     if (this.isActivatableIndependentPair(cell, neighbour)) {
-                        return true;
+                        independentPair ??= [cell, neighbour];
+                        continue;
                     }
 
                     board.swap(cell, neighbour);
                     const createsMatch = this.find(board).length > 0;
                     board.swap(cell, neighbour);
 
-                    if (createsMatch) return true;
+                    if (createsMatch) return [cell, neighbour];
                 }
             }
         }
 
-        return false;
+        return independentPair;
     }
 
-    // Deux médias indépendants voisins s'activent s'ils ont le même effet
     static isActivatableIndependentPair(cellA, cellB) {
         const tileA = cellA.tile;
         const tileB = cellB.tile;

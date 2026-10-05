@@ -1,4 +1,4 @@
-import { BOARD_SIZE, GAME_STATE } from "../constants.js";
+import { BOARD_SIZE, GAME_STATE, HINT_DELAY_MS } from "../constants.js";
 import { Board } from "../board/Board.js";
 import { Factory } from "./Factory.js";
 import { Animation } from "../systems/Animation.js";
@@ -29,6 +29,7 @@ export class Game {
         // Un élément par tuile, réutilisé d'un rendu à l'autre : recréer toutes les cases
         // à chaque étape d'animation faisait clignoter les logos sur mobile et tablette
         this.tileElements = new WeakMap();
+        this.hintTimer = null;
         this.preloadedImages = this.preloadImages();
         this.listenToBoard();
     }
@@ -50,6 +51,9 @@ export class Game {
             const element = event.target.closest(".cell");
 
             if (!element) return;
+
+            // Le joueur agit : on retire l'indice et on relance le délai
+            this.scheduleHint();
 
             const cell = this.board.get(Number(element.dataset.x), Number(element.dataset.y));
             this.input.handlePointerDown(cell, event);
@@ -121,6 +125,46 @@ export class Game {
             }
         } finally {
             this.isBusy = false;
+            this.scheduleHint();
+        }
+    }
+
+    // Montre un coup jouable après HINT_DELAY_MS sans action du joueur
+    scheduleHint() {
+        this.clearHint();
+
+        if (this.state !== GAME_STATE.PLAYING) return;
+
+        this.hintTimer = setTimeout(() => this.showHint(), HINT_DELAY_MS);
+    }
+
+    showHint() {
+        if (this.state !== GAME_STATE.PLAYING || this.isBusy) return;
+
+        const move = MatchFinder.findPossibleMove(this.board);
+
+        if (!move) return;
+
+        const [cellA, cellB] = move;
+
+        // Les deux tuiles se rapprochent l'une de l'autre, dans le sens de l'échange
+        for (const [cell, other] of [[cellA, cellB], [cellB, cellA]]) {
+            const element = this.getCellElement(cell.x, cell.y);
+
+            element.style.setProperty("--hint-dx", other.x - cell.x);
+            element.style.setProperty("--hint-dy", other.y - cell.y);
+            element.classList.add("hint");
+        }
+    }
+
+    clearHint() {
+        clearTimeout(this.hintTimer);
+        this.hintTimer = null;
+
+        for (const element of this.boardElement.querySelectorAll(".hint")) {
+            element.classList.remove("hint");
+            element.style.removeProperty("--hint-dx");
+            element.style.removeProperty("--hint-dy");
         }
     }
 
@@ -299,6 +343,7 @@ export class Game {
         this.fillBoard();
         this.checkGameOver();
         this.render();
+        this.scheduleHint();
     }
 
     restartGame() {
@@ -308,6 +353,7 @@ export class Game {
 
     gameOver() {
         this.state = GAME_STATE.GAME_OVER;
+        this.clearHint();
         this.score.saveBest();
         this.hud.renderGameOver();
         this.hud.update();

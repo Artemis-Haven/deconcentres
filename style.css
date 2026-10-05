@@ -595,6 +595,41 @@ button {
 }
 
 /* ------------------------------------------------ */
+/* INDICE : COUP JOUABLE APRÈS INACTIVITÉ */
+/* ------------------------------------------------ */
+
+/* Les deux tuiles pulsent en se rapprochant l'une de l'autre
+   (--hint-dx / --hint-dy : direction de la tuile partenaire) */
+.cell.hint {
+    z-index: 2;
+    animation: hint-nudge 1.2s ease-in-out infinite;
+}
+
+@keyframes hint-nudge {
+    0%, 100% {
+        transform: none;
+    }
+
+    50% {
+        transform:
+            translate(calc(var(--hint-dx, 0) * 10%), calc(var(--hint-dy, 0) * 10%))
+            scale(1.06);
+        filter: brightness(1.25);
+    }
+}
+
+/* Animations réduites : simple surbrillance */
+@media (prefers-reduced-motion: reduce) {
+
+    .cell.hint {
+        animation: none;
+        filter: brightness(1.3);
+        outline: 2px solid rgba(255, 255, 255, .8);
+        outline-offset: -2px;
+    }
+}
+
+/* ------------------------------------------------ */
 /* EFFETS DES MÉDIAS INDÉPENDANTS */
 /* ------------------------------------------------ */
 

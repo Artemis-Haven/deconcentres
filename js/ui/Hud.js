@@ -74,6 +74,9 @@ export class Hud {
 
         document.body.appendChild(float);
         float.addEventListener("animationend", () => float.remove());
+
+        // Secours : l'animation ne se termine pas si l'onglet est en arrière-plan
+        setTimeout(() => float.remove(), 1500);
     }
 
     renderGameOver() {
