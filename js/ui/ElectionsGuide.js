@@ -9,6 +9,7 @@ export class ElectionsGuide {
         if (!ELECTIONS_BLOCK_ENABLED) return;
 
         document.getElementById("elections-entry").hidden = false;
+        document.getElementById("gameover-elections").hidden = false;
 
         this.dialog = document.getElementById("elections-dialog");
         this.render(document.getElementById("elections-content"));

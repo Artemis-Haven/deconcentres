@@ -162,6 +162,27 @@ export class Hud {
             ? `Les médias indépendants ont libéré ${score.ownersRemoved} rédaction${score.ownersRemoved > 1 ? "s" : ""}.`
             : "Aucune rédaction n'a été libérée par les médias indépendants.";
         this.statsElement.appendChild(freed);
+
+        this.renderGameOverInvitation();
+    }
+
+    // « Et dans la vraie vie ? » : cite le milliardaire qui a le plus racheté pendant la partie
+    renderGameOverInvitation() {
+        const created = this.game.score.ownersCreated;
+        const top = Object.values(MEDIA_CATALOG)
+            .filter(catalog => catalog.owner)
+            .reduce((best, catalog) =>
+                (created[catalog.owner] || 0) > (created[best.owner] || 0) ? catalog : best);
+        const count = created[top.owner] || 0;
+        const text = document.getElementById("gameover-more-text");
+
+        if (count > 0) {
+            text.innerHTML = `Pendant ta partie, <strong>${top.owner}</strong> a racheté ` +
+                `${count} média${count > 1 ? "s" : ""}. Dans la réalité aussi, son groupe possède ` +
+                `un véritable empire médiatique.`;
+        } else {
+            text.textContent = "Les médias de la grille existent vraiment : découvre qui les possède.";
+        }
     }
 
     formatNumber(value) {

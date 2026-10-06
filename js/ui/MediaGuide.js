@@ -66,7 +66,25 @@ export class MediaGuide {
                 dont la fortune vient le plus souvent d'ailleurs : luxe, BTP, transport maritime…
                 Posséder un média, c'est pouvoir peser sur ce dont on parle et sur la façon d'en parler :
                 quels sujets sont mis en avant, lesquels sont passés sous silence, quelles idées ont droit de cité.
-            </p>` + owners.map(([color, catalog]) => `
+            </p>
+            <div class="guide-maps">
+                <a class="guide-map" href="https://www.monde-diplomatique.fr/cartes/PPA" target="_blank" rel="noopener">
+                    <img class="guide-map-preview" src="./assets/carte-acrimed-monde-diplo.jpg" width="300" height="224" alt="">
+                    <span class="guide-map-text">
+                        <strong>Médias français, qui possède quoi&nbsp;? <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></strong>
+                        <span>La carte complète, par Le Monde diplomatique et Acrimed</span>
+                    </span>
+                </a>
+                <a class="guide-map" href="https://lvsl.fr/carte-de-ledition-francaise/" target="_blank" rel="noopener">
+                    <span class="guide-map-preview guide-map-figure" aria-hidden="true">90&nbsp;%</span>
+                    <span class="guide-map-text">
+                        <strong>Et dans le milieu de l'édition&nbsp;? <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></strong>
+                        <em>« 90 % de la production éditoriale est ainsi aux mains d'une poignée de grandes fortunes
+                        plus ou moins liées à des intérêts industriels ou financiers. »</em>
+                        <span>Carte de l'édition française, par Le Vent Se Lève et les éditions Agone, avec le Monde Diplomatique</span>
+                    </span>
+                </a>
+            </div>` + owners.map(([color, catalog]) => `
             <section class="guide-owner tile-${color}">
                 <div class="guide-owner-head">
                     <span class="guide-owner-mark" aria-hidden="true"></span>
@@ -117,7 +135,11 @@ export class MediaGuide {
             grid.appendChild(this.createCard(item));
         }
 
-        panel.replaceChildren(intro, grid);
+        const more = document.createElement("p");
+        more.className = "guide-more";
+        more.textContent = "Et bien d'autres…";
+
+        panel.replaceChildren(intro, grid, more);
     }
 
     createCard(item) {

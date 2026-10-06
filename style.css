@@ -1358,6 +1358,97 @@ button {
     text-align: center;
 }
 
+/* Fin de partie : un peu plus large, pour les statistiques et les invitations */
+#gameover-overlay .overlay-box {
+    width: min(480px, 100%);
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+/* Espacements resserrés : tout doit tenir sans défiler, bouton « Relancer » compris */
+#gameover-overlay .overlay-box > p {
+    margin-bottom: 14px;
+}
+
+#gameover-overlay .gameover-stats ul {
+    margin-bottom: 10px;
+}
+
+#gameover-overlay .guide-entry-button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 599px) {
+
+    #gameover-overlay .overlay-box {
+        padding: 20px 16px;
+    }
+}
+
+/* « Et dans la vraie vie ? » : mis en avant, juste avant le bouton pour rejouer */
+.gameover-more {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    background: rgba(74, 150, 54, .1);
+    border: 1px solid rgba(143, 209, 111, .35);
+    border-radius: var(--radius);
+    text-align: left;
+}
+
+.gameover-more h3 {
+    margin-bottom: 6px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.overlay-box .gameover-more p {
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.overlay-box .gameover-more strong {
+    color: var(--text);
+}
+
+.gameover-more-buttons {
+    display: grid;
+    gap: 8px;
+}
+
+/* Les boutons reprennent le style des accès au guide, pas celui du bouton principal */
+.overlay-box .guide-entry-button {
+    width: 100%;
+    margin: 0;
+    padding: 12px 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 15px;
+}
+
+.overlay-box .guide-entry-button:hover {
+    background: #2a2f38;
+    border-color: rgba(255, 255, 255, .14);
+}
+
+.gameover-elections {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(143, 209, 111, .25);
+}
+
+.gameover-elections[hidden] {
+    display: none;
+}
+
+.overlay-box .gameover-elections p {
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 600;
+}
+
 /* ------------------------------------------------ */
 /* RÈGLES */
 /* ------------------------------------------------ */
@@ -1566,17 +1657,33 @@ button {
     height: 22px;
 }
 
+/* Milliardaires : bloc propriétaire marqué d'un « € » */
 .guide-entry-icon--owners {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
     border-radius: 5px;
     background: var(--owner-bg);
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, .1),
-        inset 0 -4px 0 var(--media-red);
+        inset 0 -4px 0 var(--tile, var(--media-red));
 }
 
+.guide-entry-icon--owners::before {
+    content: "€";
+}
+
+/* Indépendants : pastille verte avec un mégaphone */
 .guide-entry-icon--independents {
     border-radius: 50%;
-    background: var(--media-green);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l18-5v12L3 14v-3z'/%3E%3Cpath d='M11.6 16.8a3 3 0 1 1-5.8-1.6'/%3E%3C/svg%3E") center / 14px no-repeat,
+        var(--media-green);
     box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
 }
 
@@ -1768,9 +1875,6 @@ button {
 /* Milliardaires */
 .guide-owner {
     padding: 20px 0;
-}
-
-.guide-owner + .guide-owner {
     border-top: 1px solid var(--border);
 }
 
@@ -1873,6 +1977,99 @@ button {
     margin-top: 8px;
     font-size: 13px;
     color: var(--text-muted);
+}
+
+/* Cartes de référence (Monde diplomatique, LVSL) : deux lignes compactes
+   en tête de l'onglet, pour ne pas repousser les milliardaires */
+.guide-maps {
+    margin: -8px 0 16px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+}
+
+.guide-map {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 12px 8px 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+}
+
+.guide-map + .guide-map {
+    border-top: 1px solid var(--border);
+}
+
+.guide-map:hover {
+    background: #2a2f38;
+}
+
+.guide-map:first-child {
+    border-radius: var(--radius-small) var(--radius-small) 0 0;
+}
+
+.guide-map:last-child {
+    border-radius: 0 0 var(--radius-small) var(--radius-small);
+}
+
+/* Miniature de la carte, ou chiffre clé quand il n'y a pas d'image */
+.guide-map-preview {
+    flex-shrink: 0;
+    width: 64px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.guide-map-figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--owner-bg);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.guide-map-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.guide-map-text strong {
+    color: var(--text);
+    font-size: 14px;
+}
+
+/* Le premier milliardaire suit directement les cartes */
+.guide-maps + .guide-owner {
+    padding-top: 4px;
+}
+
+/* Téléphone : citation limitée à trois lignes (elle est complète sur la page liée) */
+@media (max-width: 599px) {
+
+    .guide-map-text > span {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+/* « Et bien d'autres… » sous les cartes des indépendants */
+.guide-more {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
 }
 
 /* Médias indépendants */

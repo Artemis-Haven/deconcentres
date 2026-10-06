@@ -189,6 +189,33 @@
 
                         <div id="gameover-stats" class="gameover-stats"></div>
 
+                        <!-- Invitation à consulter les guides, personnalisée selon la partie (Hud.js) -->
+                        <section class="gameover-more" aria-labelledby="gameover-more-title">
+                            <h3 id="gameover-more-title">Et dans la vraie vie ?</h3>
+                            <p id="gameover-more-text"></p>
+                            <div class="gameover-more-buttons">
+                                <button type="button" class="guide-entry-button"
+                                        data-open="guide-dialog" data-guide-tab="owners">
+                                    <span class="guide-entry-icon guide-entry-icon--owners" aria-hidden="true"></span>
+                                    L'empire des milliardaires
+                                </button>
+                                <button type="button" class="guide-entry-button"
+                                        data-open="guide-dialog" data-guide-tab="independents">
+                                    <span class="guide-entry-icon guide-entry-icon--independents" aria-hidden="true"></span>
+                                    Les médias indépendants
+                                </button>
+                            </div>
+
+                            <!-- Affiché seulement si ELECTIONS_BLOCK_ENABLED (ElectionsGuide.js) -->
+                            <div id="gameover-elections" class="gameover-elections" hidden>
+                                <p>Les élections approchent&nbsp;!</p>
+                                <button type="button" class="guide-entry-button" data-open="elections-dialog">
+                                    <span class="guide-entry-icon elections-entry-icon" aria-hidden="true"></span>
+                                    Que proposent les partis sur les médias&nbsp;?
+                                </button>
+                            </div>
+                        </section>
+
                         <button id="restart-button" type="button">
                             Relancer une partie
                         </button>

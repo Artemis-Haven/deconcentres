@@ -541,7 +541,9 @@ export class Game {
         this.hud.update();
         this.gameOverOverlay.classList.remove("hidden");
         this.setOverlayOpen(true);
-        document.getElementById("restart-button").focus();
+        // Focus sur « Relancer », mais la boîte reste affichée depuis son début
+        document.getElementById("restart-button").focus({ preventScroll: true });
+        this.gameOverOverlay.querySelector(".overlay-box").scrollTop = 0;
         this.announce(`Partie terminée, il n'y a plus aucun coup possible. Score : ${this.hud.formatNumber(this.score.total)}.`);
     }
 }
