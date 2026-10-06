@@ -1,3 +1,4 @@
+import { INFO_UPDATED } from "../constants.js";
 import { MEDIA_CATALOG, OTHER_OWNERS } from "../mediaCatalog.js";
 
 // Pop-in « Qui possède nos médias ? » : un onglet pour les milliardaires,
@@ -114,7 +115,7 @@ export class MediaGuide {
                 </ul>
             </section>
             <p class="guide-note">
-                Informations vérifiées en octobre 2026. Les rachats sont fréquents :
+                Informations vérifiées en ${INFO_UPDATED}. Les rachats sont fréquents :
                 certaines données peuvent avoir évolué.
             </p>`;
     }

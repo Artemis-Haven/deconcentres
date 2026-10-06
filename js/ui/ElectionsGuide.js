@@ -1,5 +1,5 @@
-import { ELECTIONS_BLOCK_ENABLED } from "../constants.js";
-import { ELECTIONS_UPDATED, ORIENTATIONS, PARTIES } from "../elections.js";
+import { ELECTIONS_BLOCK_ENABLED, INFO_UPDATED } from "../constants.js";
+import { ORIENTATIONS, PARTIES } from "../elections.js";
 
 // Bloc temporaire « Les élections approchent » et sa pop-in :
 // les propositions de chaque parti sur les médias (js/elections.js)
@@ -30,7 +30,7 @@ export class ElectionsGuide {
         const intro = document.createElement("p");
         intro.className = "elections-intro";
         intro.textContent = "Propositions publiques des principaux partis sur la concentration des médias, " +
-            `l'indépendance des rédactions et l'audiovisuel public, relevées en ${ELECTIONS_UPDATED}.`;
+            `l'indépendance des rédactions et l'audiovisuel public, relevées en ${INFO_UPDATED}.`;
 
         const legend = document.createElement("p");
         legend.className = "elections-legend";

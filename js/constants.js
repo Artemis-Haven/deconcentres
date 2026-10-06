@@ -10,6 +10,11 @@ export const COLORS = [
 
 export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
 
+// Date de vérification des informations (propriétaires des médias, propositions des partis).
+// Seul endroit à modifier : elle est reprise dans le guide, les élections, les pieds de page
+// et les mentions légales (éléments data-info-updated, remplis par js/site.js)
+export const INFO_UPDATED = "octobre 2026";
+
 // Bloc temporaire « Les élections approchent » (false pour le masquer)
 export const ELECTIONS_BLOCK_ENABLED = true;
 

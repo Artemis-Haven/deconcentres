@@ -1,12 +1,11 @@
 // Propositions des partis en lien avec la concentration des médias,
 // l'indépendance des rédactions et l'audiovisuel public.
-// Relevé d'octobre 2026, à mettre à jour au fil de la campagne.
+// Relevé à la date INFO_UPDATED (constants.js), à mettre à jour au fil de la campagne.
 // fightsConcentration : proposition explicitement en faveur de la lutte contre
 // la concentration des médias ou de l'indépendance des rédactions,
 // affichée en vert (les autres en blanc).
 // proposals vide : « Aucune proposition identifiée » s'affiche en gris.
 
-export const ELECTIONS_UPDATED = "octobre 2026";
 
 // Orientation politique : puce de couleur devant le nom du parti, et légende
 export const ORIENTATIONS = {

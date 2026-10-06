@@ -49,10 +49,8 @@
                 Écrivez-moi ici. Votre e-mail est facultatif : laissez-le seulement si vous souhaitez une réponse.
             </p>
 
-            <!-- Web3Forms : remplacer VOTRE_CLE_WEB3FORMS par la clé d'accès (elle n'est pas secrète).
-                 Sans JavaScript, le formulaire est envoyé directement à Web3Forms. -->
             <form id="contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-                <input type="hidden" name="access_key" value="VOTRE_CLE_WEB3FORMS">
+                <input type="hidden" name="access_key" value="7d4766b3-3a94-4c57-a589-8ae264c8db3f">
                 <input type="hidden" name="subject" value="Déconcentrés : nouveau message">
                 <input type="hidden" name="from_name" value="Déconcentrés">
                 <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off">
@@ -80,7 +78,7 @@
         </main>
 
         <footer class="footer">
-            <p>Informations vérifiées en octobre 2026</p>
+            <p>Informations vérifiées en <span data-info-updated></span></p>
             <nav class="footer-links" aria-label="Informations sur le site">
                 <a href="contact.html" aria-current="page">Contact</a>
                 <a href="credits.html">Crédits</a>
@@ -90,6 +88,7 @@
 
     </div>
 
+    <script type="module" src="js/site.js"></script>
     <script type="module" src="js/contact.js"></script>
 </body>
 </html>
