@@ -37,7 +37,7 @@ export class Resolver {
 
             await Gravity.apply(this.game.board, this.game);
 
-            // Les cascades suivantes ne viennent plus de l'échange du joueur
+            // Les cascades suivantes ne viennent plus du swap
             swappedCells = [];
 
             const after = this.snapshot();
@@ -54,8 +54,7 @@ export class Resolver {
 
         for (const group of groups) {
 
-            // Le propriétaire apparaît à l'endroit de l'échange,
-            // ou au milieu du groupe pour les cascades
+            // Owner sur la case du swap, sinon au milieu du groupe
             const swappedCell = group.find(cell => swappedCells.includes(cell));
             const centerCell = swappedCell ?? group[Math.floor(group.length / 2)];
 

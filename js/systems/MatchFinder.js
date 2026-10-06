@@ -13,9 +13,7 @@ export class MatchFinder {
         return this.findPossibleMove(board) !== null;
     }
 
-    // Coup jouable : [case, case voisine], ou null s'il n'y en a aucun.
-    // Un alignement classique est privilégié ; une paire d'indépendants
-    // n'est proposée que s'il n'existe aucun autre coup
+    // Renvoie un coup jouable [case, voisine] ou null (alignements classiques en priorité)
     static findPossibleMove(board) {
         let independentPair = null;
 

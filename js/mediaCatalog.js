@@ -138,8 +138,7 @@ export const MEDIA_CATALOG = {
     }
 };
 
-// Autres milliardaires propriétaires de médias, absents du jeu,
-// présentés dans « Qui possède nos médias ? »
+// Autres propriétaires (guide uniquement)
 export const OTHER_OWNERS = [
     { owner: "Famille Dassault", group: "Groupe Figaro", media: "Le Figaro, Gala, TV Magazine, Le Particulier, Le Journal des Femmes, Journal du Net, L'Internaute, La Chaîne Météo" },
     { owner: "François Pinault", group: "Artémis", media: "Le Point, Point de Vue, 40 % du 1 hebdo, les éditions Tallandier" },

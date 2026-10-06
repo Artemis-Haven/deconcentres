@@ -10,23 +10,19 @@ export const COLORS = [
 
 export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
 
-// Date de vérification des informations (propriétaires des médias, propositions des partis).
-// Seul endroit à modifier : elle est reprise dans le guide, les élections, les pieds de page
-// et les mentions légales (éléments data-info-updated, remplis par js/site.js)
+// Date de vérification des infos (affichée via data-info-updated, cf. site.js)
 export const INFO_UPDATED = "octobre 2026";
 
-// Bloc temporaire « Les élections approchent » (false pour le masquer)
+// Bloc élections (temporaire)
 export const ELECTIONS_BLOCK_ENABLED = true;
 
-// Délai d'inactivité avant de montrer un coup jouable au joueur
+// Délai avant affichage d'un indice
 export const HINT_DELAY_MS = 15000;
 
-// Bonus de probabilité d'un effet par média indépendant de même effet
-// déjà présent dans les colonnes voisines (facilite la formation de paires)
+// Bonus de proba si l'effet est déjà présent dans les colonnes voisines
 export const INDEPENDENT_NEARBY_BOOST = 3;
 
-// Effets des médias indépendants, dans leur ordre d'affichage.
-// Chaque effet a la même chance d'apparaître, quel que soit son nombre de médias
+// Effets des indépendants (ordre d'affichage), équiprobables
 export const INDEPENDENT_EFFECTS = ["cross", "square", "dismantle"];
 
 export const TILE_TYPE = {
@@ -42,7 +38,7 @@ export const GAME_STATE = {
 
 
 export const SCORE = {
-    // Points de base selon la taille de l'alignement (5 et plus : 100)
+    // Points de base par taille d'alignement
     MATCH_POINTS: { 3: 30, 4: 60, 5: 100 },
     SHAPE_BONUS: 50, // forme en L ou en T
 

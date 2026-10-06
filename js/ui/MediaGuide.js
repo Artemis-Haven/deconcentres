@@ -2,14 +2,13 @@ import { INFO_UPDATED } from "../constants.js";
 import { MEDIA_CATALOG, OTHER_OWNERS } from "../mediaCatalog.js";
 import { trackEvent } from "../analytics.js";
 
-// Événements de mesure d'audience, par onglet
+// Tracking par onglet
 const TAB_EVENTS = {
     "guide-tab-owners": ["guide-milliardaires", "Guide : les milliardaires"],
     "guide-tab-independents": ["guide-independants", "Guide : les médias indépendants"]
 };
 
-// Pop-in « Qui possède nos médias ? » : un onglet pour les milliardaires,
-// un onglet pour les médias indépendants, construits à partir du catalogue
+// Pop-in guide des médias (milliardaires / indépendants)
 export class MediaGuide {
 
     constructor() {
@@ -23,14 +22,14 @@ export class MediaGuide {
             tab.addEventListener("click", () => this.showTab(tab));
         }
 
-        // Boutons data-guide-tab : ouvrent la pop-in directement sur l'onglet voulu
+        // Ouverture directe sur un onglet
         for (const button of document.querySelectorAll("[data-guide-tab]")) {
             button.addEventListener("click", () => {
                 this.selectTab(document.getElementById(`guide-tab-${button.dataset.guideTab}`));
             });
         }
 
-        // Flèches gauche / droite pour passer d'un onglet à l'autre
+        // Navigation clavier entre onglets
         this.dialog.querySelector('[role="tablist"]').addEventListener("keydown", event => {
             if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
@@ -41,8 +40,7 @@ export class MediaGuide {
             next.focus();
         });
 
-        // Ouverture de la pop-in : compte l'onglet affiché. Les boutons data-guide-tab
-        // ont déjà choisi l'onglet (leur écouteur passe avant celui du document)
+        // Tracking de l'onglet affiché à l'ouverture
         document.addEventListener("click", event => {
             if (event.target.closest('[data-open="guide-dialog"]')) {
                 this.trackTab(this.tabs.find(tab => tab.getAttribute("aria-selected") === "true"));
@@ -53,7 +51,7 @@ export class MediaGuide {
             this.dialog.close();
         });
 
-        // Un clic sur le fond (en dehors de la boîte) ferme la pop-in
+        // Clic sur le backdrop : fermeture
         this.dialog.addEventListener("click", event => {
             if (event.target === this.dialog) {
                 this.dialog.close();
@@ -61,7 +59,7 @@ export class MediaGuide {
         });
     }
 
-    // Changement d'onglet par le joueur (clic ou flèches) : compté s'il change de vue
+    // Changement d'onglet (tracké si l'onglet change)
     showTab(tab) {
         if (tab.getAttribute("aria-selected") !== "true") {
             this.trackTab(tab);
@@ -177,10 +175,9 @@ export class MediaGuide {
         const card = document.createElement("article");
         card.className = "guide-card";
 
-        // Même rendu du logo que sur la grille (classes et options du catalogue)
+        // Même rendu que sur la grille
         const logoBox = document.createElement("div");
         logoBox.className = `guide-logo indep-square`;
-        // Décoratif : le nom du média suit juste en dessous
         logoBox.setAttribute("aria-hidden", "true");
 
         if (item.logo) {
@@ -196,7 +193,7 @@ export class MediaGuide {
             logo.style.backgroundImage = `url('./assets/${item.img}')`;
             logoBox.appendChild(logo);
         } else {
-            // Pas encore de vrai logo : le nom à la place
+            // Pas de logo : on affiche le nom
             const name = document.createElement("span");
             name.className = "guide-logo-name";
             name.textContent = item.name;
@@ -212,7 +209,6 @@ export class MediaGuide {
 
         card.append(logoBox, title, description);
 
-        // Fait d'armes ou ce qui a fait connaître le média
         if (item.highlight) {
             const highlight = document.createElement("p");
             highlight.className = "guide-card-highlight";

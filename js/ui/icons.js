@@ -1,17 +1,17 @@
-// Icônes des effets des médias indépendants (SVG en trait, couleur héritée du texte)
+// Icônes des effets (SVG, currentColor)
 
 const svg = paths =>
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" ` +
     `stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 
 export const EFFECT_ICONS = {
-    // Croisement des sources : ligne + colonne
+    // croix
     cross: svg(`<path d="M12 4v16M4 12h16"/>`),
 
-    // Loupe : enquête sur une zone de 3×3
+    // loupe
     square: svg(`<circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/>`),
 
-    // Réseau rompu : un propriétaire (gros nœud) coupé de ses médias (démantèlement)
+    // réseau rompu
     dismantle: svg(
         `<g fill="currentColor" stroke="none">` +
         `<circle cx="11.8" cy="12.4" r="3.1"/>` +
@@ -23,7 +23,7 @@ export const EFFECT_ICONS = {
     )
 };
 
-// Pastille contenant l'icône d'un effet, colorée selon l'effet
+// Badge d'effet
 export function createEffectBadge(effect, className) {
     const badge = document.createElement("span");
 

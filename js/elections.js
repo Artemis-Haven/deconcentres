@@ -1,13 +1,9 @@
-// Propositions des partis en lien avec la concentration des médias,
-// l'indépendance des rédactions et l'audiovisuel public.
-// Relevé à la date INFO_UPDATED (constants.js), à mettre à jour au fil de la campagne.
-// fightsConcentration : proposition explicitement en faveur de la lutte contre
-// la concentration des médias ou de l'indépendance des rédactions,
-// affichée en vert (les autres en blanc).
-// proposals vide : « Aucune proposition identifiée » s'affiche en gris.
+// Propositions des partis sur les médias (à mettre à jour pendant la campagne)
+// fightsConcentration: true => en vert
+// proposals vide => "Aucune proposition identifiée"
 
 
-// Orientation politique : puce de couleur devant le nom du parti, et légende
+// Couleur de la puce par orientation
 export const ORIENTATIONS = {
     "gauche-radicale": { label: "Gauche radicale", color: "#d23a32" },
     "ecologie": { label: "Écologie", color: "#3fae5a" },

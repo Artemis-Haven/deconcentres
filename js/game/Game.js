@@ -27,12 +27,11 @@ export class Game {
         this.score = new Score();
         this.hud = new Hud(this);
 
-        // Un élément par tuile, réutilisé d'un rendu à l'autre : recréer toutes les cases
-        // à chaque étape d'animation faisait clignoter les logos sur mobile et tablette
+        // Cache des éléments par tuile
         this.tileElements = new WeakMap();
         this.hintTimer = null;
 
-        // Clavier et toucher simple : case active (tabulation) et case sélectionnée
+        // Clavier / sélection
         this.focusPosition = { x: 0, y: 0 };
         this.selected = null;
         this.statusElement = document.getElementById("game-status");
@@ -42,7 +41,7 @@ export class Game {
         this.listenToBoard();
     }
 
-    // Précharge tous les logos : une tuile qui apparaît s'affiche sans délai
+    // Préchargement des logos
     preloadImages() {
         return Object.values(MEDIA_CATALOG)
             .flatMap(catalog => catalog.items)
@@ -53,14 +52,14 @@ export class Game {
             });
     }
 
-    // Écouteurs posés une seule fois sur la grille : les cases, elles, sont déplacées
+    // Listeners délégués
     listenToBoard() {
         this.boardElement.addEventListener("pointerdown", event => {
             const element = event.target.closest(".cell");
 
             if (!element) return;
 
-            // Le joueur agit : on retire l'indice et on relance le délai
+            // reset de l'indice
             this.scheduleHint();
 
             const cell = this.board.get(Number(element.dataset.x), Number(element.dataset.y));
@@ -75,7 +74,7 @@ export class Game {
 
         this.boardElement.addEventListener("keydown", event => this.handleKeyDown(event));
 
-        // La case active suit le focus, y compris après un clic
+        // Case active = case focus
         this.boardElement.addEventListener("focusin", event => {
             const element = event.target.closest(".cell");
 
@@ -85,8 +84,7 @@ export class Game {
         });
     }
 
-    // Clavier : flèches pour se déplacer, Entrée ou Espace pour sélectionner,
-    // puis une flèche pour échanger avec la case voisine ; Échap pour annuler
+    // Flèches : déplacement (ou échange si sélection), Entrée/Espace : sélection, Échap : annule
     handleKeyDown(event) {
         const directions = {
             ArrowLeft: [-1, 0],
@@ -124,8 +122,7 @@ export class Game {
         }
     }
 
-    // Toucher ou clic sans glisser, et Entrée au clavier : sélectionne une case,
-    // ou l'échange avec la case déjà sélectionnée si elles sont voisines
+    // Sélection, ou échange si une voisine est déjà sélectionnée
     selectCell(cell) {
         if (this.state !== GAME_STATE.PLAYING || this.isBusy || !cell) return;
 
@@ -173,7 +170,7 @@ export class Game {
         this.getCellElement(x, y)?.focus();
     }
 
-    // Texte lu par les lecteurs d'écran pour une case
+    // Label ARIA d'une case
     describeTile(tile) {
         if (!tile) return "Case vide";
 
@@ -186,17 +183,17 @@ export class Game {
         return `${tile.name}, média de ${MEDIA_CATALOG[tile.color].owner}`;
     }
 
-    // Message lu par les lecteurs d'écran (zone live, invisible à l'écran)
+    // Annonce aria-live
     announce(message) {
         this.statusElement.textContent = "";
 
-        // Vider puis remplir : un message identique au précédent est quand même relu
+        // reset pour relire un message identique
         requestAnimationFrame(() => {
             this.statusElement.textContent = message;
         });
     }
 
-    // Écran de début ou de fin : le reste de la page n'est plus atteignable
+    // Page inert sous les overlays
     setOverlayOpen(open) {
         for (const element of this.overlayInertElements) {
             element.inert = open;
@@ -253,13 +250,12 @@ export class Game {
             const b = cellB.tile;
 
             if (MatchFinder.isActivatableIndependentPair(cellA, cellB)) {
-                // Rendu immédiat : sans lui, la transition CSS ramène
-                // visuellement les tuiles à leur place d'origine
+                // Render immédiat, sinon la transition ramène les tuiles
                 this.render();
                 this.score.startMove(this.board.countOwners());
                 await this._activateIndependentPair(cellA, cellB);
             } else if (a?.isIndependent?.() && b?.isIndependent?.()) {
-                // Deux indépendants d'effets différents : l'échange est refusé
+                // Effets différents : échange refusé
                 this.board.swap(cellA, cellB);
                 await Animation.swap(elA, elB);
                 refusal = "Échange impossible : ces deux médias indépendants n'ont pas le même effet.";
@@ -288,7 +284,7 @@ export class Game {
         }
     }
 
-    // Montre un coup jouable après HINT_DELAY_MS sans action du joueur
+    // Indice après HINT_DELAY_MS d'inactivité
     scheduleHint() {
         this.clearHint();
 
@@ -306,7 +302,6 @@ export class Game {
 
         const [cellA, cellB] = move;
 
-        // Les deux tuiles se rapprochent l'une de l'autre, dans le sens de l'échange
         for (const [cell, other] of [[cellA, cellB], [cellB, cellA]]) {
             const element = this.getCellElement(cell.x, cell.y);
 
@@ -336,13 +331,15 @@ export class Game {
     async _activateIndependentPair(cellA, cellB) {
         const a = cellA.tile;
 
-        await EffectAnimation.highlight([cellA, cellB], this);
-
         const affected = IndependentEffects.apply(a.effect, cellB, this);
         const points = this.score.scoreIndependent(affected.map(cell => cell.tile));
         this.hud.showPoints(cellB, points);
 
-        await EffectAnimation.play(a.effect, affected, this, cellB);
+        // highlight et effet en parallèle
+        await Promise.all([
+            EffectAnimation.highlight([cellA, cellB], this),
+            EffectAnimation.play(a.effect, affected, this, cellB)
+        ]);
 
         cellA.tile = null;
         cellB.tile = null;
@@ -358,7 +355,7 @@ export class Game {
         const matches = MatchFinder.find(this.board);
 
         if (matches.length === 0) {
-            // Aucun alignement : l'échange est refusé
+            // Pas d'alignement : échange refusé
             this.board.swap(cellA, cellB);
             await Animation.swap(elA, elB);
             return false;
@@ -376,7 +373,7 @@ export class Game {
         const hadFocus = this.boardElement.contains(document.activeElement);
 
         for (let y = 0; y < this.board.size; y++) {
-            // Lignes de la grille pour les lecteurs d'écran (sans effet sur la mise en page)
+            // Lignes ARIA (display: contents)
             const row = document.createElement("div");
             row.className = "board-row";
             row.setAttribute("role", "row");
@@ -409,12 +406,12 @@ export class Game {
 
         this.boardElement.replaceChildren(...rows);
 
-        // Les cases ont été retirées puis remises : on rend le focus à la case active
+        // Restaure le focus après replaceChildren
         if (hadFocus) {
             this.getCellElement(this.focusPosition.x, this.focusPosition.y)?.focus({ preventScroll: true });
         }
 
-        // Rétablit les transitions une fois les cases réutilisées remises en place
+        // Réactive les transitions
         if (reused.length > 0) {
             void this.boardElement.offsetWidth;
 
@@ -457,8 +454,7 @@ export class Game {
                 `tile-${tile.color}`
             );
 
-            // Vrai logo : affiché selon ses options, sans le nom sauf si demandé.
-            // Image provisoire : le nom est toujours affiché en dessous
+            // Logo : options du catalogue ; image provisoire : nom affiché
             if (tile.logo) {
                 div.classList.add("has-logo", `logo--${tile.logo.style ?? "plain"}`);
                 div.classList.toggle("logo--wide", Boolean(tile.logo.wide));
@@ -477,7 +473,7 @@ export class Game {
                 inner.appendChild(label);
             }
 
-            // Indépendants : nuance et icône selon leur effet
+            // Indépendants : couleur + badge selon l'effet
             if (tile.isIndependent()) {
                 div.classList.add(`indep-${tile.effect}`);
                 div.appendChild(createEffectBadge(tile.effect, "cell-badge"));
@@ -492,14 +488,13 @@ export class Game {
 
         div.appendChild(inner);
 
-        // Classes d'origine, rétablies à chaque réutilisation
+        // Classes de base (restaurées à la réutilisation)
         div.baseClassName = div.className;
 
         return div;
     }
 
-    // Efface les états laissés par les animations (classes, déplacements),
-    // sans transition pour que la case ne glisse pas vers sa nouvelle place
+    // Reset des états d'animation, sans transition
     resetTileElement(element) {
         element.className = element.baseClassName;
         element.style.transition = "none";
@@ -526,7 +521,7 @@ export class Game {
         this.render();
         this.scheduleHint();
 
-        // Le bouton de lancement a disparu : le focus passe sur la grille
+        // Focus sur la grille
         this.getCellElement(0, 0)?.focus();
     }
 
@@ -544,7 +539,7 @@ export class Game {
         this.hud.update();
         this.gameOverOverlay.classList.remove("hidden");
         this.setOverlayOpen(true);
-        // Focus sur « Relancer », mais la boîte reste affichée depuis son début
+        // Focus sur Relancer sans scroller la boîte
         document.getElementById("restart-button").focus({ preventScroll: true });
         this.gameOverOverlay.querySelector(".overlay-box").scrollTop = 0;
         this.announce(`Partie terminée, il n'y a plus aucun coup possible. Score : ${this.hud.formatNumber(this.score.total)}.`);

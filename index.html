@@ -9,16 +9,14 @@
     <meta name="theme-color" content="#121418">
     <meta name="description" content="Le seul jeu où perdre sa concentration est une victoire. Un jeu de grille sur la concentration des médias en France : face aux milliardaires, les médias indépendants sont tes alliés.">
 
-    <!-- Partage sur les réseaux sociaux (Open Graph). Les adresses doivent être absolues :
-         remplacer https://EXEMPLE.github.io/deconcentres/ par l'adresse du site une fois en ligne -->
-    <link rel="canonical" href="https://EXEMPLE.github.io/deconcentres/">
+    <link rel="canonical" href="https://artemis-haven.github.io/deconcentres/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Déconcentrés">
     <meta property="og:title" content="Déconcentrés">
     <meta property="og:description" content="Le seul jeu où perdre sa concentration est une victoire. Face aux milliardaires qui possèdent nos médias, garde la grille plurielle le plus longtemps possible !">
-    <meta property="og:url" content="https://EXEMPLE.github.io/deconcentres/">
-    <meta property="og:image" content="https://EXEMPLE.github.io/deconcentres/og-image.png">
+    <meta property="og:url" content="https://artemis-haven.github.io/deconcentres/">
+    <meta property="og:image" content="https://artemis-haven.github.io/deconcentres/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Logo Déconcentrés au-dessus d'une rangée de tuiles colorées, avec le sous-titre « Le seul jeu où perdre sa concentration est une victoire »">
@@ -53,7 +51,7 @@
                 </div>
             </div>
 
-            <!-- Mobile et tablette : résumé des bonus, ouvre le détail par-dessus la grille -->
+            <!-- Résumé des bonus (mobile / tablette) -->
             <button id="bonus-summary" class="bonus-summary" type="button"
                     aria-expanded="false" aria-controls="sidebar">
                 <span class="bonus-summary-values">
@@ -71,7 +69,7 @@
 
         <main class="main">
 
-            <!-- Colonne de gauche sur desktop, sous la grille sur mobile -->
+            <!-- Colonne gauche (desktop) / sous la grille (mobile) -->
             <div class="side-column">
 
             <aside id="sidebar" class="sidebar">
@@ -100,7 +98,6 @@
 
             </aside>
 
-            <!-- Accès au guide des médias, mis en avant -->
             <section class="guide-entry" aria-labelledby="guide-entry-title">
                 <h2 id="guide-entry-title">Qui possède nos médias ?</h2>
                 <div class="guide-entry-buttons">
@@ -115,7 +112,7 @@
                 </div>
             </section>
 
-            <!-- Bloc temporaire, activé par ELECTIONS_BLOCK_ENABLED dans constants.js -->
+            <!-- Bloc élections (ELECTIONS_BLOCK_ENABLED) -->
             <section id="elections-entry" class="guide-entry elections-entry" aria-labelledby="elections-entry-title" hidden>
                 <h2 id="elections-entry-title">Les élections approchent, que proposent les candidats ?</h2>
                 <button type="button" class="guide-entry-button" data-open="elections-dialog">
@@ -138,7 +135,7 @@
                     <!-- cases générées en JS -->
                 </div>
 
-                <!-- Annonces pour les lecteurs d'écran : coups joués, points, indices, fin de partie -->
+                <!-- aria-live -->
                 <p id="game-status" class="visually-hidden" role="status" aria-live="polite"></p>
 
                 <div id="start-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="start-title">
@@ -189,7 +186,7 @@
 
                         <div id="gameover-stats" class="gameover-stats"></div>
 
-                        <!-- Invitation à consulter les guides, personnalisée selon la partie (Hud.js) -->
+                        <!-- rempli par Hud.js -->
                         <section class="gameover-more" aria-labelledby="gameover-more-title">
                             <h3 id="gameover-more-title">Et dans la vraie vie ?</h3>
                             <p id="gameover-more-text"></p>
@@ -206,7 +203,7 @@
                                 </button>
                             </div>
 
-                            <!-- Affiché seulement si ELECTIONS_BLOCK_ENABLED (ElectionsGuide.js) -->
+                            <!-- ELECTIONS_BLOCK_ENABLED -->
                             <div id="gameover-elections" class="gameover-elections" hidden>
                                 <p>Les élections approchent&nbsp;!</p>
                                 <button type="button" class="guide-entry-button" data-open="elections-dialog">
@@ -283,7 +280,7 @@
         </div>
     </dialog>
 
-    <!-- Mesure d'audience sans cookie (GoatCounter), voir les mentions légales -->
+    <!-- GoatCounter -->
     <script data-goatcounter="https://artemis.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     <script type="module" src="js/site.js"></script>
     <script type="module" src="js/main.js"></script>

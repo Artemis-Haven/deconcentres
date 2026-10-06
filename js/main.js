@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
     new MediaGuide();
     new ElectionsGuide();
 
-    // Tout bouton data-open="<id>" ouvre la pop-in correspondante
+    // data-open="<id>" : ouvre la pop-in
     document.addEventListener("click", event => {
         const button = event.target.closest("[data-open]");
 

@@ -26,8 +26,7 @@ export class Factory {
 
         for (let tries = 0; tries < 10; tries++) {
 
-            // Vider la case : une tuile rejetée ne doit pas compter
-            // dans la pondération des médias indépendants
+            // On vide la case pour ne pas fausser la pondération
             cell.tile = null;
 
             const media = this.getRandomMedia(null, board, x);
@@ -38,7 +37,7 @@ export class Factory {
             }
         }
 
-        // Repli : une couleur qui ne crée pas d'alignement à cet endroit
+        // Fallback : couleur sans alignement
         const safeColor = COLORS
             .filter(color => color !== "green")
             .sort(() => Math.random() - 0.5)
@@ -53,9 +52,7 @@ export class Factory {
         return MEDIA_CATALOG[color]?.owner || null;
     }
 
-    // Tire un média indépendant parmi tous ceux du catalogue.
-    // Chaque effet pèse autant au total, quel que soit son nombre de médias,
-    // et un effet déjà présent dans les colonnes voisines est favorisé
+    // Tirage d'un indépendant : même poids par effet, bonus si l'effet est présent à côté
     static getIndependentMedia(board = null, column = null) {
         const items = MEDIA_CATALOG.green.items;
         const nearbyEffectCounts = this.countNearbyIndependents(board, column);
@@ -70,11 +67,11 @@ export class Factory {
         let draw = Math.random() * weights.reduce((sum, weight) => sum + weight, 0);
         const index = weights.findIndex(weight => (draw -= weight) < 0);
 
-        // Repli sur le dernier en cas d'arrondi flottant
+        // Fallback (arrondis)
         return new Media("green", items[index === -1 ? items.length - 1 : index]);
     }
 
-    // Nombre de médias indépendants de chaque effet dans la colonne et ses voisines
+    // Nb d'indépendants par effet (colonne + voisines)
     static countNearbyIndependents(board, column) {
         const counts = new Map();
 

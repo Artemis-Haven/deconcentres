@@ -32,7 +32,7 @@ export class Input {
         const dy = event.clientY - start.y;
         const minimumSwipeDistance = 16;
 
-        // Toucher ou clic sans glisser : sélection, puis échange avec une case voisine
+        // Tap sans swipe : sélection
         if (Math.max(Math.abs(dx), Math.abs(dy)) < minimumSwipeDistance) {
             this.game.selectCell(start.cell);
             return;

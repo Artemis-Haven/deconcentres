@@ -3,8 +3,7 @@ import { EFFECT_ICONS } from "../ui/icons.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-// Effets visuels des médias indépendants. Ils sont dessinés sur un calque
-// posé par-dessus la grille, puis les tuiles touchées disparaissent
+// Animations des effets (calque au-dessus de la grille)
 export class EffectAnimation {
 
     static async play(effect, cells, game, origin)
@@ -45,10 +44,7 @@ export class EffectAnimation {
         }
     }
 
-    // -----------------------------
-    // Croisement des sources : deux faisceaux partent de la paire, le long
-    // de la ligne et de la colonne ; chaque propriétaire touché s'illumine
-    // -----------------------------
+    // --- Croisement des sources ---
     static async cross(cells, game, origin, layer)
     {
         const center = this.cellRect(game, origin, layer);
@@ -65,7 +61,7 @@ export class EffectAnimation {
         const burst = this.addElement(layer, "effect-burst");
         this.placeAt(burst, center.cx, center.cy, center.width * 1.2);
 
-        // Le faisceau atteint chaque case selon sa distance à la paire
+        // délai selon la distance
         const reach = Math.max(width, height);
 
         for (const cell of cells) {
@@ -79,10 +75,7 @@ export class EffectAnimation {
         await this.vanish(cells, game);
     }
 
-    // -----------------------------
-    // Enquête : la zone de 3×3 est encadrée, une loupe la parcourt
-    // et une ligne de lecture la balaie de haut en bas
-    // -----------------------------
+    // --- Enquête ---
     static async square(cells, game, origin, layer)
     {
         const size = game.board.size;
@@ -105,7 +98,7 @@ export class EffectAnimation {
         const lens = this.addElement(zone, "effect-lens");
         lens.innerHTML = EFFECT_ICONS.square;
 
-        // Les tuiles sont « révélées » au passage de la ligne de lecture
+        // délai selon le passage du scan
         const zoneHeight = bottomRight.bottom - topLeft.top;
 
         for (const cell of cells) {
@@ -118,10 +111,7 @@ export class EffectAnimation {
         await this.vanish(cells, game);
     }
 
-    // -----------------------------
-    // Démantèlement : le réseau qui relie les propriétaires du groupe
-    // se dessine, puis chaque lien se brise et les propriétaires tombent
-    // -----------------------------
+    // --- Démantèlement ---
     static async dismantle(cells, game, origin, layer)
     {
         const svg = document.createElementNS(SVG_NS, "svg");
@@ -136,11 +126,10 @@ export class EffectAnimation {
         const points = cells.map(cell => this.cellRect(game, cell, layer));
         const links = this.networkLinks(points);
 
-        // Chaque lien est fait de deux moitiés, qui s'écartent quand il se brise
+        // un lien = deux moitiés
         links.forEach(([a, b], index) => {
             const middle = { cx: (a.cx + b.cx) / 2, cy: (a.cy + b.cy) / 2 };
 
-            // Étincelle là où le lien se brise
             const spark = this.addElement(layer, "effect-burst effect-spark");
             this.placeAt(spark, middle.cx, middle.cy, a.width * .7);
             spark.style.animationDelay = `${450 + index * 30}ms`;
@@ -173,8 +162,7 @@ export class EffectAnimation {
         await this.vanish(cells, game);
     }
 
-    // Liens du réseau : chaque propriétaire est relié au plus proche
-    // de ceux déjà reliés (arbre couvrant), pour un réseau lisible
+    // Arbre couvrant (plus proche voisin)
     static networkLinks(points) {
         if (points.length < 2) return [];
 
@@ -203,7 +191,7 @@ export class EffectAnimation {
         return links;
     }
 
-    // Les tuiles touchées disparaissent avant d'être retirées de la grille
+    // Fondu de sortie
     static async vanish(cells, game) {
         for (const cell of cells) {
             const element = game.getCellElement(cell.x, cell.y);
@@ -226,7 +214,7 @@ export class EffectAnimation {
         element.classList.add(className);
     }
 
-    // Calque fixe aux dimensions de la grille, ignoré par les lecteurs d'écran
+    // Calque fixe sur la grille
     static createLayer(game) {
         const rect = game.boardElement.getBoundingClientRect();
         const layer = document.createElement("div");
@@ -257,7 +245,7 @@ export class EffectAnimation {
         element.style.height = `${size}px`;
     }
 
-    // Position d'une case par rapport au calque
+    // Position d'une case relative au calque
     static cellRect(game, cell, layer) {
         const rect = game.getCellElement(cell.x, cell.y).getBoundingClientRect();
         const origin = layer.getBoundingClientRect();

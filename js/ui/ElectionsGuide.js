@@ -2,8 +2,7 @@ import { ELECTIONS_BLOCK_ENABLED, INFO_UPDATED } from "../constants.js";
 import { ORIENTATIONS, PARTIES } from "../elections.js";
 import { trackEvent } from "../analytics.js";
 
-// Bloc temporaire « Les élections approchent » et sa pop-in :
-// les propositions de chaque parti sur les médias (js/elections.js)
+// Bloc et pop-in élections (temporaire)
 export class ElectionsGuide {
 
     constructor() {
@@ -25,7 +24,7 @@ export class ElectionsGuide {
             this.dialog.close();
         });
 
-        // Un clic sur le fond (en dehors de la boîte) ferme la pop-in
+        // Clic sur le backdrop : fermeture
         this.dialog.addEventListener("click", event => {
             if (event.target === this.dialog) {
                 this.dialog.close();
@@ -55,7 +54,7 @@ export class ElectionsGuide {
         container.replaceChildren(intro, legend, this.createOrientationLegend(), list);
     }
 
-    // Puce de couleur ; l'orientation est lue par les lecteurs d'écran et visible au survol
+    // Puce d'orientation
     createOrientationDot(orientation) {
         const dot = document.createElement("span");
         dot.className = "elections-orientation";
@@ -67,7 +66,7 @@ export class ElectionsGuide {
         return dot;
     }
 
-    // Légende des orientations présentes, dans l'ordre de ORIENTATIONS
+    // Légende des orientations utilisées
     createOrientationLegend() {
         const used = new Set(PARTIES.map(party => party.orientation));
         const legend = document.createElement("ul");

@@ -1,7 +1,4 @@
-// Formulaire de contact : envoi à Web3Forms sans quitter la page,
-// avec un message de confirmation ou d'erreur sous le bouton
-const PLACEHOLDER_KEY = "VOTRE_CLE_WEB3FORMS";
-
+// Envoi du formulaire à Web3Forms en AJAX
 const form = document.getElementById("contact-form");
 const status = document.getElementById("contact-status");
 const submit = form.querySelector('button[type="submit"]');
@@ -13,11 +10,6 @@ function showStatus(state, text) {
 
 form.addEventListener("submit", async event => {
     event.preventDefault();
-
-    if (form.elements.access_key.value === PLACEHOLDER_KEY) {
-        showStatus("error", "Le formulaire n'est pas encore configuré : le message n'a pas été envoyé.");
-        return;
-    }
 
     submit.disabled = true;
     showStatus("pending", "Envoi en cours…");

@@ -3,7 +3,7 @@
 /* ------------------------------------------------ */
 
 :root {
-    /* Interface sombre : barres de défilement et contrôles natifs assortis */
+    /* Scrollbars et contrôles natifs sombres */
     color-scheme: dark;
 
     /* Fond et surfaces */
@@ -44,7 +44,7 @@
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Couleur de chaque groupe, utilisée par les tuiles, les propriétaires et les pastilles */
+/* Couleur par groupe */
 .tile-red    { --tile: var(--media-red); }
 .tile-blue   { --tile: var(--media-blue); }
 .tile-purple { --tile: var(--media-purple); }
@@ -145,7 +145,7 @@ button {
     font-variant-numeric: tabular-nums;
 }
 
-/* Pied de page : une ligne discrète, éléments séparés par des points */
+/* Pied de page */
 .footer {
     display: flex;
     flex-wrap: wrap;
@@ -168,7 +168,7 @@ button {
     color: var(--text-muted);
 }
 
-/* Téléphone : la date sur sa propre ligne, les liens en dessous */
+/* Mobile : date sur sa propre ligne */
 @media (max-width: 599px) {
 
     .footer > p {
@@ -270,7 +270,7 @@ button {
     gap: 12px;
 }
 
-/* L'icône de l'effet rappelle la pastille du média sur la grille */
+/* Icône d'effet */
 .independents li {
     display: grid;
     grid-template-columns: 24px 1fr;
@@ -305,7 +305,7 @@ button {
     font-weight: 600;
 }
 
-/* Description de l'effet (sans toucher à la pastille d'icône) */
+/* Description de l'effet */
 .independents strong + span {
     color: var(--text-muted);
 }
@@ -330,7 +330,7 @@ button {
 /* ZONE DE JEU */
 /* ------------------------------------------------ */
 
-/* Sur mobile, la grille passe avant le bloc de gauche */
+/* Mobile : grille en premier */
 .game-area {
     order: -1;
     display: flex;
@@ -347,7 +347,7 @@ button {
 
     display: grid;
 
-    /* minmax(0, ...) : les noms longs ne doivent pas élargir les colonnes */
+    /* minmax(0) : les noms longs n'élargissent pas les colonnes */
     grid-template-columns: repeat(8, minmax(0, 1fr));
     grid-template-rows: repeat(8, minmax(0, 1fr));
     gap: 5px;
@@ -360,7 +360,7 @@ button {
 }
 
 .cell {
-    /* Permet de dimensionner le texte selon la taille de la case */
+    /* pour les unités cqi */
     container-type: inline-size;
 
     display: flex;
@@ -387,7 +387,7 @@ button {
     border-radius: inherit;
 }
 
-/* MÉDIAS DES MILLIARDAIRES : tuiles carrées */
+/* MÉDIAS DES MILLIARDAIRES */
 .cell--media {
     background:
         linear-gradient(180deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, 0) 60%),
@@ -395,7 +395,7 @@ button {
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .18);
 }
 
-/* MÉDIAS INDÉPENDANTS : pastilles rondes, en retrait dans la case */
+/* MÉDIAS INDÉPENDANTS */
 .cell--independent .cell-inner {
     width: 90%;
     height: 90%;
@@ -409,7 +409,7 @@ button {
         0 3px 8px rgba(0, 0, 0, .35);
 }
 
-/* Icône de l'effet, en haut à droite de la pastille */
+/* Badge d'effet */
 .cell-badge {
     position: absolute;
     top: 0;
@@ -434,7 +434,7 @@ button {
     height: 100%;
 }
 
-/* PROPRIÉTAIRES : bloc sombre, liseré de la couleur du groupe */
+/* PROPRIÉTAIRES */
 .cell--owner {
     background: var(--owner-bg);
     box-shadow:
@@ -458,20 +458,19 @@ button {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
 }
 
-/* VRAIS LOGOS (option « logo » du catalogue), affichés sans le nom.
-   --logo-size : taille personnalisée (option « size ») */
+/* Vrais logos (--logo-size = option size) */
 .has-logo .cell-logo {
     width: var(--logo-size, 74%);
     height: var(--logo-size, 74%);
 }
 
-/* Avec le nom en dessous (option « showName ») : logo plus petit par défaut */
+/* showName */
 .has-logo.logo--named .cell-logo {
     width: var(--logo-size, 58%);
     height: var(--logo-size, 58%);
 }
 
-/* Logo allongé : toute la largeur, hauteur réduite (la taille porte sur la largeur) */
+/* wide */
 .has-logo.logo--wide .cell-logo {
     width: var(--logo-size, 100%);
     height: 42%;
@@ -481,7 +480,7 @@ button {
     height: 34%;
 }
 
-/* Logo posé sur une étiquette blanche */
+/* style: plate */
 .logo--plate .cell-logo {
     padding: 3cqi 3cqi;
     background-color: #fff;
@@ -491,7 +490,7 @@ button {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
 }
 
-/* Logo sombre sur fond transparent, passé en blanc */
+/* style: white */
 .logo--white .cell-logo {
     filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
 }
@@ -507,20 +506,18 @@ button {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    /* Respecte les retours à la ligne du nom court */
+    /* \n du nom court */
     white-space: pre-line;
-    /* Petit texte sur fond coloré : ombre pour renforcer le contraste */
+    /* lisibilité sur fond coloré */
     text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
 }
 
-/* Texte foncé sur le jaune : pas d'ombre */
+/* pas d'ombre sur le jaune */
 .tile-yellow .cell-label {
     text-shadow: none;
 }
 
-/* Pas de retour à la ligne automatique : chaque ligne est coupée au caractère
-   (« Off Investi… » plutôt que « Off… »). Seuls les retours à la ligne
-   explicites du nom court sont respectés */
+/* Pas de wrap auto : seuls les \n du nom court comptent */
 .cell--independent .cell-label {
     display: block;
     font-size: clamp(6px, 11cqi, 10px);
@@ -541,8 +538,7 @@ button {
 /* VERSION TÉLÉPHONE */
 /* ------------------------------------------------ */
 
-/* La grille occupe toute la largeur de l'écran, en bande d'un bord à l'autre ;
-   les autres blocs gardent leurs marges */
+/* Grille bord à bord */
 @media (max-width: 599px) {
 
     .main {
@@ -567,7 +563,7 @@ button {
 /* MOBILE ET TABLETTE (en dessous de la version desktop) */
 /* ------------------------------------------------ */
 
-/* Résumé des bonus : uniquement sur mobile et tablette */
+/* Résumé des bonus (mobile / tablette) */
 .bonus-summary {
     display: none;
 }
@@ -583,7 +579,7 @@ button {
 
 @media (max-width: 899px) {
 
-    /* Titre sur toute la largeur, puis score et bonus côte à côte */
+    /* Titre pleine largeur, puis score + bonus */
     .header {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -596,7 +592,7 @@ button {
         font-size: 18px;
     }
 
-    /* Score et record regroupés dans une seule carte, record en petit */
+    /* Score + record dans une carte */
     .scoreboard {
         flex-direction: column;
         justify-content: center;
@@ -631,7 +627,7 @@ button {
         color: var(--text-muted);
     }
 
-    /* Résumé des bonus : toute la carte est cliquable */
+    /* Carte cliquable */
     .bonus-summary {
         display: flex;
         align-items: center;
@@ -677,7 +673,7 @@ button {
         transform: rotate(180deg);
     }
 
-    /* Détail des bonus : masqué, il s'ouvre par-dessus la grille */
+    /* Détail des bonus en surimpression */
     .main {
         position: relative;
         padding-top: 10px;
@@ -744,7 +740,7 @@ button {
         flex: 1;
     }
 
-    /* La grille tient aussi dans la hauteur de l'écran */
+    /* La grille tient dans la hauteur */
     .board {
         width: min(100%, 700px, calc(100vh - 150px));
         gap: 6px;
@@ -802,11 +798,10 @@ button {
 }
 
 /* ------------------------------------------------ */
-/* INDICE : COUP JOUABLE APRÈS INACTIVITÉ */
+/* INDICE */
 /* ------------------------------------------------ */
 
-/* Les deux tuiles pulsent en se rapprochant l'une de l'autre
-   (--hint-dx / --hint-dy : direction de la tuile partenaire) */
+/* Les deux tuiles pulsent l'une vers l'autre (--hint-dx / --hint-dy) */
 .cell.hint {
     z-index: 2;
     animation: hint-nudge 1.2s ease-in-out infinite;
@@ -825,7 +820,7 @@ button {
     }
 }
 
-/* Animations réduites : simple surbrillance */
+/* reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
     .cell.hint {
@@ -844,7 +839,7 @@ button {
     animation: effect-highlight .35s;
 }
 
-/* Calque des effets, posé sur la grille (position fixe calculée en JS) */
+/* Calque des effets (positionné en JS) */
 .effect-layer {
     position: fixed;
     z-index: 50;
@@ -853,7 +848,7 @@ button {
     border-radius: var(--radius);
 }
 
-/* Tuiles touchées : disparition à la fin de l'effet */
+/* Sortie des tuiles touchées */
 .cell.effect-vanish {
     z-index: 3;
     animation: effect-vanish 250ms ease-in forwards;
@@ -867,7 +862,7 @@ button {
     }
 }
 
-/* --- Croisement des sources : faisceaux sur la ligne et la colonne --- */
+/* --- Croisement des sources --- */
 
 .effect-beam {
     position: absolute;
@@ -934,7 +929,7 @@ button {
     }
 }
 
-/* Onde au point de départ */
+/* Onde */
 .effect-burst {
     position: absolute;
     border: 3px solid #e6ffd9;
@@ -973,7 +968,7 @@ button {
     }
 }
 
-/* --- Enquête : zone encadrée, loupe et ligne de lecture --- */
+/* --- Enquête --- */
 
 .effect-zone {
     position: absolute;
@@ -1025,7 +1020,7 @@ button {
     }
 }
 
-/* La loupe décrit un petit cercle au-dessus de la zone */
+/* Loupe */
 .effect-lens {
     position: absolute;
     left: 50%;
@@ -1090,7 +1085,7 @@ button {
     }
 }
 
-/* --- Démantèlement : le réseau se dessine puis se brise --- */
+/* --- Démantèlement --- */
 
 .effect-network {
     position: absolute;
@@ -1100,8 +1095,7 @@ button {
     overflow: visible;
 }
 
-/* Chaque moitié de lien part d'un propriétaire : elle se dessine depuis lui,
-   puis se rétracte vers lui quand le lien se brise en son milieu */
+/* Chaque moitié se dessine depuis son propriétaire puis se rétracte */
 .effect-link {
     stroke: var(--network);
     stroke-width: 6;
@@ -1171,7 +1165,7 @@ button {
     }
 }
 
-/* Étincelle de rupture, aux couleurs du réseau */
+/* Étincelle */
 .effect-spark {
     border-color: #fff;
     box-shadow: 0 0 14px var(--network, #fff);
@@ -1342,6 +1336,19 @@ button {
     margin-top: 4px;
 }
 
+/* Libérations, en tête du bloc */
+.gameover-stats .gameover-freed {
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    color: var(--tier-0);
+    font-weight: 600;
+}
+
+.gameover-stats .gameover-freed + li {
+    margin-top: 0;
+}
+
 .overlay-box .gameover-score {
     margin-bottom: 4px;
     font-size: 30px;
@@ -1358,14 +1365,14 @@ button {
     text-align: center;
 }
 
-/* Fin de partie : un peu plus large, pour les statistiques et les invitations */
+/* Fin de partie */
 #gameover-overlay .overlay-box {
     width: min(480px, 100%);
     padding-top: 24px;
     padding-bottom: 24px;
 }
 
-/* Espacements resserrés : tout doit tenir sans défiler, bouton « Relancer » compris */
+/* Espacements réduits pour éviter le scroll */
 #gameover-overlay .overlay-box > p {
     margin-bottom: 14px;
 }
@@ -1386,7 +1393,7 @@ button {
     }
 }
 
-/* « Et dans la vraie vie ? » : mis en avant, juste avant le bouton pour rejouer */
+/* Bloc "Et dans la vraie vie ?" */
 .gameover-more {
     margin-bottom: 16px;
     padding: 14px 16px;
@@ -1417,7 +1424,7 @@ button {
     gap: 8px;
 }
 
-/* Les boutons reprennent le style des accès au guide, pas celui du bouton principal */
+/* Boutons du guide */
 .overlay-box .guide-entry-button {
     width: 100%;
     margin: 0;
@@ -1601,7 +1608,7 @@ button {
 }
 
 /* ------------------------------------------------ */
-/* ACCÈS AU GUIDE « QUI POSSÈDE NOS MÉDIAS ? » */
+/* ACCÈS AU GUIDE */
 /* ------------------------------------------------ */
 
 .side-column {
@@ -1650,14 +1657,14 @@ button {
     border-color: rgba(255, 255, 255, .14);
 }
 
-/* Rappels visuels du jeu : bloc propriétaire et pastille indépendante */
+/* Icônes */
 .guide-entry-icon {
     flex-shrink: 0;
     width: 22px;
     height: 22px;
 }
 
-/* Milliardaires : bloc propriétaire marqué d'un « € » */
+/* Milliardaires : € */
 .guide-entry-icon--owners {
     display: flex;
     align-items: center;
@@ -1678,7 +1685,7 @@ button {
     content: "€";
 }
 
-/* Indépendants : pastille verte avec un mégaphone */
+/* Indépendants : mégaphone */
 .guide-entry-icon--independents {
     border-radius: 50%;
     background:
@@ -1688,17 +1695,24 @@ button {
 }
 
 /* ------------------------------------------------ */
-/* LOGO « DÉCONCENTRÉS » */
+/* LOGO DU SITE */
 /* ------------------------------------------------ */
 
-/* « DÉ » : pastille verte d'un média indépendant ;
-   « CONCENTRÉS » : liseré aux couleurs des quatre milliardaires */
+/* --cap-center : milieu des capitales depuis le haut de la ligne
+   --disc : juste assez grand pour couvrir le trait */
 .logo {
     --brand-size: 22px;
+    --cap-center: .52em;
+    --line-top: 1.2em;
+    --line-height: .14em;
+    --disc: calc((var(--line-top) + var(--line-height) - var(--cap-center)) * 2 + .08em);
 
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
-    align-items: center;
-    gap: calc(var(--brand-size) * .3);
+    align-items: baseline;
+    /* débordement du rond + trait */
+    padding: calc(var(--disc) / 2 - var(--cap-center)) 0 calc(var(--line-top) + var(--line-height) - 1em);
     font-size: var(--brand-size);
     font-weight: 800;
     letter-spacing: .02em;
@@ -1706,36 +1720,55 @@ button {
     white-space: nowrap;
 }
 
+/* Trait, depuis le centre du rond */
+.logo::after {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    left: calc(var(--disc) / 2);
+    right: 0;
+    bottom: 0;
+    height: var(--line-height);
+    background: linear-gradient(90deg,
+        var(--media-red) 0 25%,
+        var(--media-blue) 25% 50%,
+        var(--media-purple) 50% 75%,
+        var(--media-yellow) 75% 100%);
+}
+
+/* DÉ = largeur du rond */
 .logo-de {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.75em;
-    height: 1.75em;
+    position: relative;
+    width: var(--disc);
+    margin-right: .12em;
+    color: #fff;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+/* Rond centré sur les capitales */
+.logo-de::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: calc(var(--cap-center) - var(--disc) / 2);
+    width: var(--disc);
+    height: var(--disc);
     border-radius: 50%;
     background:
         radial-gradient(circle at 50% 30%, rgba(255, 255, 255, .2), rgba(255, 255, 255, 0) 65%),
         var(--media-green);
     box-shadow:
-        0 0 0 .1em rgba(255, 255, 255, .25),
-        0 .12em .3em rgba(0, 0, 0, .35);
-    color: #fff;
-    font-size: .8em;
-    letter-spacing: 0;
+        0 0 0 .08em rgb(90, 90, 90),
+        0 .1em .25em rgba(0, 0, 0, .35);
 }
 
 .logo-word {
-    padding-bottom: .2em;
-    border-bottom: .14em solid;
-    border-image: linear-gradient(90deg,
-        var(--media-red) 0 25%,
-        var(--media-blue) 25% 50%,
-        var(--media-purple) 50% 75%,
-        var(--media-yellow) 75% 100%) 1;
     color: var(--text);
 }
 
-/* Écran d'accueil : grand logo, la pastille « DÉ » tombe comme une tuile */
+/* Écran d'accueil : chute du rond */
 .logo--large {
     --brand-size: clamp(26px, 8vw, 40px);
 }
@@ -1744,10 +1777,25 @@ button {
     animation: logo-drop 700ms cubic-bezier(.3, 1.4, .5, 1) 300ms both;
 }
 
+/* Le trait s'allonge vers la gauche */
+.logo--large::after {
+    animation: logo-line 450ms cubic-bezier(.2, .8, .3, 1) 550ms both;
+}
+
+@keyframes logo-line {
+    from {
+        left: calc(var(--disc) + .12em);
+    }
+
+    to {
+        left: calc(var(--disc) / 2);
+    }
+}
+
 @keyframes logo-drop {
     from {
         opacity: 0;
-        transform: translateY(-70%);
+        transform: translateY(-100%);
     }
 
     50% {
@@ -1761,7 +1809,8 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .logo--large .logo-de {
+    .logo--large .logo-de,
+    .logo--large::after {
         animation: none;
     }
 }
@@ -1797,7 +1846,7 @@ button {
     margin-top: 16px;
 }
 
-/* Liens secondaires (règles, propriétaires) : discrets à côté du bouton principal */
+/* Liens secondaires */
 .overlay-box .link-button {
     margin: 0;
     padding: 6px 4px;
@@ -1815,14 +1864,14 @@ button {
 }
 
 /* ------------------------------------------------ */
-/* QUI POSSÈDE NOS MÉDIAS ? */
+/* GUIDE DES MÉDIAS */
 /* ------------------------------------------------ */
 
 .guide-dialog {
     width: min(880px, calc(100% - 32px));
 }
 
-/* En-tête et onglets restent visibles pendant le défilement */
+/* Header et onglets sticky */
 .guide-top {
     position: sticky;
     top: 0;
@@ -1885,7 +1934,7 @@ button {
     margin-bottom: 10px;
 }
 
-/* Rappel du bloc « propriétaire » de la grille, avec le liseré de son groupe */
+/* Rappel du bloc propriétaire */
 .guide-owner-mark {
     flex-shrink: 0;
     width: 36px;
@@ -1928,7 +1977,7 @@ button {
 
 .guide-empire dt {
     font-weight: 600;
-    /* Couleur du milliardaire éclaircie : lisible sur le fond sombre */
+    /* éclaircie pour le contraste */
     color: color-mix(in srgb, var(--tile) 55%, #fff);
 }
 
@@ -1979,8 +2028,7 @@ button {
     color: var(--text-muted);
 }
 
-/* Cartes de référence (Monde diplomatique, LVSL) : deux lignes compactes
-   en tête de l'onglet, pour ne pas repousser les milliardaires */
+/* Liens vers les cartes (Diplo, LVSL) */
 .guide-maps {
     margin: -8px 0 16px;
     background: var(--surface-raised);
@@ -2016,7 +2064,7 @@ button {
     border-radius: 0 0 var(--radius-small) var(--radius-small);
 }
 
-/* Miniature de la carte, ou chiffre clé quand il n'y a pas d'image */
+/* Miniature ou chiffre */
 .guide-map-preview {
     flex-shrink: 0;
     width: 64px;
@@ -2048,12 +2096,12 @@ button {
     font-size: 14px;
 }
 
-/* Le premier milliardaire suit directement les cartes */
+/* Moins d'espace après les cartes */
 .guide-maps + .guide-owner {
     padding-top: 4px;
 }
 
-/* Téléphone : citation limitée à trois lignes (elle est complète sur la page liée) */
+/* Mobile : citation sur 3 lignes max */
 @media (max-width: 599px) {
 
     .guide-map-text > span {
@@ -2064,7 +2112,7 @@ button {
     }
 }
 
-/* « Et bien d'autres… » sous les cartes des indépendants */
+/* Et bien d'autres… */
 .guide-more {
     margin-top: 16px;
     color: var(--text-muted);
@@ -2094,7 +2142,7 @@ button {
     border-radius: var(--radius);
 }
 
-/* Zone du logo : même rendu que la pastille sur la grille */
+/* Logo : même rendu que sur la grille */
 .guide-logo {
     container-type: inline-size;
     display: flex;
@@ -2114,7 +2162,7 @@ button {
     max-height: 100%;
 }
 
-/* La taille des logos est calculée sur la largeur : on la plafonne en hauteur */
+/* Hauteur max des logos */
 .guide-logo.logo--plate .cell-logo {
     padding: 4cqi 5cqi;
     border-radius: 3cqi;
@@ -2136,7 +2184,7 @@ button {
     color: var(--text-muted);
 }
 
-/* Fait d'armes : en évidence, avec le vert des indépendants */
+/* Fait marquant */
 .guide-card-highlight {
     padding: 8px 10px;
     border-left: 3px solid var(--media-green);
@@ -2147,7 +2195,7 @@ button {
     color: var(--text);
 }
 
-/* Le lien reste en bas de la carte, quelle que soit la longueur du texte */
+/* Lien en bas de carte */
 .guide-card-link {
     align-self: flex-start;
     margin-top: auto;
@@ -2158,7 +2206,7 @@ button {
     text-underline-offset: 3px;
 }
 
-/* Sur téléphone : catégorie au-dessus des médias, onglets plus compacts */
+/* Mobile */
 @media (max-width: 599px) {
 
     .guide-tabs {
@@ -2189,7 +2237,7 @@ button {
     line-height: 1.3;
 }
 
-/* Urne stylisée : rappel discret du thème */
+/* Icône urne */
 .elections-entry-icon {
     border-radius: 4px;
     background:
@@ -2229,7 +2277,7 @@ button {
     font-weight: 700;
 }
 
-/* Orientation politique : puce devant le nom, et légende */
+/* Puce d'orientation + légende */
 .elections-party-name {
     display: flex;
     align-items: center;
@@ -2286,8 +2334,7 @@ button {
     background: currentColor;
 }
 
-/* Vert : contre la concentration des médias ; blanc : autres propositions ;
-   gris : aucune proposition identifiée */
+/* vert : contre la concentration, blanc : autres, gris : aucune */
 .elections-proposal {
     color: var(--text);
 }
@@ -2408,7 +2455,7 @@ button {
     text-underline-offset: 3px;
 }
 
-/* Tableaux : défilement horizontal sur petit écran plutôt que débordement */
+/* Scroll horizontal sur mobile */
 .doc-table {
     margin-bottom: 12px;
     overflow-x: auto;
@@ -2491,7 +2538,7 @@ button {
     outline-offset: 1px;
 }
 
-/* Champ piège pour les robots, invisible pour les personnes */
+/* Honeypot */
 .contact-honeypot {
     display: none;
 }
@@ -2534,13 +2581,13 @@ button {
 /* ACCESSIBILITÉ */
 /* ------------------------------------------------ */
 
-/* Focus clavier bien visible sur tous les éléments interactifs */
+/* Focus clavier */
 :focus-visible {
     outline: 3px solid #8fd16f;
     outline-offset: 2px;
 }
 
-/* Lien d'évitement : visible seulement quand il reçoit le focus */
+/* Skip link */
 .skip-link {
     position: absolute;
     top: 8px;
@@ -2563,12 +2610,12 @@ button {
     outline: none;
 }
 
-/* Lignes de la grille : utiles aux lecteurs d'écran, transparentes pour la mise en page */
+/* Lignes ARIA, sans effet sur la grille */
 .board-row {
     display: contents;
 }
 
-/* Case active au clavier : contour à l'intérieur pour ne pas déborder sur les voisines */
+/* Case active (contour intérieur) */
 .cell:focus-visible {
     z-index: 5;
     outline: 3px solid #fff;
@@ -2576,7 +2623,7 @@ button {
     box-shadow: 0 0 0 6px rgba(0, 0, 0, .55);
 }
 
-/* Case sélectionnée (toucher simple ou clavier), en attente de l'échange */
+/* Case sélectionnée */
 .cell[aria-selected="true"] {
     z-index: 4;
     transform: scale(.9);
@@ -2584,7 +2631,7 @@ button {
     outline-offset: 2px;
 }
 
-/* Animations réduites : mouvements quasi instantanés, le jeu reste lisible */
+/* reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
     *,

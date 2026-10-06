@@ -23,7 +23,7 @@ export class Score {
         return SCORE.PLURALISM.find(tier => ownerCount <= tier.maxOwners).multiplier;
     }
 
-    // Appelé au début de chaque coup valide : fige l'indice de pluralisme du coup
+    // Début d'un coup valide : on fige le multiplicateur
     startMove(ownerCount) {
         this.moveCount++;
         this.pluralism = Score.getPluralismMultiplier(ownerCount);
@@ -34,7 +34,7 @@ export class Score {
             this.moveCount - this.lastIndependentMove <= SCORE.SERIES_WINDOW;
     }
 
-    // Coups restants pour enchaîner une série (0 si aucune série en cours)
+    // Coups restants dans la série (0 = pas de série)
     seriesMovesLeft() {
         if (this.lastIndependentMove === null) return 0;
 
@@ -54,7 +54,7 @@ export class Score {
         return this.add(points * cascadeLevel * this.pluralism);
     }
 
-    // `affectedTiles` : les tuiles touchées par l'effet, avant leur suppression
+    // affectedTiles : tuiles touchées, avant suppression
     scoreIndependent(affectedTiles) {
         let points = SCORE.INDEPENDENT_ACTIVATION;
         let ownerIndex = 0;
@@ -99,7 +99,7 @@ export class Score {
         try {
             localStorage.setItem(BEST_SCORE_KEY, String(this.best));
         } catch {
-            // Stockage indisponible (navigation privée...) : on garde le record en mémoire
+            // localStorage indispo (navigation privée...)
         }
     }
 

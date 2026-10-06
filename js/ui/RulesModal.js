@@ -13,7 +13,7 @@ export class RulesModal {
             this.dialog.close();
         });
 
-        // Un clic sur le fond (en dehors de la boîte) ferme la pop-in
+        // Clic sur le backdrop : fermeture
         this.dialog.addEventListener("click", event => {
             if (event.target === this.dialog) {
                 this.dialog.close();

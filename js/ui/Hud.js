@@ -16,7 +16,7 @@ export class Hud {
         this.independentsElement = document.getElementById("independents");
         this.statsElement = document.getElementById("gameover-stats");
 
-        // Mobile et tablette : résumé des bonus et détail à déplier
+        // Résumé des bonus (mobile / tablette)
         this.sidebarElement = document.getElementById("sidebar");
         this.summaryButton = document.getElementById("bonus-summary");
         this.pluralismSummary = document.getElementById("pluralism-summary");
@@ -53,8 +53,7 @@ export class Hud {
         this.seriesSummary.classList.toggle("is-active", movesLeft > 0);
     }
 
-    // Le détail des bonus s'ouvre par-dessus la grille, et se ferme au toucher
-    // en dehors, avec Échap ou en touchant de nouveau le résumé
+    // Détail des bonus : fermeture au clic extérieur ou Échap
     listenToSummary() {
         this.summaryButton.addEventListener("click", () => {
             this.setDetailsOpen(!this.sidebarElement.classList.contains("is-open"));
@@ -82,7 +81,6 @@ export class Hud {
         this.summaryButton.setAttribute("aria-expanded", String(open));
     }
 
-    // Les 3 effets des médias indépendants
     renderIndependents() {
         this.independentsElement.innerHTML = "";
 
@@ -101,7 +99,7 @@ export class Hud {
         }
     }
 
-    // Affiche « +N » au-dessus d'une case
+    // +N au-dessus de la case
     showPoints(cell, points) {
         const cellElement = this.game.getCellElement(cell.x, cell.y);
 
@@ -119,7 +117,7 @@ export class Hud {
         document.body.appendChild(float);
         float.addEventListener("animationend", () => float.remove());
 
-        // Secours : l'animation ne se termine pas si l'onglet est en arrière-plan
+        // Fallback : pas d'animationend si l'onglet est inactif
         setTimeout(() => float.remove(), 1500);
     }
 
@@ -146,6 +144,13 @@ export class Hud {
 
         const list = document.createElement("ul");
 
+        const freed = document.createElement("li");
+        freed.className = "gameover-freed";
+        freed.textContent = score.ownersRemoved > 0
+            ? `Les médias indépendants ont libéré ${score.ownersRemoved} rédaction${score.ownersRemoved > 1 ? "s" : ""}`
+            : "Aucune rédaction libérée par les médias indépendants";
+        list.appendChild(freed);
+
         for (const { owner } of Object.values(MEDIA_CATALOG)) {
             if (!owner) continue;
 
@@ -157,16 +162,10 @@ export class Hud {
 
         this.statsElement.appendChild(list);
 
-        const freed = document.createElement("p");
-        freed.textContent = score.ownersRemoved > 0
-            ? `Les médias indépendants ont libéré ${score.ownersRemoved} rédaction${score.ownersRemoved > 1 ? "s" : ""}.`
-            : "Aucune rédaction n'a été libérée par les médias indépendants.";
-        this.statsElement.appendChild(freed);
-
         this.renderGameOverInvitation();
     }
 
-    // « Et dans la vraie vie ? » : cite le milliardaire qui a le plus racheté pendant la partie
+    // Bloc "Et dans la vraie vie ?"
     renderGameOverInvitation() {
         const created = this.game.score.ownersCreated;
         const top = Object.values(MEDIA_CATALOG)
