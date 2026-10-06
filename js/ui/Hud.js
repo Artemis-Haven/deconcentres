@@ -111,6 +111,7 @@ export class Hud {
         const float = document.createElement("div");
 
         float.className = "score-float";
+        float.setAttribute("aria-hidden", "true");
         float.textContent = `+${this.formatNumber(points)}`;
         float.style.left = `${rect.left + rect.width / 2}px`;
         float.style.top = `${rect.top + rect.height / 2}px`;

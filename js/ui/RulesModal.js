@@ -56,6 +56,11 @@ export class RulesModal {
                     pour les échanger et former un alignement de 3 médias ou plus de la même couleur.
                 </p>
                 <p>
+                    Tu peux aussi toucher (ou cliquer) une tuile pour la sélectionner, puis toucher une case voisine.
+                    Au clavier : les flèches pour se déplacer, <strong>Entrée</strong> ou <strong>Espace</strong>
+                    pour sélectionner, puis une flèche pour échanger ; <strong>Échap</strong> pour annuler.
+                </p>
+                <p>
                     Quand un alignement se forme, ses médias disparaissent et sont remplacés par
                     <strong>un bloc sombre « propriétaire »</strong>. Les propriétaires peuvent être
                     déplacés, mais ils ne forment jamais d'alignement.

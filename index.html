@@ -31,6 +31,8 @@
 
 <body>
 
+    <a href="#game" class="skip-link">Aller à la grille de jeu</a>
+
     <div class="page">
 
         <header class="header">
@@ -124,15 +126,24 @@
 
             </div>
 
-            <section class="game-area">
+            <section id="game" class="game-area" tabindex="-1" aria-label="Jeu">
 
-                <div id="board" class="board">
+                <p id="board-instructions" class="visually-hidden">
+                    Flèches pour se déplacer dans la grille. Entrée ou Espace pour sélectionner un média,
+                    puis une flèche pour l'échanger avec la case voisine. Échap pour annuler la sélection.
+                </p>
+
+                <div id="board" class="board" role="grid" aria-label="Grille de jeu, 8 cases sur 8"
+                     aria-describedby="board-instructions">
                     <!-- cases générées en JS -->
                 </div>
 
-                <div id="start-overlay" class="overlay">
+                <!-- Annonces pour les lecteurs d'écran : coups joués, points, indices, fin de partie -->
+                <p id="game-status" class="visually-hidden" role="status" aria-live="polite"></p>
+
+                <div id="start-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="start-title">
                     <div class="overlay-box">
-                        <h2 class="start-title">
+                        <h2 id="start-title" class="start-title">
                             <span class="logo logo--large" role="img" aria-label="Déconcentrés">
                                 <span class="logo-de" aria-hidden="true">DÉ</span><span class="logo-word" aria-hidden="true">CONCENTRÉS</span>
                             </span>
@@ -167,10 +178,10 @@
                     </div>
                 </div>
 
-                <div id="gameover-overlay" class="overlay hidden">
+                <div id="gameover-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameover-title">
                     <div class="overlay-box">
 
-                        <h2>Partie terminée</h2>
+                        <h2 id="gameover-title">Partie terminée</h2>
 
                         <p>
                             Il n'y a plus aucun coup possible.
@@ -178,7 +189,7 @@
 
                         <div id="gameover-stats" class="gameover-stats"></div>
 
-                        <button id="restart-button">
+                        <button id="restart-button" type="button">
                             Relancer une partie
                         </button>
 

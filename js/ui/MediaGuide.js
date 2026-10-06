@@ -127,6 +127,8 @@ export class MediaGuide {
         // Même rendu du logo que sur la grille (classes et options du catalogue)
         const logoBox = document.createElement("div");
         logoBox.className = `guide-logo indep-square`;
+        // Décoratif : le nom du média suit juste en dessous
+        logoBox.setAttribute("aria-hidden", "true");
 
         if (item.logo) {
             logoBox.classList.add("has-logo", `logo--plain`);
