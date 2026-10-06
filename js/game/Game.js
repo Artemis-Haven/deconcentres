@@ -11,6 +11,7 @@ import { Score } from "../systems/Score.js";
 import { Hud } from "../ui/Hud.js";
 import { createEffectBadge } from "../ui/icons.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
+import { trackEvent } from "../analytics.js";
 
 export class Game {
 
@@ -512,6 +513,7 @@ export class Game {
     }
 
     startGame() {
+        trackEvent("partie-lancee", "Partie lancée");
         this.state = GAME_STATE.PLAYING;
         this.startOverlay.classList.add("hidden");
         this.setOverlayOpen(false);
@@ -534,6 +536,7 @@ export class Game {
     }
 
     gameOver() {
+        trackEvent("partie-terminee", "Partie terminée");
         this.state = GAME_STATE.GAME_OVER;
         this.clearHint();
         this.score.saveBest();

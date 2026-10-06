@@ -1,5 +1,6 @@
 import { ELECTIONS_BLOCK_ENABLED, INFO_UPDATED } from "../constants.js";
 import { ORIENTATIONS, PARTIES } from "../elections.js";
+import { trackEvent } from "../analytics.js";
 
 // Bloc temporaire « Les élections approchent » et sa pop-in :
 // les propositions de chaque parti sur les médias (js/elections.js)
@@ -13,6 +14,12 @@ export class ElectionsGuide {
 
         this.dialog = document.getElementById("elections-dialog");
         this.render(document.getElementById("elections-content"));
+
+        document.addEventListener("click", event => {
+            if (event.target.closest('[data-open="elections-dialog"]')) {
+                trackEvent("propositions-partis", "Propositions des partis");
+            }
+        });
 
         document.getElementById("elections-close").addEventListener("click", () => {
             this.dialog.close();

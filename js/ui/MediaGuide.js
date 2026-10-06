@@ -1,5 +1,12 @@
 import { INFO_UPDATED } from "../constants.js";
 import { MEDIA_CATALOG, OTHER_OWNERS } from "../mediaCatalog.js";
+import { trackEvent } from "../analytics.js";
+
+// Événements de mesure d'audience, par onglet
+const TAB_EVENTS = {
+    "guide-tab-owners": ["guide-milliardaires", "Guide : les milliardaires"],
+    "guide-tab-independents": ["guide-independants", "Guide : les médias indépendants"]
+};
 
 // Pop-in « Qui possède nos médias ? » : un onglet pour les milliardaires,
 // un onglet pour les médias indépendants, construits à partir du catalogue
@@ -13,7 +20,7 @@ export class MediaGuide {
         this.renderIndependents(document.getElementById("guide-independents"));
 
         for (const tab of this.tabs) {
-            tab.addEventListener("click", () => this.selectTab(tab));
+            tab.addEventListener("click", () => this.showTab(tab));
         }
 
         // Boutons data-guide-tab : ouvrent la pop-in directement sur l'onglet voulu
@@ -30,8 +37,16 @@ export class MediaGuide {
             const index = this.tabs.indexOf(document.activeElement);
             const next = this.tabs[(index + (event.key === "ArrowRight" ? 1 : -1) + this.tabs.length) % this.tabs.length];
 
-            this.selectTab(next);
+            this.showTab(next);
             next.focus();
+        });
+
+        // Ouverture de la pop-in : compte l'onglet affiché. Les boutons data-guide-tab
+        // ont déjà choisi l'onglet (leur écouteur passe avant celui du document)
+        document.addEventListener("click", event => {
+            if (event.target.closest('[data-open="guide-dialog"]')) {
+                this.trackTab(this.tabs.find(tab => tab.getAttribute("aria-selected") === "true"));
+            }
         });
 
         document.getElementById("guide-close").addEventListener("click", () => {
@@ -44,6 +59,21 @@ export class MediaGuide {
                 this.dialog.close();
             }
         });
+    }
+
+    // Changement d'onglet par le joueur (clic ou flèches) : compté s'il change de vue
+    showTab(tab) {
+        if (tab.getAttribute("aria-selected") !== "true") {
+            this.trackTab(tab);
+        }
+
+        this.selectTab(tab);
+    }
+
+    trackTab(tab) {
+        const [name, title] = TAB_EVENTS[tab?.id] ?? [];
+
+        if (name) trackEvent(name, title);
     }
 
     selectTab(selected) {
