@@ -56,6 +56,113 @@
 .indep-dismantle { --tile: var(--indep-dismantle); }
 
 /* ------------------------------------------------ */
+/* FOND ANIMÉ */
+/* ------------------------------------------------ */
+
+/* Halos aux couleurs des milliardaires + halo vert des indépendants.
+   --concentration (0 à 1, mis à jour par Hud.js) : plus il y a de propriétaires
+   sur la grille, plus les milliardaires ressortent et plus le vert s'efface */
+:root {
+    --concentration: 0;
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.backdrop-blob {
+    position: absolute;
+    width: 75vmax;
+    height: 75vmax;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--tile), transparent);
+    opacity: calc(.06 + var(--concentration) * .12);
+    transition: opacity 4s ease;
+    will-change: transform;
+    animation: backdrop-drift 80s ease-in-out infinite alternate;
+}
+
+.backdrop-blob--red {
+    top: -35vmax;
+    left: -30vmax;
+    --dx: 18vmax;
+    --dy: 14vmax;
+}
+
+.backdrop-blob--blue {
+    top: -30vmax;
+    right: -35vmax;
+    --dx: -16vmax;
+    --dy: 20vmax;
+    animation-duration: 95s;
+    animation-delay: -30s;
+}
+
+.backdrop-blob--purple {
+    bottom: -35vmax;
+    left: -25vmax;
+    --dx: 20vmax;
+    --dy: -15vmax;
+    animation-duration: 105s;
+    animation-delay: -60s;
+}
+
+.backdrop-blob--yellow {
+    bottom: -40vmax;
+    right: -30vmax;
+    --dx: -18vmax;
+    --dy: -16vmax;
+    animation-duration: 90s;
+    animation-delay: -15s;
+}
+
+/* Le vert circule au milieu et s'efface quand la concentration monte */
+.backdrop-blob--independent {
+    --tile: var(--media-green);
+    top: calc(50% - 32vmax);
+    left: calc(50% - 32vmax);
+    width: 64vmax;
+    height: 64vmax;
+    opacity: calc(.18 - var(--concentration) * .13);
+    animation: backdrop-wander 70s ease-in-out infinite alternate;
+}
+
+@keyframes backdrop-drift {
+    to {
+        transform: translate(var(--dx), var(--dy)) scale(1.15);
+    }
+}
+
+@keyframes backdrop-wander {
+    0% {
+        transform: translate(-22vw, -12vh);
+    }
+
+    33% {
+        transform: translate(18vw, 8vh);
+    }
+
+    66% {
+        transform: translate(-6vw, 22vh);
+    }
+
+    100% {
+        transform: translate(14vw, -16vh) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .backdrop-blob {
+        animation: none;
+    }
+}
+
+/* ------------------------------------------------ */
 /* RESET */
 /* ------------------------------------------------ */
 

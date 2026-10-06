@@ -39,6 +39,9 @@ export class Hud {
         this.pluralismElement.dataset.tier = tierIndex;
         this.ownerCountElement.textContent = ownerCount;
 
+        // Fond : 0 = grille plurielle, 1 = grille envahie par les propriétaires
+        document.documentElement.style.setProperty("--concentration", Math.min(ownerCount / 12, 1).toFixed(2));
+
         const movesLeft = score.seriesMovesLeft();
         this.seriesElement.textContent = movesLeft > 0
             ? `Active : ${movesLeft} coup${movesLeft > 1 ? "s" : ""} pour enchaîner (×${this.formatNumber(SCORE.SERIES_MULTIPLIER)})`
