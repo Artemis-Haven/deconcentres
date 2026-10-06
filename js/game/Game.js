@@ -341,7 +341,7 @@ export class Game {
         const points = this.score.scoreIndependent(affected.map(cell => cell.tile));
         this.hud.showPoints(cellB, points);
 
-        await EffectAnimation.play(a.effect, affected, this);
+        await EffectAnimation.play(a.effect, affected, this, cellB);
 
         cellA.tile = null;
         cellB.tile = null;

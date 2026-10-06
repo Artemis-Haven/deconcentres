@@ -844,49 +844,383 @@ button {
     animation: effect-highlight .35s;
 }
 
-.effect-cross {
-    animation: effect-cross .45s;
+/* Calque des effets, posé sur la grille (position fixe calculée en JS) */
+.effect-layer {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: var(--radius);
 }
 
-.effect-square {
-    animation: effect-square .45s;
+/* Tuiles touchées : disparition à la fin de l'effet */
+.cell.effect-vanish {
+    z-index: 3;
+    animation: effect-vanish 250ms ease-in forwards;
 }
 
-.effect-dismantle {
-    animation: effect-dismantle .45s;
-}
-
-@keyframes effect-highlight {
-    50% {
-        transform: scale(1.15);
-        filter: brightness(1.5);
+@keyframes effect-vanish {
+    to {
+        opacity: 0;
+        transform: scale(.3);
+        filter: brightness(2);
     }
 }
 
-@keyframes effect-cross {
-    50% {
-        transform: scale(1.2);
-        filter: brightness(1.8);
+/* --- Croisement des sources : faisceaux sur la ligne et la colonne --- */
+
+.effect-beam {
+    position: absolute;
+    background: linear-gradient(var(--beam-direction), rgba(143, 209, 111, 0), #e6ffd9 50%, rgba(143, 209, 111, 0));
+    box-shadow: 0 0 18px 4px rgba(143, 209, 111, .55);
+    border-radius: 999px;
+    opacity: 0;
+    animation: effect-beam 650ms ease-out forwards;
+}
+
+.effect-beam--horizontal {
+    --beam-direction: 180deg;
+    left: 0;
+    width: 100%;
+    height: 8%;
+    max-height: 18px;
+    translate: 0 -50%;
+}
+
+.effect-beam--vertical {
+    --beam-direction: 90deg;
+    top: 0;
+    height: 100%;
+    width: 8%;
+    max-width: 18px;
+    translate: -50% 0;
+}
+
+@keyframes effect-beam {
+    0% {
+        opacity: 1;
+        scale: 0 1;
+    }
+
+    45% {
+        opacity: 1;
+        scale: 1 1;
+    }
+
+    100% {
+        opacity: 0;
+        scale: 1 .2;
     }
 }
 
-@keyframes effect-square {
+.effect-beam--vertical {
+    animation-name: effect-beam-vertical;
+}
+
+@keyframes effect-beam-vertical {
+    0% {
+        opacity: 1;
+        scale: 1 0;
+    }
+
+    45% {
+        opacity: 1;
+        scale: 1 1;
+    }
+
+    100% {
+        opacity: 0;
+        scale: .2 1;
+    }
+}
+
+/* Onde au point de départ */
+.effect-burst {
+    position: absolute;
+    border: 3px solid #e6ffd9;
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgba(143, 209, 111, .8);
+    animation: effect-burst 500ms ease-out forwards;
+}
+
+@keyframes effect-burst {
+    from {
+        opacity: 1;
+        scale: .3;
+    }
+
+    to {
+        opacity: 0;
+        scale: 2.2;
+    }
+}
+
+.cell.effect-hit {
+    z-index: 3;
+    animation: effect-hit 350ms ease-out both;
+}
+
+@keyframes effect-hit {
     30% {
-        transform: scale(.9);
+        transform: scale(1.15);
+        filter: brightness(2.2);
+        box-shadow: 0 0 0 3px #e6ffd9, 0 0 18px rgba(143, 209, 111, .9);
+    }
+
+    100% {
+        transform: scale(1.05);
+        filter: brightness(1.6);
+    }
+}
+
+/* --- Enquête : zone encadrée, loupe et ligne de lecture --- */
+
+.effect-zone {
+    position: absolute;
+    border: 3px dashed rgba(255, 255, 255, .85);
+    border-radius: 12px;
+    background: rgba(143, 209, 111, .12);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, .35);
+    overflow: hidden;
+    animation: effect-zone 850ms ease-out forwards;
+}
+
+@keyframes effect-zone {
+    0% {
+        opacity: 0;
+        scale: 1.25;
+    }
+
+    20% {
+        opacity: 1;
+        scale: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.effect-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 14%;
+    background: linear-gradient(180deg, rgba(230, 255, 217, 0), rgba(230, 255, 217, .75));
+    border-bottom: 2px solid #e6ffd9;
+    animation: effect-scan 600ms ease-in-out 150ms both;
+}
+
+@keyframes effect-scan {
+    from {
+        top: -14%;
+    }
+
+    to {
+        top: 100%;
+    }
+}
+
+/* La loupe décrit un petit cercle au-dessus de la zone */
+.effect-lens {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 42%;
+    aspect-ratio: 1;
+    color: #fff;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .6));
+    translate: -50% -50%;
+    animation: effect-lens 750ms ease-in-out 100ms both;
+}
+
+.effect-lens svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes effect-lens {
+    0% {
+        opacity: 0;
+        transform: translate(-30%, -30%) scale(.6);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translate(-30%, -30%) scale(1);
+    }
+
+    45% {
+        transform: translate(30%, -20%);
+    }
+
+    70% {
+        transform: translate(20%, 30%);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translate(-25%, 20%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(0, 0) scale(1.3);
+    }
+}
+
+.cell.effect-reveal {
+    z-index: 3;
+    animation: effect-reveal 300ms ease-out both;
+}
+
+@keyframes effect-reveal {
+    40% {
+        filter: grayscale(1) brightness(1.8);
+        transform: scale(.88);
+    }
+
+    100% {
+        filter: grayscale(.6) brightness(1.4);
+        transform: scale(.95);
+    }
+}
+
+/* --- Démantèlement : le réseau se dessine puis se brise --- */
+
+.effect-network {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Chaque moitié de lien part d'un propriétaire : elle se dessine depuis lui,
+   puis se rétracte vers lui quand le lien se brise en son milieu */
+.effect-link {
+    stroke: var(--network);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 4px var(--network));
+    animation:
+        effect-link-draw 300ms ease-out forwards,
+        effect-link-break 350ms ease-in forwards;
+}
+
+@keyframes effect-link-draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes effect-link-break {
+    from {
+        stroke-dashoffset: 0;
+        stroke-dasharray: 1 1;
+    }
+
+    25% {
+        stroke: #fff;
+        stroke-dasharray: .85 1;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+        stroke-dasharray: 0 1;
+        opacity: 0;
+    }
+}
+
+.effect-node {
+    fill: var(--network);
+    stroke: #fff;
+    stroke-width: 2;
+    animation: effect-node 900ms ease-out forwards;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+@keyframes effect-node {
+    0% {
+        scale: 0;
+    }
+
+    25% {
+        scale: 1.2;
+    }
+
+    45% {
+        scale: 1;
     }
 
     60% {
-        transform: scale(1.15);
+        scale: 1.6;
+        fill: #fff;
+    }
+
+    100% {
+        scale: 0;
+        opacity: 0;
     }
 }
 
-@keyframes effect-dismantle {
-    30% {
+/* Étincelle de rupture, aux couleurs du réseau */
+.effect-spark {
+    border-color: #fff;
+    box-shadow: 0 0 14px var(--network, #fff);
+    animation: effect-spark 400ms ease-out both;
+}
+
+@keyframes effect-spark {
+    0% {
+        opacity: 0;
+        scale: .2;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        scale: 2;
+    }
+}
+
+.cell.effect-break {
+    z-index: 3;
+    animation: effect-break 450ms ease-in-out both;
+}
+
+@keyframes effect-break {
+    0%,
+    100% {
+        transform: none;
+    }
+
+    15% {
+        transform: translateX(-6%) rotate(-5deg);
+    }
+
+    35% {
+        transform: translateX(6%) rotate(5deg);
+    }
+
+    55% {
+        transform: translateX(-4%) rotate(-3deg);
         filter: grayscale(1);
     }
 
-    60% {
-        filter: brightness(1.8);
+    75% {
+        transform: translateX(3%) rotate(2deg);
+        filter: grayscale(1) brightness(1.6);
     }
 }
 
