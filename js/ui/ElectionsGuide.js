@@ -33,6 +33,11 @@ export class ElectionsGuide {
     }
 
     render(container) {
+        const notice = document.createElement("p");
+        notice.className = "elections-notice";
+        notice.textContent = "Cette page sera complétée au fil des mois avec le contenu des programmes électoraux. " +
+            "En attendant, elle s'appuie surtout sur des propositions de loi et des travaux parlementaires.";
+
         const intro = document.createElement("p");
         intro.className = "elections-intro";
         intro.textContent = "Propositions publiques des principaux partis sur la concentration des médias, " +
@@ -51,7 +56,7 @@ export class ElectionsGuide {
             list.appendChild(this.createParty(party));
         }
 
-        container.replaceChildren(intro, legend, this.createOrientationLegend(), list);
+        container.replaceChildren(notice, intro, legend, this.createOrientationLegend(), list);
     }
 
     // Puce d'orientation

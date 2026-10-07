@@ -1591,6 +1591,7 @@ button {
 .rules-header {
     position: sticky;
     top: 0;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2355,6 +2356,16 @@ button {
 
 .elections-dialog {
     width: min(880px, calc(100% - 32px));
+}
+
+.rules-content .elections-notice {
+    margin: 16px 0 4px;
+    padding: 10px 14px;
+    background: var(--surface-raised);
+    border-left: 3px solid var(--media-yellow);
+    border-radius: var(--radius-small);
+    color: var(--text);
+    font-size: 14px;
 }
 
 .rules-content .elections-intro {

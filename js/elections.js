@@ -35,7 +35,7 @@ export const PARTIES = [
             { text: "Statut juridique pour les rédactions", fightsConcentration: true }
         ],
         sources: [
-            { label: "Programme 2027 (melenchon2027.fr)", url: "https://melenchon2027.fr/programme2025/livre/chapitre1/s6/" },
+            { label: "Programme L'Avenir en commun (avenir-en-commun.net)", url: "https://avenir-en-commun.net/revolution-citoyenne" },
             { label: "Proposition de loi n° 327 (2022)", url: "https://www.assemblee-nationale.fr/dyn/16/textes/l16b0327_proposition-loi.pdf" }
         ]
     },
@@ -58,7 +58,7 @@ export const PARTIES = [
             { text: "Renforcement de l'indépendance des médias", fightsConcentration: true }
         ],
         sources: [
-            { label: "Public Sénat : proposition de loi socialiste", url: "https://www.publicsenat.fr/actualites/parlementaire/sattaquer-aux-racines-de-la-crise-democratique-au-senat-une-proposition-de-loi-pour-renforcer-lindependance-des-medias" }
+            { label: "Proposition de loi n° 741 au Sénat (2024)", url: "https://www.senat.fr/leg/ppl23-741.html" }
         ]
     },
     {
@@ -73,12 +73,6 @@ export const PARTIES = [
         sources: [
             { label: "Place publique : contre la mainmise de Vincent Bolloré (2026)", url: "https://place-publique.eu/posts/5q3JVyVsJCUxrE5P3ESBJV/menons-le-combat-contre-la-mainmise-de-vincent-bollore-sur-le-monde-des-idees-et-de-la-creation" }
         ]
-    },
-    {
-        name: "MoDem",
-        orientation: "centre",
-        proposals: [],
-        sources: []
     },
     {
         name: "Renaissance",
@@ -105,20 +99,20 @@ export const PARTIES = [
         name: "Les Républicains",
         orientation: "droite",
         proposals: [
-            { text: "Holding « France Médias » pour l'audiovisuel public" },
-            { text: "Maintien de l'audiovisuel public, sans privatisation" },
-            { text: "Financement stable de l'audiovisuel public" }
+            { text: "Fusion de France Télévisions et Radio France" },
+            { text: "Financement stable de l'audiovisuel public" },
+            { text: "Encadrement des engagements politiques des personnels et des passerelles avec le privé" },
+            { text: "Allègement des règles fiscales et réglementaires de l'audiovisuel" }
         ],
         sources: [
-            { label: "LCP : création d'une holding pour l'audiovisuel public", url: "https://lcp.fr/actualites/reforme-de-l-audiovisuel-public-la-creation-d-une-holding-sans-france-medias-monde-actee" }
+            { label: "Contribution du groupe Droite républicaine au rapport de la commission d'enquête sur l'audiovisuel public (2026, p. 518)", url: "https://www.assemblee-nationale.fr/dyn/17/rapports/ceaudio/l17b2698-t1_rapport-enquete.pdf#page=516" }
         ]
     },
     {
         name: "UDR",
         orientation: "extreme-droite",
         proposals: [
-            { text: "Fusion de France 2 et France 5, de franceinfo et France 24" },
-            { text: "Suppression de France 4 et de Mouv'" },
+            { text: "Fusion et suppression de chaines publiques" },
             { text: "Devoir de neutralité des personnalités de l'audiovisuel public" },
             { text: "Nomination des patrons de France Télévisions et Radio France par le président de la République" }
         ],
@@ -130,20 +124,21 @@ export const PARTIES = [
         name: "Rassemblement national",
         orientation: "extreme-droite",
         proposals: [
-            { text: "Privatisation de France Télévisions et Radio France" },
-            { text: "Maintien dans le public d'Arte, TV5 Monde, France Médias Monde et de l'INA" }
+            { text: "Privatisation partielle de France Télévisions et Radio France" },
+            { text: "Suppression de France 4" },
+            { text: "Encadrement des animateurs-producteurs" },
+            { text: "Encadrement de l'expression des journalistes du public sur les réseaux sociaux" }
         ],
         sources: [
-            { label: "Jordan Bardella sur la privatisation de l'audiovisuel public (2026)", url: "https://actu.orange.fr/videos/france/a-la-tete-du-pays-nous-engagerons-la-privatisation-de-l-audiovisuel-public-declare-jordan-bardella-CNT000002oWZ8y.html" },
-            { label: "Le Devoir : le RN et l'audiovisuel public", url: "https://www.ledevoir.com/monde/europe/815638/france-audiovisuel-public-craint-etre-privatise-ou-soumis-propagande" }
+            { label: "Contribution du groupe RN au rapport de la commission d'enquête sur l'audiovisuel public (2026, p. 495)", url: "https://www.assemblee-nationale.fr/dyn/17/rapports/ceaudio/l17b2698-t1_rapport-enquete.pdf#page=493" }
         ]
     },
     {
         name: "Reconquête",
         orientation: "extreme-droite",
         proposals: [
-            { text: "Privatisation de France Inter et France Télévisions (programme 2022)" },
-            { text: "Service public resserré : France 5, France Culture, France 24, RFI, TV5 Monde (programme 2022)" }
+            { text: "Privatisation partielle de France Télévisions et Radio France (programme 2022)" },
+            { text: "France 3 et France Bleu confiés aux collectivités locales (programme 2022)" }
         ],
         sources: [
             { label: "Institut Montaigne : programme d'Éric Zemmour (2022)", url: "https://www.institutmontaigne.org/presidentielle-2022/eric-zemmour/supprimer-la-redevance-audiovisuelle-et-privatiser-laudiovisuel-public-en-particulier-france-inter-et-france-tv/" }
