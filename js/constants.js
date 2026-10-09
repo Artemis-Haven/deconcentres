@@ -13,6 +13,9 @@ export const INDEPENDENT_MEDIA_SPAWN_RATE = 0.1;
 // Date de vérification des infos (affichée via data-info-updated, cf. site.js)
 export const INFO_UPDATED = "octobre 2026";
 
+// Adresse publique du site (partage)
+export const SITE_URL = "https://www.deconcentres.fr/";
+
 // Bloc élections (temporaire)
 export const ELECTIONS_BLOCK_ENABLED = true;
 

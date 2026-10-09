@@ -175,7 +175,7 @@ button {
 }
 
 .footer > p + .footer-links a:first-child::before,
-.footer-links a + a::before {
+.footer-links > * + *::before {
     content: "·";
     display: inline-block;
     padding: 0 10px;
@@ -195,9 +195,25 @@ button {
     }
 }
 
-.footer a {
+.footer a,
+.footer-share {
     color: var(--text-muted);
     text-decoration: none;
+}
+
+/* Bouton "Partager" présenté comme les liens du pied de page */
+.footer-share {
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+.footer-share:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .footer a:hover,
@@ -2997,5 +3013,121 @@ button {
     font-family: var(--font-title);
     font-weight: 700;
     letter-spacing: .03em;
+}
+
+/* ------------------------------------------------ */
+/* PARTAGE */
+/* ------------------------------------------------ */
+
+/* Fin de partie : "Relancer" et "Partager mon score" côte à côte */
+.gameover-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.overlay-box .gameover-actions button {
+    margin-top: 0;
+    padding: 12px 20px;
+}
+
+.overlay-box .secondary-button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .3);
+    color: var(--text);
+}
+
+.overlay-box .secondary-button:hover {
+    background: var(--surface-hover);
+}
+
+.share-dialog {
+    width: min(480px, calc(100% - 32px));
+}
+
+.rules-content .share-text {
+    margin: 18px 0 16px;
+    padding: 12px 14px;
+    background: var(--surface-raised);
+    border-left: 3px solid var(--media-green);
+    border-radius: var(--radius-small);
+    color: var(--text);
+    font-style: italic;
+}
+
+.share-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.share-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.share-link:hover {
+    background: color-mix(in srgb, var(--brand) 16%, var(--surface-raised));
+    border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+}
+
+/* Touche de couleur de chaque réseau : liseré, flèche et fond au survol */
+.share-link {
+    --brand: var(--media-green);
+    border-left: 3px solid var(--brand);
+}
+
+.share-link > span[aria-hidden] {
+    color: var(--brand);
+}
+
+/* Bleus volontairement écartés : ciel (Bluesky), indigo (Facebook), pétrole (LinkedIn) */
+.share-link[data-network="bluesky"]  { --brand: #3fb0ff; }
+.share-link[data-network="threads"]  { --brand: #f2f2f2; }
+.share-link[data-network="facebook"] { --brand: #5b6cff; }
+.share-link[data-network="whatsapp"] { --brand: #25d366; }
+.share-link[data-network="linkedin"] { --brand: #1a8fa8; }
+
+/* "Copier le message" : neutre, sans couleur */
+.share-copy {
+    --brand: rgba(255, 255, 255, .22);
+}
+
+.share-copy::after {
+    color: var(--text-muted);
+}
+
+.share-copy::after {
+    content: "⧉";
+    font-family: var(--font);
+}
+
+.rules-content .share-status {
+    min-height: 1.5em;
+    margin: 10px 0 0;
+    color: var(--tier-0);
+    font-weight: 600;
+}
+
+.rules-content .share-status[data-state="error"] {
+    color: var(--tier-3);
+}
+
+.presse .share-dialog .share-link {
+    font-family: var(--font-title);
+    font-size: 17px;
 }
 

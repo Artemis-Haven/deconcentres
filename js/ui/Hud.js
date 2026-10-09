@@ -163,6 +163,19 @@ export class Hud {
         this.statsElement.appendChild(list);
 
         this.renderGameOverInvitation();
+        this.updateShareText();
+    }
+
+    // Message du bouton "Partager mon score"
+    updateShareText() {
+        const { total, ownersRemoved } = this.game.score;
+        const freed = ownersRemoved > 0
+            ? ` et libéré ${ownersRemoved} rédaction${ownersRemoved > 1 ? "s" : ""}`
+            : "";
+
+        document.getElementById("share-score-button").dataset.shareText =
+            `J'ai marqué ${this.formatNumber(total)} points${freed} dans Déconcentrés, ` +
+            "le jeu sur la concentration des médias. Tu fais mieux ?";
     }
 
     // Bloc "Et dans la vraie vie ?"
