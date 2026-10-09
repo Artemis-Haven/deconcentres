@@ -55,6 +55,7 @@ export class RulesModal {
                     ou <span class="rules-swatch tile-purple"></span> vers une case voisine (horizontalement ou verticalement)
                     pour les échanger et former un alignement de 3 médias ou plus de la même couleur.
                 </p>
+                ${this.alignDemo()}
                 <p>
                     Tu peux aussi toucher (ou cliquer) une tuile pour la sélectionner, puis toucher une case voisine.
                     Au clavier : les flèches pour se déplacer, <strong>Entrée</strong> ou <strong>Espace</strong>
@@ -66,6 +67,33 @@ export class RulesModal {
                     déplacés, mais ils ne forment jamais d'alignement.
                 </p>
             </section>`;
+    }
+
+    // Démo animée : un échange aligne 3 jaunes, remplacés par le bloc du propriétaire
+    alignDemo() {
+        return `
+            <div class="rules-demo" aria-hidden="true">
+                <span class="demo-tile tile-yellow demo-align-a"></span>
+                <span class="demo-tile tile-yellow demo-align-b"></span>
+                <span class="demo-tile tile-red demo-align-c"></span>
+                <span class="demo-tile tile-yellow demo-align-d"></span>
+                <span class="demo-tile demo-owner tile-yellow demo-align-owner"></span>
+            </div>`;
+    }
+
+    // Démo animée : deux indépendants échangés déclenchent le croisement des sources
+    independentsDemo() {
+        const independent = className =>
+            `<span class="demo-tile demo-independent indep-cross ${className}">${EFFECT_ICONS.cross}</span>`;
+
+        return `
+            <div class="rules-demo" aria-hidden="true">
+                <span class="demo-tile demo-owner tile-red demo-indep-owner"></span>
+                ${independent("demo-indep-a")}
+                ${independent("demo-indep-b")}
+                <span class="demo-tile demo-owner tile-blue demo-indep-owner"></span>
+                <span class="demo-beam"></span>
+            </div>`;
     }
 
     ownersSection() {
@@ -122,6 +150,7 @@ export class RulesModal {
                     tuiles disparaissent et déclenchent leur effet. Deux indépendants d'effets différents
                     ne peuvent pas être échangés.
                 </p>
+                ${this.independentsDemo()}
                 <ul class="rules-effects">
                     <li>
                         <span class="independent-icon indep-cross">${EFFECT_ICONS['cross']}</span>

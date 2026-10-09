@@ -3131,3 +3131,156 @@ button {
     font-size: 17px;
 }
 
+/* ------------------------------------------------ */
+/* DÉMOS ANIMÉES DES RÈGLES */
+/* ------------------------------------------------ */
+
+.rules-demo {
+    --demo-tile: 38px;
+    --demo-step: 44px;
+
+    position: relative;
+    display: flex;
+    gap: calc(var(--demo-step) - var(--demo-tile));
+    width: max-content;
+    margin: 4px auto 16px;
+    padding: 10px;
+    background: var(--surface-raised);
+    border-radius: var(--radius-small);
+}
+
+.demo-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--demo-tile);
+    height: var(--demo-tile);
+    flex-shrink: 0;
+    border-radius: 18%;
+    background: var(--tile);
+    animation: 4.5s ease-in-out infinite both;
+}
+
+.demo-owner {
+    background: var(--owner-bg);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .08),
+        inset 0 -4px 0 var(--tile);
+}
+
+.demo-independent {
+    padding: 9px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+    color: #fff;
+}
+
+.demo-independent svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- 3 jaunes : la tuile rouge et la jaune s'échangent, l'alignement est racheté --- */
+
+.demo-align-a,
+.demo-align-b { animation-name: demo-align-match; }
+.demo-align-c { animation-name: demo-align-swap-right; }
+.demo-align-d { animation-name: demo-align-swap-left; }
+
+.demo-align-owner {
+    position: absolute;
+    top: 10px;
+    left: calc(10px + 2 * var(--demo-step));
+    animation-name: demo-owner-appear;
+}
+
+@keyframes demo-align-swap-right {
+    0%, 15% { transform: none; opacity: 1; }
+    28%, 88% { transform: translateX(var(--demo-step)); opacity: 1; }
+    94% { transform: translateX(var(--demo-step)); opacity: 0; }
+    100% { transform: none; opacity: 1; }
+}
+
+@keyframes demo-align-swap-left {
+    0%, 15% { transform: none; opacity: 1; }
+    28%, 34% { transform: translateX(calc(-1 * var(--demo-step))); opacity: 1; filter: none; }
+    42% { transform: translateX(calc(-1 * var(--demo-step))) scale(1.1); filter: brightness(1.5); }
+    52%, 94% { transform: translateX(calc(-1 * var(--demo-step))) scale(.2); opacity: 0; }
+    100% { transform: none; opacity: 1; }
+}
+
+@keyframes demo-align-match {
+    0%, 34% { transform: none; opacity: 1; filter: none; }
+    42% { transform: scale(1.1); filter: brightness(1.5); }
+    52%, 94% { transform: scale(.2); opacity: 0; }
+    100% { transform: none; opacity: 1; }
+}
+
+@keyframes demo-owner-appear {
+    0%, 52% { transform: scale(.6); opacity: 0; }
+    60%, 88% { transform: none; opacity: 1; }
+    94%, 100% { transform: none; opacity: 0; }
+}
+
+/* --- 2 verts : les indépendants s'échangent, le faisceau fait tomber les propriétaires --- */
+
+.demo-indep-a { animation-name: demo-indep-right; }
+.demo-indep-b { animation-name: demo-indep-left; }
+.demo-indep-owner { animation-name: demo-indep-owner-out; }
+
+.demo-beam {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: calc(10px + var(--demo-tile) / 2 - 4px);
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(143, 209, 111, 0), #e6ffd9 50%, rgba(143, 209, 111, 0));
+    box-shadow: 0 0 14px 3px rgba(143, 209, 111, .55);
+    opacity: 0;
+    animation: demo-beam 4.5s ease-out infinite both;
+}
+
+@keyframes demo-indep-right {
+    0%, 15% { transform: none; opacity: 1; filter: none; }
+    28% { transform: translateX(var(--demo-step)); opacity: 1; filter: none; }
+    36% { transform: translateX(var(--demo-step)) scale(1.15); filter: brightness(1.5); }
+    46%, 74% { transform: translateX(var(--demo-step)) scale(.2); opacity: 0; }
+    86%, 100% { transform: none; opacity: 1; }
+}
+
+@keyframes demo-indep-left {
+    0%, 15% { transform: none; opacity: 1; filter: none; }
+    28% { transform: translateX(calc(-1 * var(--demo-step))); opacity: 1; filter: none; }
+    36% { transform: translateX(calc(-1 * var(--demo-step))) scale(1.15); filter: brightness(1.5); }
+    46%, 74% { transform: translateX(calc(-1 * var(--demo-step))) scale(.2); opacity: 0; }
+    86%, 100% { transform: none; opacity: 1; }
+}
+
+@keyframes demo-beam {
+    0%, 36% { opacity: 0; transform: scaleX(0); }
+    44% { opacity: 1; transform: scaleX(1); }
+    58%, 100% { opacity: 0; transform: scaleX(1); }
+}
+
+@keyframes demo-indep-owner-out {
+    0%, 44% { transform: none; opacity: 1; filter: none; }
+    50% { transform: scale(1.1); filter: brightness(2); }
+    60%, 74% { transform: scale(.3); opacity: 0; }
+    86%, 100% { transform: none; opacity: 1; }
+}
+
+/* Animations réduites : illustration fixe */
+@media (prefers-reduced-motion: reduce) {
+
+    .rules-demo .demo-tile,
+    .rules-demo .demo-beam {
+        animation: none;
+    }
+
+    .demo-align-owner,
+    .demo-beam {
+        display: none;
+    }
+}
+
