@@ -16,20 +16,20 @@ export const MEDIA_CATALOG = {
         ],
         items: [
             { name: "Canal+", img: "canalplus.png", logo: { style: "plain", wide: true} },
-            { name: "CNews", img: "cnews.png", logo: { style: "plain", wide: true} },
+            { name: "CNews", img: "cnews.webp", logo: { style: "plain", wide: true} },
             { name: "Europe 1", img: "europe1.png", logo: { style: "plain", wide: true} },
             { name: "Capital", img: "capital.png", logo: { style: "plain", wide: true} },
             { name: "Voici", img: "voici.png", logo: { style: "white", wide: true} },
             { name: "Journal du dimanche", img: "jdd.png", logo: { style: "white", showName: true} },
             { name: "CStar", img: "cstar.svg", logo: { style: "plain", wide: true} },
-            { name: "Europe 2", img: "europe2.png", logo: { style: "plain", size: 100} },
+            { name: "Europe 2", img: "europe2.webp", logo: { style: "plain", size: 100} },
             { name: "RFM", img: "rfm.svg", logo: { style: "plain"} },
             { name: "Femme Actuelle", img: "femmeactuelle.png", logo: { style: "plain"} },
             { name: "GEO", img: "geo.svg", logo: { style: "plain"} },
-            { name: "Télé-Loisirs", img: "teleloisirs.png", logo: { style: "white", size: 100} },
-            { name: "Ça m'intéresse", img: "caminteresse.png", logo: { style: "plain"} },
+            { name: "Télé-Loisirs", img: "teleloisirs.webp", logo: { style: "white", size: 100} },
+            { name: "Ça m'intéresse", img: "caminteresse.webp", logo: { style: "plain"} },
             { name: "Télé Z", img: "telez.png", logo: { style: "plain"} },
-            { name: "Ici Paris", img: "iciparis.jpg", logo: { style: "plain"} },
+            { name: "Ici Paris", img: "iciparis.webp", logo: { style: "plain"} },
             { name: "France Dimanche", img: "francedimanche.jpg", logo: { style: "plain", wide: true} }
         ]
     },
@@ -70,11 +70,11 @@ export const MEDIA_CATALOG = {
             { name: "Les Echos", img: "lesechos.png", logo: { style: "plain", wide: true} },
             { name: "Sciences et Avenir", img: "scienceavenir.jpg", logo: { style: "plain", wide: true} },
             { name: "Paris Match", img: "parismatch.png", logo: { style: "plain", wide: true} },
-            { name: "Aujourd'hui en France", img: "aujourdhui.png", logo: { style: "plain", wide: true} },
+            { name: "Aujourd'hui en France", img: "aujourdhui.webp", logo: { style: "plain", wide: true} },
             { name: "Radio Classique", img: "radioclassique.svg", logo: { style: "white"} },
-            { name: "Challenges", img: "challenges.png", logo: { style: "plain", wide: true} },
+            { name: "Challenges", img: "challenges.webp", logo: { style: "plain", wide: true} },
             { name: "L'Opinion", img: "lopinion.svg", logo: { style: "plate", wide: true} },
-            { name: "L'Agefi", img: "lagefi.png", logo: { style: "plate", wide: true} },
+            { name: "L'Agefi", img: "lagefi.webp", logo: { style: "plate", wide: true} },
             { name: "Investir", img: "investir.jpg", logo: { style: "plain", wide: true} }
         ]
     },
@@ -90,7 +90,7 @@ export const MEDIA_CATALOG = {
         ],
         items: [
             { name: "TF1", img: "tf1.png", logo: { style: "plain", wide: true} },
-            { name: "LCI", img: "lci.png", logo: { style: "plain", wide: true} },
+            { name: "LCI", img: "lci.webp", logo: { style: "plain", wide: true} },
             { name: "TMC", img: "tmc.png", logo: { style: "plain", wide: true} },
             { name: "TFX", img: "tfx.png", logo: { style: "plain", wide: true} },
             { name: "TV Breizh", img: "tvbreizh.svg", logo: { style: "plain", wide: true} },
@@ -106,8 +106,8 @@ export const MEDIA_CATALOG = {
             { name: "Fakir", img: "fakir.jpg", effect: "cross", url: "https://fakirpresse.info", description: "Journal d'enquête sociale et satirique né à Amiens en 1999, financé par ses lecteurs, sans publicité.", highlight: "Connu pour le film « Merci patron ! » (César du meilleur documentaire 2017), qui met en scène Bernard Arnault et LVMH.", logo: {style: "plain", wide: true} },
             { name: "Arrêt sur Image", img: "asi.svg", effect: "cross", url: "https://www.arretsurimages.net", description: "Site d'analyse critique des médias fondé par Daniel Schneidermann, financé par ses abonnés.", highlight: "Né d'une émission de critique des médias sur France 5, arrêtée par la chaîne en 2007.", logo: { style: "plain", wide: true, size: 100 } },
             { name: "Contexte", img: "contexte.png", effect: "cross", url: "https://www.contexte.com", description: "Média spécialisé dans le suivi des politiques publiques, en France et en Europe.", logo: { style: "plain", wide: true } },
-            { name: "Vert", img: "vert.png", effect: "cross", url: "https://vert.eco", description: "Média en ligne consacré à l'écologie et au climat, lancé en 2020, gratuit et financé par ses lecteurs.", logo: {style: "plain", wide: true} },
-            { name: "Bon Pote", img: "bonpote.png", effect: "cross", url: "https://bonpote.com", description: "Média de vulgarisation sur le changement climatique, qui décrypte les études scientifiques et les fausses solutions.", logo: {style: "plain", size: 80, showName: true} },
+            { name: "Vert", img: "vert.webp", effect: "cross", url: "https://vert.eco", description: "Média en ligne consacré à l'écologie et au climat, lancé en 2020, gratuit et financé par ses lecteurs.", logo: {style: "plain", wide: true} },
+            { name: "Bon Pote", img: "bonpote.webp", effect: "cross", url: "https://bonpote.com", description: "Média de vulgarisation sur le changement climatique, qui décrypte les études scientifiques et les fausses solutions.", logo: {style: "plain", size: 80, showName: true} },
             { name: "Socialter", img: "socialter.png", effect: "cross", url: "https://www.socialter.fr", description: "Magazine qui explore les alternatives écologiques et sociales, entre enquêtes et réflexions.", logo: {style: "white", wide: true, size: 130} },
             { name: "Alternatives économiques", shortName: 'Alternatives\n économiques', img: "alternativeseconomiques.svg", effect: "cross", url: "https://www.alternatives-economiques.fr", description: "Mensuel d'information économique et sociale fondé en 1980, édité par une coopérative.", logo: { style: "plain", wide: true, showName: true } },
 
@@ -127,12 +127,12 @@ export const MEDIA_CATALOG = {
             { name: "Mediapart", img: "mediapart.svg", effect: "dismantle", url: "https://www.mediapart.fr", description: "Journal d'investigation en ligne fondé en 2008, financé uniquement par ses abonnés, sans publicité.", highlight: "A révélé les affaires Bettencourt et Cahuzac et le financement libyen de la campagne de Nicolas Sarkozy, et publié des révélations majeures dans l'affaire Benalla.", logo: { style: "plain", wide: true, size: 115 } },
             { name: "L'Humanité", img: "humanite.svg", effect: "dismantle", url: "https://www.humanite.fr", description: "Quotidien fondé par Jean Jaurès en 1904, soutenu par ses lecteurs.", logo: { style: "plain", wide: true, size: 120 } },
             { name: "Le Canard enchaîné", img: "canardenchaine.svg", effect: "dismantle", url: "https://www.lecanardenchaine.fr", description: "Hebdomadaire satirique et d'investigation fondé en 1915, sans publicité et détenu par ses journalistes.", highlight: "A révélé l'affaire des diamants de Bokassa, le passé vichyste de Maurice Papon et l'affaire des emplois de Penelope Fillon.", logo: { style: "plain", wide: true } },
-            { name: "Politis", img: "politis.png", effect: "dismantle", url: "https://www.politis.fr", description: "Hebdomadaire d'information et de débat d'idées, fondé en 1988.", logo: { style: "white", wide: true } },
-            { name: "Regards", img: "regards.png", effect: "dismantle", url: "https://regards.fr", description: "Revue et site de critique sociale et de débats d'idées à gauche.", logo: { style: "plain", showName: true } },
+            { name: "Politis", img: "politis.webp", effect: "dismantle", url: "https://www.politis.fr", description: "Hebdomadaire d'information et de débat d'idées, fondé en 1988.", logo: { style: "white", wide: true } },
+            { name: "Regards", img: "regards.webp", effect: "dismantle", url: "https://regards.fr", description: "Revue et site de critique sociale et de débats d'idées à gauche.", logo: { style: "plain", showName: true } },
             { name: "Le Média", img: "lemedia.svg", effect: "dismantle", url: "https://www.lemediatv.fr", description: "Média en ligne (site et chaîne vidéo) lancé en 2018, financé par ses soutiens, les « socios ».", logo: { style: "plain", wide: true, showName: true } },
             { name: "La Déferlante", img: "ladeferlante.png", effect: "dismantle", url: "https://revueladeferlante.fr", description: "Revue féministe lancée en 2021, consacrée aux luttes féministes et aux questions de genre.", logo: { style: "plain", wide: true, size: 120 } },
             { name: "Frustration Magazine", shortName: "Frustration\nMagazine", img: "frustration.jpg", effect: "dismantle", url: "https://frustrationmagazine.fr", description: "Magazine de critique sociale qui analyse les rapports de classe et la domination des plus riches.", logo: { style: "plain", showName: true} },
-            { name: "Au Poste", img: "auposte.png", effect: "dismantle", url: "https://auposte.media", description: "Chaîne vidéo animée par le journaliste David Dufresne, consacrée aux libertés publiques.", highlight: "David Dufresne s'est fait connaître avec « Allô Place Beauvau », son recensement des violences policières pendant le mouvement des gilets jaunes.", logo: { style: "plain", wide: true, showName: true } },
+            { name: "Au Poste", img: "auposte.webp", effect: "dismantle", url: "https://auposte.media", description: "Chaîne vidéo animée par le journaliste David Dufresne, consacrée aux libertés publiques.", highlight: "David Dufresne s'est fait connaître avec « Allô Place Beauvau », son recensement des violences policières pendant le mouvement des gilets jaunes.", logo: { style: "plain", wide: true, showName: true } },
             { name: "Charlie Hebdo", img: "charliehebdo.png", effect: "dismantle", url: "https://charliehebdo.fr", description: "Hebdomadaire satirique fondé en 1970, sans publicité.", highlight: "Visé par l'attentat du 7 janvier 2015, qui a tué une grande partie de sa rédaction, il est devenu un symbole de la liberté d'expression.", logo: { style: "plain", size: 100 } }
         ]
     }
