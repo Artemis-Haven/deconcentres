@@ -86,6 +86,11 @@ body {
     height: 100%;
 }
 
+/* Pas de navigation arrière / avant par glissé horizontal (Chrome) */
+html {
+    overscroll-behavior-x: none;
+}
+
 body {
     background: var(--bg);
     color: var(--text);

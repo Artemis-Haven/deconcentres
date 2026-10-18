@@ -54,6 +54,17 @@ export class Game {
 
     // Listeners délégués
     listenToBoard() {
+        // iOS : un glissé qui part du bord de l'écran déclencherait le retour arrière de Safari.
+        // Annuler le touchstart sur la grille l'en empêche (les pointer events restent émis)
+        this.boardElement.addEventListener("touchstart", event => {
+            const x = event.touches[0].clientX;
+            const edge = 28;
+
+            if (x < edge || x > window.innerWidth - edge) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
         this.boardElement.addEventListener("pointerdown", event => {
             const element = event.target.closest(".cell");
 
