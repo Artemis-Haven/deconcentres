@@ -45,6 +45,7 @@ export class Game {
     preloadImages() {
         return Object.values(MEDIA_CATALOG)
             .flatMap(catalog => catalog.items)
+            .filter(item => item.img)
             .map(item => {
                 const image = new Image();
                 image.src = `./assets/${item.img}`;
@@ -458,8 +459,12 @@ export class Game {
         if (tile.isMedia()) {
             const logo = document.createElement("div");
             logo.className = "cell-logo";
-            logo.style.backgroundImage = `url('./assets/${tile.img}')`;
-            inner.appendChild(logo);
+
+            // Pas d'image : seul le nom est affiché
+            if (tile.img) {
+                logo.style.backgroundImage = `url('./assets/${tile.img}')`;
+                inner.appendChild(logo);
+            }
             div.classList.add(
                 tile.isIndependent() ? "cell--independent" : "cell--media",
                 `tile-${tile.color}`
