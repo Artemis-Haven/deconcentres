@@ -16,6 +16,9 @@ export const INFO_UPDATED = "octobre 2026";
 // Adresse publique du site (partage)
 export const SITE_URL = "https://www.deconcentres.fr/";
 
+// Comptage des visites
+export const VISITS_URL = "https://v.deconcentres.fr/";
+
 // Bloc élections (temporaire)
 export const ELECTIONS_BLOCK_ENABLED = true;
 
