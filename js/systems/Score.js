@@ -5,8 +5,19 @@ const BEST_SCORE_KEY = "deconcentres-best-score";
 export class Score {
 
     constructor() {
+        this.mode = "normal";
         this.best = this.loadBest();
         this.reset();
+    }
+
+    // Record distinct pour le mode difficile
+    setMode(mode) {
+        this.mode = mode;
+        this.best = this.loadBest();
+    }
+
+    get storageKey() {
+        return this.mode === "hard" ? `${BEST_SCORE_KEY}-difficile` : BEST_SCORE_KEY;
     }
 
     reset() {
@@ -97,7 +108,7 @@ export class Score {
         this.best = this.total;
 
         try {
-            localStorage.setItem(BEST_SCORE_KEY, String(this.best));
+            localStorage.setItem(this.storageKey, String(this.best));
         } catch {
             // localStorage indispo (navigation privée...)
         }
@@ -105,7 +116,7 @@ export class Score {
 
     loadBest() {
         try {
-            return Number(localStorage.getItem(BEST_SCORE_KEY)) || 0;
+            return Number(localStorage.getItem(this.storageKey)) || 0;
         } catch {
             return 0;
         }

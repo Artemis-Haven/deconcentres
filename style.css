@@ -257,7 +257,7 @@ button {
     border-radius: var(--radius);
 }
 
-.sidebar-section + .sidebar-section {
+.sidebar-section:not([hidden]) + .sidebar-section {
     padding-top: 18px;
     border-top: 1px solid var(--border);
 }
@@ -369,7 +369,8 @@ button {
 .game-area {
     order: -1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* ------------------------------------------------ */
@@ -2839,7 +2840,7 @@ button {
         border-radius: 0;
     }
 
-    .presse .sidebar-section + .sidebar-section {
+    .presse .sidebar-section:not([hidden]) + .sidebar-section {
         padding-top: 14px;
         border-top: 1px solid var(--rule);
     }
@@ -3287,5 +3288,174 @@ button {
     .demo-beam {
         display: none;
     }
+}
+
+/* ------------------------------------------------ */
+/* MODE DIFFICILE */
+/* ------------------------------------------------ */
+
+.board--hard .cell--media {
+    --tile: #e2dfd8;
+    --tile-ink: #1b1b1b;
+}
+
+.board--hard .cell--media .cell-label {
+    text-shadow: none;
+}
+
+/* Logos passés en blanc : couleurs d'origine sur le fond clair */
+.board--hard .logo--white .cell-logo {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .15));
+}
+
+/* Compteur d'erreurs : une case par erreur autorisée */
+.errors-marks {
+    display: flex;
+    gap: 6px;
+    margin: 4px 0 6px;
+}
+
+.error-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid rgba(255, 255, 255, .3);
+}
+
+.error-mark.is-used {
+    background: var(--tier-3);
+    border-color: var(--tier-3);
+}
+
+.bonus-summary-errors {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.bonus-summary-errors.is-critical {
+    color: var(--tier-3);
+    font-weight: 600;
+}
+
+.bonus-summary-errors[hidden],
+.bonus-summary-series[hidden] {
+    display: none;
+}
+
+/* Fin de partie : lien vers le mode difficile (ou retour au mode normal) */
+.overlay-box .gameover-mode {
+    margin: 0 0 14px;
+    font-size: 14px;
+}
+
+.overlay-box .gameover-mode .link-button {
+    padding: 2px 4px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Écran d'accueil : "Mode difficile" à côté de "Lancer la partie", une fois débloqué */
+.start-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.overlay-box .start-actions button {
+    margin-top: 0;
+    padding: 12px 22px;
+}
+
+.start-actions [hidden] {
+    display: none;
+}
+
+@media (max-width: 599px) {
+
+    .start-actions {
+        gap: 8px;
+    }
+
+    .overlay-box .start-actions button {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+/* Présentation du mode difficile (une seule fois) */
+.hard-intro-dialog {
+    width: min(460px, calc(100% - 32px));
+}
+
+.hard-intro-list {
+    margin: 0 0 20px 22px;
+    color: var(--text-muted);
+}
+
+.hard-intro-list li + li {
+    margin-top: 10px;
+}
+
+.hard-intro-list strong {
+    display: block;
+    color: var(--text);
+}
+
+.hard-intro-button {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 28px;
+    background: var(--text);
+    border: none;
+    border-radius: var(--radius-small);
+    color: var(--bg);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.hard-intro-button:hover {
+    background: #fff;
+}
+
+/* Lien sous la grille vers l'autre mode */
+.mode-link {
+    margin-top: 12px;
+    padding: 0 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+}
+
+.mode-link[hidden] {
+    display: none;
+}
+
+.mode-link-button {
+    padding: 2px 0;
+    background: none;
+    border: none;
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.mode-link-button:hover {
+    color: #fff;
+}
+
+.presse .mode-link {
+    font-family: var(--font-title);
+    font-size: 16px;
+    font-style: italic;
+}
+
+.presse .mode-link-button {
+    font-style: normal;
 }
 

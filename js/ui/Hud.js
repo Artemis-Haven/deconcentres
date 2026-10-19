@@ -1,4 +1,4 @@
-import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, INDEPENDENT_EFFECTS, SCORE } from "../constants.js";
+import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, HARD_MODE_MAX_ERRORS, INDEPENDENT_EFFECTS, SCORE } from "../constants.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 import { Score } from "../systems/Score.js";
 import { createEffectBadge } from "./icons.js";
@@ -51,6 +51,8 @@ export class Hud {
             ? `Série : ${movesLeft} coup${movesLeft > 1 ? "s" : ""}`
             : "Aucune série";
         this.seriesSummary.classList.toggle("is-active", movesLeft > 0);
+
+        this.updateErrors();
     }
 
     // Détail des bonus : fermeture au clic extérieur ou Échap
@@ -121,8 +123,20 @@ export class Hud {
         setTimeout(() => float.remove(), 1500);
     }
 
-    renderGameOver() {
+    renderGameOver(reason) {
         const score = this.game.score;
+        const hard = this.game.mode === "hard";
+
+        document.getElementById("gameover-reason").textContent =
+            (hard ? "Mode difficile. " : "") + this.gameOverReason(reason);
+
+        // Mode normal : proposer l'étape suivante ; mode difficile : permettre de revenir
+        document.getElementById("gameover-mode-text").textContent = hard
+            ? ""
+            : "Étape suivante : le mode difficile, sans la couleur des groupes.";
+        document.getElementById("mode-switch-button").textContent = hard
+            ? "Revenir au mode normal"
+            : "Jouer en mode difficile";
 
         this.statsElement.innerHTML = "";
 
@@ -166,6 +180,46 @@ export class Hud {
         this.updateShareText();
     }
 
+    // Mode difficile : compteur d'erreurs (colonne de gauche et résumé mobile)
+    updateErrors() {
+        const hard = this.game.mode === "hard";
+        const errors = this.game.errors;
+        const section = document.getElementById("errors-section");
+        const summary = document.getElementById("errors-summary");
+
+        section.hidden = !hard;
+        summary.hidden = !hard;
+        this.seriesSummary.hidden = hard;
+
+        if (!hard) return;
+
+        document.getElementById("errors-marks").innerHTML = Array.from({ length: HARD_MODE_MAX_ERRORS }, (_, i) =>
+            `<span class="error-mark${i < errors ? " is-used" : ""}"></span>`).join("");
+
+        const left = HARD_MODE_MAX_ERRORS - errors;
+        let text;
+
+        if (errors === 0) {
+            text = `Aucune erreur`;
+        } else if (left < 0) {
+            text = `Plus de ${HARD_MODE_MAX_ERRORS} erreurs : partie perdue`;
+        } else {
+            text = `${errors} erreur${errors > 1 ? "s" : ""} sur ${HARD_MODE_MAX_ERRORS}` +
+                (left === 0 ? " : Dernière chance !" : "");
+        }
+
+        document.getElementById("errors-text").textContent = text;
+        summary.textContent = `Erreurs : ${Math.min(errors, HARD_MODE_MAX_ERRORS)}/${HARD_MODE_MAX_ERRORS}` +
+            (left === 0 ? " : Dernière chance !" : "");
+        summary.classList.toggle("is-critical", left <= 1);
+    }
+
+    gameOverReason(reason) {
+        return reason === "errors"
+            ? `Plus de ${HARD_MODE_MAX_ERRORS} erreurs : les milliardaires ont gagné cette manche.`
+            : "Il n'y a plus aucun coup possible.";
+    }
+
     // Message du bouton "Partager mon score"
     updateShareText() {
         const { total, ownersRemoved } = this.game.score;
@@ -174,7 +228,8 @@ export class Hud {
             : "";
 
         document.getElementById("share-score-button").dataset.shareText =
-            `J'ai marqué ${this.formatNumber(total)} points${freed} dans Déconcentrés, ` +
+            `J'ai marqué ${this.formatNumber(total)} point${total > 1 ? "s" : ""}${freed} ` +
+            `${this.game.mode === "hard" ? "en mode difficile " : ""}dans Déconcentrés, ` +
             "le jeu sur la concentration des médias. Tu fais mieux ?";
     }
 

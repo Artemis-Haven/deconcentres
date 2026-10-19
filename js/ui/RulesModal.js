@@ -1,4 +1,4 @@
-import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
+import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, HARD_MODE_MAX_ERRORS, HARD_UNLOCKED_KEY, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 import { EFFECT_ICONS } from "./icons.js";
 
@@ -8,6 +8,14 @@ export class RulesModal {
         this.dialog = document.getElementById("rules-dialog");
 
         document.getElementById("rules-content").innerHTML = this.buildContent();
+
+        // Règles du mode difficile : visibles seulement une fois le mode débloqué
+        // (vérifié à chaque ouverture, le déblocage pouvant arriver en cours de visite)
+        document.addEventListener("click", event => {
+            if (event.target.closest('[data-open="rules-dialog"]')) {
+                document.getElementById("hard-mode-rules").hidden = !this.isHardUnlocked();
+            }
+        });
 
         document.getElementById("rules-close").addEventListener("click", () => {
             this.dialog.close();
@@ -57,14 +65,14 @@ export class RulesModal {
                 </p>
                 ${this.alignDemo()}
                 <p>
-                    Tu peux aussi toucher (ou cliquer) une tuile pour la sélectionner, puis toucher une case voisine.
-                    Au clavier : les flèches pour se déplacer, <strong>Entrée</strong> ou <strong>Espace</strong>
-                    pour sélectionner, puis une flèche pour échanger ; <strong>Échap</strong> pour annuler.
-                </p>
-                <p>
                     Quand un alignement se forme, ses médias disparaissent et sont remplacés par
                     <strong>un bloc sombre « propriétaire »</strong>. Les propriétaires peuvent être
                     déplacés, mais ils ne forment jamais d'alignement.
+                </p>
+                <p>
+                    <strong>Accessibilité :</strong> Tu peux aussi toucher (ou cliquer) une tuile pour la sélectionner, puis toucher une case voisine.
+                    Au clavier : les flèches pour se déplacer, <strong>Entrée</strong> ou <strong>Espace</strong>
+                    pour sélectionner, puis une flèche pour échanger ; <strong>Échap</strong> pour annuler.
                 </p>
             </section>`;
     }
@@ -220,7 +228,7 @@ export class RulesModal {
                 <table class="rules-table">${tiers}</table>
                 <p>
                     <strong>Cascades</strong> : l'alignement créé par ton échange vaut ×1,
-                    les alignements qui se forment ensuite en cascade valent ×2, puis ×3, etc.
+                    les combinaisons qui se forment ensuite en cascade valent ×2, puis ×3, etc.
                 </p>
                 <p>
                     <strong>Série indépendante</strong> : si tu actives une paire d'indépendants
@@ -239,7 +247,30 @@ export class RulesModal {
                 <p>
                     La partie s'arrête quand plus aucun coup n'est possible.
                 </p>
-            </section>`;
+            </section>
+            <div id="hard-mode-rules" hidden>
+                <br/>
+                <hr/>
+                <section>
+                    <h3>Mode difficile</h3>
+                    <p>
+                        Tous les médias des milliardaires prennent la même couleur.
+                        À toi de te souvenir de <strong>qui possède quoi</strong> pour former tes combinaisons !
+                    </p>
+                    <p>
+                        Chaque échange qui ne forme aucun alignement compte comme une erreur :
+                        au-delà de ${HARD_MODE_MAX_ERRORS} erreurs, la partie est perdue.
+                    </p>
+                </section>
+            </div>`;
+    }
+
+    isHardUnlocked() {
+        try {
+            return localStorage.getItem(HARD_UNLOCKED_KEY) === "1";
+        } catch {
+            return false;
+        }
     }
 
     formatNumber(value) {

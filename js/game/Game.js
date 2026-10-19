@@ -1,4 +1,4 @@
-import { BOARD_SIZE, EFFECT_NAMES, GAME_STATE, HINT_DELAY_MS } from "../constants.js";
+import { BOARD_SIZE, EFFECT_NAMES, GAME_STATE, HARD_MODE_MAX_ERRORS, HARD_UNLOCKED_KEY, HINT_DELAY_HARD_MS, HINT_DELAY_MS } from "../constants.js";
 import { Board } from "../board/Board.js";
 import { Factory } from "./Factory.js";
 import { Animation } from "../systems/Animation.js";
@@ -12,6 +12,9 @@ import { Hud } from "../ui/Hud.js";
 import { createEffectBadge } from "../ui/icons.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 import { trackEvent } from "../analytics.js";
+
+// Présentation du mode difficile déjà vue
+const HARD_INTRO_KEY = "deconcentres-intro-difficile";
 
 export class Game {
 
@@ -31,11 +34,15 @@ export class Game {
         this.tileElements = new WeakMap();
         this.hintTimer = null;
 
+        // Mode difficile : couleurs des groupes masquées, erreurs comptées
+        this.mode = "normal";
+        this.errors = 0;
+
         // Clavier / sélection
         this.focusPosition = { x: 0, y: 0 };
         this.selected = null;
         this.statusElement = document.getElementById("game-status");
-        this.overlayInertElements = document.querySelectorAll(".header, .side-column, #board, .footer, .skip-link");
+        this.overlayInertElements = document.querySelectorAll(".header, .side-column, #board, .mode-link, .footer, .skip-link");
 
         this.preloadedImages = this.preloadImages();
         this.listenToBoard();
@@ -214,11 +221,30 @@ export class Game {
 
     start() {
         document.getElementById("start-button").addEventListener("click", () => {
+            this.mode = "normal";
+            this.startGame();
+        });
+
+        const intro = document.getElementById("hard-intro-dialog");
+        intro.querySelector("[data-hard-max-errors]").textContent = HARD_MODE_MAX_ERRORS;
+        document.getElementById("hard-intro-close").addEventListener("click", () => intro.close());
+        intro.addEventListener("close", () => {
+            this.storeFlag(HARD_INTRO_KEY);
+            this.scheduleHint();
+            this.getCellElement(this.focusPosition.x, this.focusPosition.y)?.focus();
+        });
+
+        const hardButton = document.getElementById("start-hard-button");
+        hardButton.hidden = !this.isHardUnlocked();
+        hardButton.addEventListener("click", () => {
+            this.mode = "hard";
             this.startGame();
         });
         document.getElementById("restart-button").addEventListener("click", () => {
             this.restartGame();
         });
+        document.getElementById("mode-switch-button").addEventListener("click", () => this.switchMode());
+        document.getElementById("mode-link-button").addEventListener("click", () => this.switchMode());
         this.setOverlayOpen(true);
         this.render();
     }
@@ -276,12 +302,24 @@ export class Game {
 
                 if (!played) {
                     refusal = "Échange impossible : aucun alignement.";
+
+                    if (this.mode === "hard") {
+                        this.errors++;
+                        refusal += ` Erreur ${this.errors} sur ${HARD_MODE_MAX_ERRORS}.`;
+                    }
                 }
             }
         } finally {
             this.isBusy = false;
             this.scheduleHint();
         }
+
+        if (this.mode === "hard" && this.errors > HARD_MODE_MAX_ERRORS) {
+            this.gameOver("errors");
+            return;
+        }
+
+        this.hud.update();
 
         if (refusal) {
             this.announce(refusal);
@@ -302,7 +340,8 @@ export class Game {
 
         if (this.state !== GAME_STATE.PLAYING) return;
 
-        this.hintTimer = setTimeout(() => this.showHint(), HINT_DELAY_MS);
+        const delay = this.mode === "hard" ? HINT_DELAY_HARD_MS : HINT_DELAY_MS;
+        this.hintTimer = setTimeout(() => this.showHint(), delay);
     }
 
     showHint() {
@@ -524,7 +563,16 @@ export class Game {
     }
 
     startGame() {
-        trackEvent("partie-lancee", "Partie lancée");
+        if (this.mode === "hard") {
+            trackEvent("partie-lancee-difficile", "Partie lancée (mode difficile)");
+        } else {
+            trackEvent("partie-lancee", "Partie lancée");
+        }
+
+        this.errors = 0;
+        this.score.setMode(this.mode);
+        this.boardElement.classList.toggle("board--hard", this.mode === "hard");
+        this.updateModeLink();
         this.state = GAME_STATE.PLAYING;
         this.startOverlay.classList.add("hidden");
         this.setOverlayOpen(false);
@@ -539,6 +587,30 @@ export class Game {
 
         // Focus sur la grille
         this.getCellElement(0, 0)?.focus();
+
+        // Première partie difficile : présentation des nouvelles règles
+        if (this.mode === "hard" && !this.readFlag(HARD_INTRO_KEY)) {
+            this.clearHint();
+            document.getElementById("hard-intro-dialog").showModal();
+        }
+    }
+
+    switchMode() {
+        this.mode = this.mode === "hard" ? "normal" : "hard";
+        this.restartGame();
+    }
+
+    // Lien sous la grille vers l'autre mode
+    updateModeLink() {
+        const hard = this.mode === "hard";
+
+        document.getElementById("mode-link").hidden = !hard && !this.isHardUnlocked();
+        document.getElementById("mode-link-text").textContent = hard
+            ? "Besoin de réviser ?"
+            : "Tu as bien mémorisé quel média appartient à quel milliardaire ?";
+        document.getElementById("mode-link-button").textContent = hard
+            ? "Reviens au mode normal"
+            : "Essaye le mode difficile !";
     }
 
     restartGame() {
@@ -546,18 +618,44 @@ export class Game {
         this.startGame();
     }
 
-    gameOver() {
-        trackEvent("partie-terminee", "Partie terminée");
+    // reason : "blocked" (plus aucun coup) ou "errors" (trop d'erreurs en mode difficile)
+    gameOver(reason = "blocked") {
+        trackEvent(this.mode === "hard" ? "partie-terminee-difficile" : "partie-terminee", "Partie terminée");
         this.state = GAME_STATE.GAME_OVER;
+        this.unlockHard();
         this.clearHint();
         this.score.saveBest();
-        this.hud.renderGameOver();
+        this.hud.renderGameOver(reason);
         this.hud.update();
         this.gameOverOverlay.classList.remove("hidden");
         this.setOverlayOpen(true);
         // Focus sur Relancer sans scroller la boîte
         document.getElementById("restart-button").focus({ preventScroll: true });
         this.gameOverOverlay.querySelector(".overlay-box").scrollTop = 0;
-        this.announce(`Partie terminée, il n'y a plus aucun coup possible. Score : ${this.hud.formatNumber(this.score.total)}.`);
+        this.announce(`Partie terminée. ${this.hud.gameOverReason(reason)} Score : ${this.hud.formatNumber(this.score.total)}.`);
+    }
+
+    isHardUnlocked() {
+        return this.readFlag(HARD_UNLOCKED_KEY);
+    }
+
+    unlockHard() {
+        this.storeFlag(HARD_UNLOCKED_KEY);
+    }
+
+    readFlag(key) {
+        try {
+            return localStorage.getItem(key) === "1";
+        } catch {
+            return false;
+        }
+    }
+
+    storeFlag(key) {
+        try {
+            localStorage.setItem(key, "1");
+        } catch {
+            // localStorage indispo (navigation privée...)
+        }
     }
 }

@@ -86,6 +86,7 @@
                     <span class="scoreboard-label">Pluralisme</span>
                     <span id="pluralism-summary" class="pluralism bonus-summary-pluralism" data-tier="0">×2</span>
                     <span id="series-summary" class="series bonus-summary-series">Aucune série</span>
+                    <span id="errors-summary" class="bonus-summary-errors" hidden></span>
                 </span>
                 <svg class="bonus-summary-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -101,6 +102,13 @@
             <div class="side-column">
 
             <aside id="sidebar" class="sidebar">
+
+                <!-- Mode difficile uniquement -->
+                <section id="errors-section" class="sidebar-section errors-section" hidden>
+                    <h2>Mode difficile</h2>
+                    <p class="errors" aria-hidden="true"><span id="errors-marks" class="errors-marks"></span></p>
+                    <p id="errors-text" class="sidebar-note"></p>
+                </section>
 
                 <section class="sidebar-section">
                     <h2>Indice de pluralisme</h2>
@@ -163,6 +171,11 @@
                     <!-- cases générées en JS -->
                 </div>
 
+                <p id="mode-link" class="mode-link" hidden>
+                    <span id="mode-link-text"></span>
+                    <button type="button" id="mode-link-button" class="mode-link-button"></button>
+                </p>
+
                 <!-- aria-live -->
                 <p id="game-status" class="visually-hidden" role="status" aria-live="polite"></p>
 
@@ -188,13 +201,19 @@
                             le plus longtemps possible !
                         </p>
 
-                        <button id="start-button" type="button">
-                            Lancer la partie
-                        </button>
+                        <div class="start-actions">
+                            <button id="start-button" type="button">
+                                Lancer la partie
+                            </button>
+                            <!-- Visible une fois le mode difficile débloqué (Game.js) -->
+                            <button id="start-hard-button" type="button" class="secondary-button" hidden>
+                                Mode difficile
+                            </button>
+                        </div>
 
                         <div class="start-links">
                             <button type="button" class="link-button" data-open="rules-dialog">
-                                Les règles
+                                Les règles du jeu
                             </button>
                             <button type="button" class="link-button" data-open="guide-dialog">
                                 Qui possède nos médias ?
@@ -208,7 +227,7 @@
 
                         <h2 id="gameover-title">Partie terminée</h2>
 
-                        <p>
+                        <p id="gameover-reason">
                             Il n'y a plus aucun coup possible.
                         </p>
 
@@ -241,6 +260,12 @@
                             </div>
                         </section>
 
+                        <!-- Passage au mode difficile, ou retour au mode normal (Hud.js) -->
+                        <p class="gameover-mode">
+                            <span id="gameover-mode-text"></span>
+                            <button type="button" id="mode-switch-button" class="link-button"></button>
+                        </p>
+
                         <div class="gameover-actions">
                             <button id="restart-button" type="button">
                                 Relancer une partie
@@ -269,6 +294,27 @@
 
     </div>
     
+    <!-- Présentation du mode difficile, affichée une seule fois (Game.js) -->
+    <dialog id="hard-intro-dialog" class="rules-dialog hard-intro-dialog" aria-labelledby="hard-intro-title">
+        <div class="rules-header">
+            <h2 id="hard-intro-title">Mode difficile</h2>
+        </div>
+        <div class="rules-content">
+            <p>Les règles changent un peu :</p>
+            <ol class="hard-intro-list">
+                <li>
+                    <strong>Les médias n'ont plus la couleur de leur milliardaire.</strong>
+                    À toi de te souvenir de qui possède quoi pour former tes combinaisons.
+                </li>
+                <li>
+                    <strong>Tu as droit à <span data-hard-max-errors>5</span> erreurs.</strong>
+                    Au-delà, la partie s'arrête.
+                </li>
+            </ol>
+            <button id="hard-intro-close" type="button" class="hard-intro-button">J'ai compris</button>
+        </div>
+    </dialog>
+
     <dialog id="rules-dialog" class="rules-dialog" aria-labelledby="rules-title">
         <div class="rules-header">
             <h2 id="rules-title">Règles du jeu</h2>

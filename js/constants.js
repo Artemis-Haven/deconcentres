@@ -19,8 +19,15 @@ export const SITE_URL = "https://www.deconcentres.fr/";
 // Bloc élections (temporaire)
 export const ELECTIONS_BLOCK_ENABLED = true;
 
+// Mode difficile : erreurs tolérées (la suivante fait perdre)
+export const HARD_MODE_MAX_ERRORS = 5;
+
+// Mode difficile débloqué après une première partie normale
+export const HARD_UNLOCKED_KEY = "deconcentres-mode-difficile";
+
 // Délai avant affichage d'un indice
 export const HINT_DELAY_MS = 15000;
+export const HINT_DELAY_HARD_MS = 20000;
 
 // Bonus de proba si l'effet est déjà présent dans les colonnes voisines
 export const INDEPENDENT_NEARBY_BOOST = 3;
