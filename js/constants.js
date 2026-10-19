@@ -19,6 +19,9 @@ export const SITE_URL = "https://www.deconcentres.fr/";
 // Comptage des visites
 export const VISITS_URL = "https://v.deconcentres.fr/";
 
+// Meilleurs scores remontés dans les statistiques (à partir de ce seuil)
+export const TOP_SCORE_THRESHOLD = { normal: 20000, hard: 5000 };
+
 // Bloc élections (temporaire)
 export const ELECTIONS_BLOCK_ENABLED = true;
 

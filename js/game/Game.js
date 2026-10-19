@@ -1,4 +1,4 @@
-import { BOARD_SIZE, EFFECT_NAMES, GAME_STATE, HARD_MODE_MAX_ERRORS, HARD_UNLOCKED_KEY, HINT_DELAY_HARD_MS, HINT_DELAY_MS } from "../constants.js";
+import { BOARD_SIZE, EFFECT_NAMES, GAME_STATE, HARD_MODE_MAX_ERRORS, HARD_UNLOCKED_KEY, HINT_DELAY_HARD_MS, HINT_DELAY_MS, TOP_SCORE_THRESHOLD } from "../constants.js";
 import { Board } from "../board/Board.js";
 import { Factory } from "./Factory.js";
 import { Animation } from "../systems/Animation.js";
@@ -11,7 +11,7 @@ import { Score } from "../systems/Score.js";
 import { Hud } from "../ui/Hud.js";
 import { createEffectBadge } from "../ui/icons.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
-import { trackEvent } from "../analytics.js";
+import { sendToStats, trackEvent } from "../analytics.js";
 
 // Présentation du mode difficile déjà vue
 const HARD_INTRO_KEY = "deconcentres-intro-difficile";
@@ -625,6 +625,7 @@ export class Game {
         this.unlockHard();
         this.clearHint();
         this.score.saveBest();
+        this.reportTopScore();
         this.hud.renderGameOver(reason);
         this.hud.update();
         this.gameOverOverlay.classList.remove("hidden");
@@ -633,6 +634,13 @@ export class Game {
         document.getElementById("restart-button").focus({ preventScroll: true });
         this.gameOverOverlay.querySelector(".overlay-box").scrollTop = 0;
         this.announce(`Partie terminée. ${this.hud.gameOverReason(reason)} Score : ${this.hud.formatNumber(this.score.total)}.`);
+    }
+
+    // Meilleurs scores
+    reportTopScore() {
+        if (this.score.total >= TOP_SCORE_THRESHOLD[this.mode]) {
+            sendToStats(`top/${this.mode}/${this.score.total}.html`);
+        }
     }
 
     isHardUnlocked() {
