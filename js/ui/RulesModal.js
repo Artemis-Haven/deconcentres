@@ -1,6 +1,7 @@
-import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, HARD_MODE_MAX_ERRORS, HARD_UNLOCKED_KEY, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
+import { EFFECT_DESCRIPTIONS, EFFECT_NAMES, HARD_MODE_MAX_ERRORS, INDEPENDENT_EFFECTS, INDEPENDENT_MEDIA_SPAWN_RATE, SCORE } from "../constants.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
 import { EFFECT_ICONS } from "./icons.js";
+import { isHardUnlocked } from "../systems/Score.js";
 
 export class RulesModal {
 
@@ -13,7 +14,7 @@ export class RulesModal {
         // (vérifié à chaque ouverture, le déblocage pouvant arriver en cours de visite)
         document.addEventListener("click", event => {
             if (event.target.closest('[data-open="rules-dialog"]')) {
-                document.getElementById("hard-mode-rules").hidden = !this.isHardUnlocked();
+                document.getElementById("hard-mode-rules").hidden = !isHardUnlocked();
             }
         });
 
@@ -263,14 +264,6 @@ export class RulesModal {
                     </p>
                 </section>
             </div>`;
-    }
-
-    isHardUnlocked() {
-        try {
-            return localStorage.getItem(HARD_UNLOCKED_KEY) === "1";
-        } catch {
-            return false;
-        }
     }
 
     formatNumber(value) {

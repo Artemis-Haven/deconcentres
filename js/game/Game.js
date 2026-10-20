@@ -7,7 +7,7 @@ import { EffectAnimation } from "../systems/EffectAnimation.js";
 import { Input } from "../systems/Input.js";
 import { MatchFinder } from "../systems/MatchFinder.js";
 import { Resolver } from "../systems/Resolver.js";
-import { Score } from "../systems/Score.js";
+import { isHardUnlocked, Score } from "../systems/Score.js";
 import { Hud } from "../ui/Hud.js";
 import { createEffectBadge } from "../ui/icons.js";
 import { MEDIA_CATALOG } from "../mediaCatalog.js";
@@ -248,7 +248,7 @@ export class Game {
         });
 
         const hardButton = document.getElementById("start-hard-button");
-        hardButton.hidden = !this.isHardUnlocked();
+        hardButton.hidden = !isHardUnlocked();
         hardButton.addEventListener("click", () => {
             this.mode = "hard";
             this.startGame();
@@ -617,7 +617,7 @@ export class Game {
     updateModeLink() {
         const hard = this.mode === "hard";
 
-        document.getElementById("mode-link").hidden = !hard && !this.isHardUnlocked();
+        document.getElementById("mode-link").hidden = !hard && !isHardUnlocked();
         document.getElementById("mode-link-text").textContent = hard
             ? "Besoin de réviser ?"
             : "Tu as bien mémorisé quel média appartient à quel milliardaire ?";
@@ -654,10 +654,6 @@ export class Game {
         if (this.score.total >= TOP_SCORE_THRESHOLD[this.mode]) {
             sendToStats(`top/${this.mode}/${this.score.total}.html`);
         }
-    }
-
-    isHardUnlocked() {
-        return this.readFlag(HARD_UNLOCKED_KEY);
     }
 
     unlockHard() {

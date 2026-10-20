@@ -1,6 +1,15 @@
-import { SCORE } from "../constants.js";
+import { HARD_UNLOCKED_KEY, SCORE } from "../constants.js";
 
 const BEST_SCORE_KEY = "deconcentres-best-score";
+
+export function isHardUnlocked() {
+    try {
+        return localStorage.getItem(HARD_UNLOCKED_KEY) === "1"
+            || Number(localStorage.getItem(BEST_SCORE_KEY)) > 0;
+    } catch {
+        return false;
+    }
+}
 
 export class Score {
 
