@@ -1,3 +1,4 @@
 .DS_Store
 .vscode
-communication
+communication/
+_site/
