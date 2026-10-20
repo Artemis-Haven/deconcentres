@@ -22,6 +22,17 @@ export class MediaGuide {
             tab.addEventListener("click", () => this.showTab(tab));
         }
 
+        // Images du guide chargées à la première ouverture seulement
+        new MutationObserver((records, observer) => {
+            if (!this.dialog.open) return;
+
+            for (const image of this.dialog.querySelectorAll("img[data-src]")) {
+                image.src = image.dataset.src;
+                image.removeAttribute("data-src");
+            }
+            observer.disconnect();
+        }).observe(this.dialog, { attributes: true, attributeFilter: ["open"] });
+
         // Ouverture directe sur un onglet
         for (const button of document.querySelectorAll("[data-guide-tab]")) {
             button.addEventListener("click", () => {
@@ -98,7 +109,7 @@ export class MediaGuide {
             </p>
             <div class="guide-maps">
                 <a class="guide-map" href="https://www.monde-diplomatique.fr/cartes/PPA" target="_blank" rel="noopener">
-                    <img class="guide-map-preview" src="./assets/carte-acrimed-monde-diplo.webp" width="300" height="224" alt="">
+                    <img class="guide-map-preview" data-src="./assets/carte-acrimed-monde-diplo.webp" width="300" height="224" alt="">
                     <span class="guide-map-text">
                         <strong>Médias français, qui possède quoi&nbsp;? <span aria-hidden="true">↗</span><span class="visually-hidden"> (nouvel onglet)</span></strong>
                         <span>La carte complète, par Le Monde diplomatique et Acrimed</span>

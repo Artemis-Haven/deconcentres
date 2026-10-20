@@ -44,11 +44,24 @@ export class Game {
         this.statusElement = document.getElementById("game-status");
         this.overlayInertElements = document.querySelectorAll(".header, .side-column, #board, .mode-link, .footer, .skip-link");
 
-        this.preloadedImages = this.preloadImages();
+        this.preloadedImages = [];
+        this.schedulePreload();
         this.listenToBoard();
     }
 
-    // Préchargement des logos
+    schedulePreload() {
+        const preload = () => {
+            const idle = window.requestIdleCallback ?? (callback => setTimeout(callback, 200));
+            idle(() => { this.preloadedImages = this.preloadImages(); });
+        };
+
+        if (document.readyState === "complete") {
+            preload();
+        } else {
+            window.addEventListener("load", preload, { once: true });
+        }
+    }
+
     preloadImages() {
         return Object.values(MEDIA_CATALOG)
             .flatMap(catalog => catalog.items)
